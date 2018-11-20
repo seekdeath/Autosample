@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>MainControl/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>333</Column0><Column1>1</Column1><Column2>27</Column2><Column3>1242260</Column3></ColumnWidths>
+      <PreferedWindows><Position>1</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>Debug-Log</Factory></Window></Windows></PreferedWindows></Workspace>
+      <Build>
+        
+        
+        
+        
+      <PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1035</ColumnWidth1><ColumnWidth2>276</ColumnWidth2><ColumnWidth3>69</ColumnWidth3></Build>
+    <Find-in-Files><PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows><ColumnWidth0>549</ColumnWidth0><ColumnWidth1>70</ColumnWidth1><ColumnWidth2>850</ColumnWidth2></Find-in-Files><TerminalIO/><Debug-Log><PreferedWindows><Position>1</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>Workspace</Factory></Window></Windows></PreferedWindows><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1381</ColumnWidth1></Debug-Log><Disassembly><MixedMode>1</MixedMode><CodeCovShow>0</CodeCovShow><InstrProfShow>0</InstrProfShow></Disassembly><Breakpoints><PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>Build</Factory></Window><Window><Factory>Debug-Log</Factory></Window></Windows></PreferedWindows></Breakpoints></Static>
+    <Windows>
+      
+      
+    <Wnd2><Tabs><Tab><Identity>TabID-5721-9485</Identity><TabName>Workspace</TabName><Factory>Workspace</Factory><Session><NodeDict><ExpandedNode>MainControl</ExpandedNode><ExpandedNode>MainControl/Agreement</ExpandedNode><ExpandedNode>MainControl/BSP</ExpandedNode><ExpandedNode>MainControl/Device</ExpandedNode><ExpandedNode>MainControl/Device/GPIO</ExpandedNode><ExpandedNode>MainControl/Device/Motor</ExpandedNode><ExpandedNode>MainControl/Device/UART</ExpandedNode><ExpandedNode>MainControl/Fwlib</ExpandedNode><ExpandedNode>MainControl/Main</ExpandedNode></NodeDict></Session></Tab><Tab><Identity>TabID-26856-27186</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd2><Wnd3><Tabs><Tab><Identity>TabID-2843-11328</Identity><TabName>Build</TabName><Factory>Build</Factory><Session/></Tab><Tab><Identity>TabID-23461-16896</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab></Tabs><SelectedTab>1</SelectedTab></Wnd3></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MotorCollect.c</Filename><XPos>0</XPos><YPos>46</YPos><SelStart>2260</SelStart><SelEnd>2260</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\cpu\inc\stm32f10x_map.h</Filename><XPos>0</XPos><YPos>690</YPos><SelStart>16014</SelStart><SelEnd>16014</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MotorXYZ.c</Filename><XPos>0</XPos><YPos>575</YPos><SelStart>21361</SelStart><SelEnd>21361</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\gpio.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>218</SelStart><SelEnd>229</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MotionErr.h</Filename><XPos>0</XPos><YPos>22</YPos><SelStart>1697</SelStart><SelEnd>1697</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\MainControl2.0.0022\uCOS-II\Source\os_core.c</Filename><XPos>0</XPos><YPos>1769</YPos><SelStart>75016</SelStart><SelEnd>75016</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\BSP\bsp.c</Filename><XPos>0</XPos><YPos>3</YPos><SelStart>470</SelStart><SelEnd>470</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\cpu\src\stm32f10x_usart.c</Filename><XPos>0</XPos><YPos>574</YPos><SelStart>25337</SelStart><SelEnd>25337</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MotorHook.c</Filename><XPos>0</XPos><YPos>345</YPos><SelStart>11582</SelStart><SelEnd>11582</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MotorHook.h</Filename><XPos>0</XPos><YPos>12</YPos><SelStart>710</SelStart><SelEnd>710</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\WaterPump.c</Filename><XPos>0</XPos><YPos>100</YPos><SelStart>3199</SelStart><SelEnd>3199</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>D:\IAR Systems\Embedded Workbench 6.0 Evaluation\arm\inc\c\stdarg.h</Filename><XPos>0</XPos><YPos>6</YPos><SelStart>303</SelStart><SelEnd>303</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Motor.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>623</SelStart><SelEnd>647</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MotorTrasmition.c</Filename><XPos>0</XPos><YPos>50</YPos><SelStart>1386</SelStart><SelEnd>1386</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Motor.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>88</SelStart><SelEnd>88</SelEnd></Tab><ActiveTab>14</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Waterpump.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\MotorSyringe.c</Filename><XPos>2</XPos><YPos>193</YPos><SelStart>7401</SelStart><SelEnd>7415</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Agreement.c</Filename><XPos>0</XPos><YPos>151</YPos><SelStart>6272</SelStart><SelEnd>6283</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\main\MainStart.c</Filename><XPos>0</XPos><YPos>55</YPos><SelStart>2737</SelStart><SelEnd>2737</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\I2C.c</Filename><XPos>0</XPos><YPos>230</YPos><SelStart>4963</SelStart><SelEnd>4963</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>D:\IAR Systems\Embedded Workbench 6.0 Evaluation\arm\inc\c\stdlib.h</Filename><XPos>0</XPos><YPos>52</YPos><SelStart>1553</SelStart><SelEnd>1553</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>D:\IAR Systems\Embedded Workbench 6.0 Evaluation\arm\inc\c\stdio.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>238</SelStart><SelEnd>238</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Motortrasmition.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>774</SelStart><SelEnd>774</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\uart.c</Filename><XPos>0</XPos><YPos>84</YPos><SelStart>242</SelStart><SelEnd>242</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\main\app_vect_v5.c</Filename><XPos>0</XPos><YPos>351</YPos><SelStart>18833</SelStart><SelEnd>18846</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Agreement.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>1066</SelStart><SelEnd>1130</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\uCOS-II\Source\ucos_ii.h</Filename><XPos>0</XPos><YPos>326</YPos><SelStart>15569</SelStart><SelEnd>15569</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-02bb1220><key>iaridepm.enu1</key></Toolbar-02bb1220></Sizes></Row0></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>792</Bottom><Right>398</Right><x>-2</x><y>-2</y><xscreen>50</xscreen><yscreen>30</yscreen><sizeHorzCX>26042</sizeHorzCX><sizeHorzCY>28902</sizeHorzCY><sizeVertCX>208333</sizeVertCX><sizeVertCY>764933</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>201</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>203</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>195568</sizeHorzCY><sizeVertCX>32292</sizeVertCX><sizeVertCY>31792</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

@@ -1,0 +1,13 @@
+void MotorCollectInit(void);
+void MoveCollect(void);
+void TIM3_Configuration(void);
+void HandleCollect(void);
+u8 IS_Collect_FLAG(void);
+void Set_Collect_FLAG(void);
+void Reset_Collect_FLAG(void);
+void GetCollectTime(u16* time);
+void SetCollectTime(u16 time);
+u8 IS_Collect_Cancel(void);
+void Set_Collect_Cancel(void);
+void Reset_Collect_Cancel(void);
+void InitRollMotor(void);

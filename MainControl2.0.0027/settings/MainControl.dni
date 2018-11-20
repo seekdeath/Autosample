@@ -1,0 +1,172 @@
+[DebugChecksum]
+Checksum=1714148575
+[DisAssemblyWindow]
+NumStates=_ 1
+State 1=_ 1
+[InstructionProfiling]
+Enabled=_ 0
+[CodeCoverage]
+Enabled=_ 0
+[Profiling]
+Enabled=0
+[StackPlugin]
+Enabled=1
+OverflowWarningsEnabled=1
+WarningThreshold=90
+SpWarningsEnabled=1
+WarnHow=0
+UseTrigger=1
+TriggerName=main
+LimitSize=0
+ByteLimit=50
+[Interrupts]
+Enabled=1
+[MemoryMap]
+Enabled=0
+Base=0
+UseAuto=0
+TypeViolation=1
+UnspecRange=1
+ActionState=1
+[TraceHelper]
+Enabled=0
+ShowSource=1
+[Breakpoints]
+Bp0=_ "EMUL_DATA" "SetWaterPumpParam" 1 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp1=_ "EMUL_DATA" "MotorSetConfig" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp2=_ "EMUL_DATA" "MotorSetConfig" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp3=_ "EMUL_DATA" "MotorInit" 1 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp4=_ "EMUL_DATA" "App_TaskCreate" 1 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp5=_ "EMUL_DATA" "MotorInit" 1 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp6=_ "EMUL_DATA" "HandleSyringe" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp7=_ "EMUL_DATA" "MotorSetValve" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp8=_ "EMUL_DATA" "MotorSetValve" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp9=_ "EMUL_DATA" "FRAME_DATA[0]" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp10=_ "EMUL_DATA" "Set_Collect_FLAG" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp11=_ "EMUL_DATA" "Set_Collect_FLAG" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp12=_ "EMUL_DATA" "SET_Syringe_MOVE_FLAG" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp13=_ "EMUL_DATA" "Set_XYZ_Pos" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp14=_ "EMUL_DATA" "XYZ_Err_Z1_Transmition" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp15=_ "EMUL_DATA" "SetZ1Z2Pos" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp16=_ "EMUL_DATA" "Set_XYZ_Z1Z2_FLAG" 0 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp17=_ "EMUL_DATA" "Set_XYZ_State" 1 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Bp18=_ "EMUL_DATA" "Set_XYZ_State" 1 0 0 116 0 "" 0 "" 0 0 0 4294967295
+Count=19
+[Stack]
+FillEnabled=0
+OverflowWarningsEnabled=1
+WarningThreshold=90
+SpWarningsEnabled=1
+WarnLogOnly=1
+UseTrigger=1
+TriggerName=main
+LimitSize=0
+ByteLimit=50
+[Exceptions]
+StopOnUncaught=_ 0
+StopOnThrow=_ 0
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
+[SWOTraceHWSettings]
+OverrideDefaultClocks=0
+CpuClock=36000000
+ClockAutoDetect=0
+ClockWanted=2000000
+JtagSpeed=2000000
+Prescaler=18
+TimeStampPrescIndex=0
+TimeStampPrescData=0
+PcSampCYCTAP=1
+PcSampPOSTCNT=15
+PcSampIndex=0
+DataLogMode=0
+ITMportsEnable=0
+ITMportsTermIO=0
+ITMportsLogFile=0
+ITMlogFile=$PROJ_DIR$\ITM.log
+[PowerLog]
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=0
+Title0=I0
+Setup0=0 1 0 500 2 0 4 0 0
+LiveEnabled=0
+LiveFile=PowerLogLive.log
+[DataLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+[EventLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+Title0=ITM1
+Setup0=1 1 1 1
+Title1=ITM2
+Setup1=1 1 1 1
+Title2=ITM3
+Setup2=1 1 1 1
+Title3=ITM4
+Setup3=1 1 1 1
+SumSortOrder=0
+[InterruptLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
+[Trace2]
+Enabled=0
+[SWOTraceWindow]
+PcSampling=0
+InterruptLogs=0
+ForcedTimeStamps=0
+EventCPI=0
+EventEXC=0
+EventFOLD=0
+EventLSU=0
+EventSLEEP=0
+[PowerProbe]
+Frequency=10000
+Probe0=I0
+ProbeSetup0=2 1 1 2 0 0
+[CallStackLog]
+Enabled=0
+[DriverProfiling]
+Enabled=0
+Mode=3
+Graph=0
+Symbiont=0
+Exclusions=
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$}.107.13" 0 0 1 "" 0 "" 0
+Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\Motortrasmition.h}.16.1" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$}.230.5" 0 0 1 "" 0 "" 0
+Bp3=_ 0 "EMUL_CODE" "{C:\Users\Administrator\Desktop}.61.5" 0 0 1 "" 0 "" 0
+Bp4=_ 0 "EMUL_CODE" "{$PROJ_DIR$\Motor.h}.44.1" 0 0 1 "" 0 "" 0
+Count=5
+[Aliases]
+A0=_ "C:\Users\Administrator\Desktop\MainControl2.0.0019\main\MainStart.c" ""
+A1=_ "C:\Users\Administrator\Desktop\MainControl2.0.0019\uCOS-CPU\cpu_a.asm" ""
+A2=_ "E:\SUCCEEDER\SF8100\MainControl\MainControl2.0.0012\main\MainStart.c" ""
+A3=_ "E:\Success Project\SF-8100\Chip Program\MainControl2.0.0015-s\main\MainStart.c" ""
+A4=_ "E:\Success Project\SF-8100\Chip Program\MainControl2.0.0015-s\uCOS-CPU\cpu_a.asm" ""
+Count=5
+SuppressDialog=0
