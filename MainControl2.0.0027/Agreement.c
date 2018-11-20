@@ -130,48 +130,48 @@ unsigned  int  PackDword(char* p)
 }
 
 
-void ReceiverData(unsigned char sq0)
-{
-	if (FRAME_OK())	// 上一次接收的包还没处理完, 拒绝接收
-		return;
-	
-	if (sq0 == '>')
-		NRxBuff = 0;
-	aRxBuff[NRxBuff++] = sq0;	                // 保存数据
-	
-	if((NRxBuff==1)&&(sq0!='>'))			// 包头错误
-		NRxBuff = 0;
-	else if (NRxBuff == 2)                          // 地址错误
-        {
-              if (sq0 != GetAddress())
-                  NRxBuff = 0;
-        }
-	else if(NRxBuff==N_XY_BAO)
-		NRxBuff = 0;
-	else if ((sq0=='\r')||(sq0=='\n'))		// 如果检测到包尾则处理
-	{
-		StBao=1;
-		nReceiveTimeout = OSTimeGet ();
-	}
-}
+//void ReceiverData(unsigned char sq0)
+//{
+//	if (FRAME_OK())	// 上一次接收的包还没处理完, 拒绝接收
+//		return;
+//	
+//	if (sq0 == '>')
+//		NRxBuff = 0;
+//	aRxBuff[NRxBuff++] = sq0;	                // 保存数据
+//	
+//	if((NRxBuff==1)&&(sq0!='>'))			// 包头错误
+//		NRxBuff = 0;
+//	else if (NRxBuff == 2)                          // 地址错误
+//        {
+//              if (sq0 != GetAddress())
+//                  NRxBuff = 0;
+//        }
+//	else if(NRxBuff==N_XY_BAO)
+//		NRxBuff = 0;
+//	else if ((sq0=='\r')||(sq0=='\n'))		// 如果检测到包尾则处理
+//	{
+//		StBao=1;
+//		nReceiveTimeout = OSTimeGet ();
+//	}
+//}
 
-void SendCommand(const char* lpszFormat, ...)
-{
-	char* p = aTxBuff;					// 发送缓冲区
-	va_list va;
-	va_start(va, lpszFormat);
-	*p++ = '>';					        // 起始符
-        *p++ = FRAME_ADDR;                                      // 加热地址
-         p += vsprintf(p, lpszFormat, va);
-	va_end(va);        
-	p += sprintf(p, "%04X\r\n", cal_crc((unsigned char*)aTxBuff, p-aTxBuff));
-        FRAME_RESET();
-        GPIO_SetBits(GPIOA,GPIO_Pin_11);
-        OSTimeDly(1);
-	UART1_SendStr((char*)aTxBuff,p-aTxBuff);
-        OSTimeDly(2);
-        GPIO_ResetBits(GPIOA,GPIO_Pin_11);
-}
+//void SendCommand(const char* lpszFormat, ...)
+//{
+//	char* p = aTxBuff;					// 发送缓冲区
+//	va_list va;
+//	va_start(va, lpszFormat);
+//	*p++ = '>';					        // 起始符
+//        *p++ = FRAME_ADDR;                                      // 加热地址
+//         p += vsprintf(p, lpszFormat, va);
+//	va_end(va);        
+//	p += sprintf(p, "%04X\r\n", cal_crc((unsigned char*)aTxBuff, p-aTxBuff));
+//        FRAME_RESET();
+//        GPIO_SetBits(GPIOA,GPIO_Pin_11);
+//        OSTimeDly(1);
+//	UART1_SendStr((char*)aTxBuff,p-aTxBuff);
+//        OSTimeDly(2);
+//        GPIO_ResetBits(GPIOA,GPIO_Pin_11);
+//}
 
 void HandleCommand()
 {
@@ -238,35 +238,35 @@ void HandleCommand()
                 I2C_PageWrite((u8*)buf,c,nAddr,0xA0);
            }
            break;
-         case 0x04:     //写 EEPROM("04")
-           {
-                char buf[25];	// 最大长度, 实际上位机在传送时按8字节传送
-		int offset;
-		unsigned char nbyte;
-		char i;
-		char* p = FRAME_DATA;
-			
-		offset = PackWord(p);
-		p += 4;
-		nbyte = PackByte(p);
-		p += 2;
-                I2C_ReadBuffer((u8*)buf,nbyte,offset,0xA0);
-		p = aTxBuff;
-		*p++ = '>';
-		*p++ = GetAddress();
-		*p++ = '0';
-                *p++ = '4';
-		for(i=0;i<nbyte;i++)
-			p += sprintf(p, "%02lX", (buf[i]&0xff));
-		p += sprintf(p, "%04X\r\r", cal_crc((unsigned char*)aTxBuff, p-aTxBuff));
-		FRAME_RESET();
-		GPIO_SetBits(GPIOA,GPIO_Pin_11);
-                OSTimeDly(1);
-                UART1_SendStr((char*)aTxBuff,p-aTxBuff);
-                OSTimeDly(1);
-                GPIO_ResetBits(GPIOA,GPIO_Pin_11);
-                break; 
-           }
+//         case 0x04:     //写 EEPROM("04")
+//           {
+//                char buf[25];	// 最大长度, 实际上位机在传送时按8字节传送
+//		int offset;
+//		unsigned char nbyte;
+//		char i;
+//		char* p = FRAME_DATA;
+//			
+//		offset = PackWord(p);
+//		p += 4;
+//		nbyte = PackByte(p);
+//		p += 2;
+//                I2C_ReadBuffer((u8*)buf,nbyte,offset,0xA0);
+//		p = aTxBuff;
+//		*p++ = '>';
+//		*p++ = GetAddress();
+//		*p++ = '0';
+//                *p++ = '4';
+//		for(i=0;i<nbyte;i++)
+//			p += sprintf(p, "%02lX", (buf[i]&0xff));
+//		p += sprintf(p, "%04X\r\r", cal_crc((unsigned char*)aTxBuff, p-aTxBuff));
+//		FRAME_RESET();
+//		GPIO_SetBits(GPIOA,GPIO_Pin_11);
+//                OSTimeDly(1);
+//                UART1_SendStr((char*)aTxBuff,p-aTxBuff);
+//                OSTimeDly(1);
+//                GPIO_ResetBits(GPIOA,GPIO_Pin_11);
+//                break; 
+//           }
          case 0x05:     //系统复位急停
            {
                 switch (PackByte(FRAME_DATA))
