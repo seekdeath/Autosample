@@ -2,16 +2,16 @@
 #include <MotorTrasmition.h>
 #include <Motor.h>
 #include <MotionErr.h>
-void resetAddMotor()
+void resetAdd1Motor()
 {
     u8	bOk = 1;
 	u16	status;
     
         // 加样泵电机复位
-	TRY(bOk = MotorReset(MotorSyringSample.nAddr));
+	TRY(bOk = MotorReset(motorAddS1.nAddr));
         if (!bOk) 
         {
-          Set_Syringe_State(Syringe_Err_Transmition_S);
+          Set_Add1_State(Add1_Err_Transmition);
           return;
         }
         
