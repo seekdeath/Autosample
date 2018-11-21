@@ -38,6 +38,7 @@
 #define   Drain_Busy                      0x01    //组件忙，此时不应再向组件发送控制指令
 #define   Drain_Err_Transmition           0x80    //排水电机通信错误
 
+
 u8 Get_XYZ_State(void);
 void Set_XYZ_State(u8 State);
 u8 Get_Hook_State(void);
@@ -50,5 +51,50 @@ u8 Get_WaterPump_State(void);
 void Set_WaterPump_State(u8 State);
 u8 Get_Drain_State(void);
 void Set_Drain_State(u8 State);
+////////////////////////////////////////////////////
+
+#define   Add1_Idle                    0x00    //组件空闲
+#define   Add1_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Add1_Err_Transmition         0x80    //加样泵电机通信错误
+#define   Add1_Err_Origin_S            0x81    //加样泵原点传感器失效
+
+#define   Add2_Idle                    0x00    //组件空闲
+#define   Add2_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Add2_Err_Transmition         0x80    //加样泵电机通信错误
+#define   Add2_Err_Origin_S            0x81    //加样泵原点传感器失效
+
+#define   Move1_Idle                    0x00    //组件空闲
+#define   Move1_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Move1_Err_Transmition         0x80    //加样泵电机通信错误
+#define   Move1_Err_Origin_S            0x81    //加样泵原点传感器失效
+
+#define   Move2_Idle                    0x00    //组件空闲
+#define   Move2_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Move2_Err_Transmition         0x80    //加样泵电机通信错误
+#define   Move3_Err_Origin_S            0x81    //加样泵原点传感器失效
+
+#define   Move3_Idle                    0x00    //组件空闲
+#define   Move3_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Move3_Err_Transmition         0x80    //加样泵电机通信错误
+#define   Move3_Err_Origin_S            0x81    //加样泵原点传感器失效
+
+#define   Move4_Idle                    0x00    //组件空闲
+#define   Move4_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Move4_Err_Transmition         0x80    //加样泵电机通信错误
+#define   Move4_Err_Origin_S            0x81    //加样泵原点传感器失效
 
 
+u8 Get_Add1_State(void);
+void Set_Add1_State(u8 State);
+u8 Get_Add2_State(void);
+void Set_Add2_State(u8 State);
+u8 Get_Move1_State(void);
+void Set_Move1_State(u8 State);
+u8 Get_Move2_State(void);
+void Set_Move2_State(u8 State);
+u8 Get_Move3_State(void);
+void Set_Move3_State(u8 State);
+u8 Get_Move4_State(void);
+void Set_Move4_State(u8 State);
+u8 Get_Sub_State(void);
+void Set_Sub_State(u8 State);

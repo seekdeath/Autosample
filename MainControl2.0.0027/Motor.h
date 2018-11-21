@@ -4,13 +4,13 @@
 #define MOTOR_ADDR_TO_INDEX(addr)	((addr)-'C')	// 将电机地址转换为索引值
 #define MOTOR_INDEX_TO_ADDR(idx)	((idx) +'C')	// 将电机索引转换为地址
 
-#define MOTOR_Z1_ADDR		'C'	        //2
-#define MOTOR_Z2_ADDR		'D'		//3
-#define MOTOR_X_ADDR	        'E'	        //4
-#define MOTOR_Y_ADDR            'F'             //5
-#define MOTOR_HOOK_ADDR         'G'             //6
-#define MOTOR_HOOKUD_ADDR       'H'             //7
-#define MOTOR_SYRINGE_ADDR      'I'             //8				
+#define MOTOR_ADDSAMPLE1_ADDR		'C'	        //2
+#define MOTOR_ADDSAMPLE2_ADDR		'D'		//3
+#define MOTOR_MOVESAMPLE1_ADDR	        'E'	        //4
+#define MOTOR_MOVESAMPLE2_ADDR          'F'             //5
+#define MOTOR_MOVESAMPLE3_ADDR          'G'             //6
+#define MOTOR_MOVESAMPLE4_ADDR          'H'             //7
+#define MOTOR_SUBSAMPLE_ADDR            'I'             //8				
 #define MOTOR_DRAIN_ADDR        'J'		//9		
 #define MOTOR_PUMP_ADDR         'K'             //10
 #define MOTOR_ROLL_ADDR         'L'             //11
@@ -59,4 +59,5 @@ struct MGL
 
 extern MotorGL  MotorX,MotorY,MotorRegent,MotorSample,MotorMotiveHook;
 extern MotorGL  MotorUDHook,MotorSyringSample,MotorSyringReagent,MotorCollect,MotorPump,MotorRoll;
+extern MotorGL  motorAddS1,motorAddS2,motorMoveS1,motorMoveS2,motorMoveS3,motorMoveS4,motorSubS;
 void MotorInit(void);

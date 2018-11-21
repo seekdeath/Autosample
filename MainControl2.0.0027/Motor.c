@@ -3,12 +3,109 @@
 
 MotorGL  MotorX,MotorY,MotorRegent,MotorSample,MotorMotiveHook;
 MotorGL  MotorUDHook,MotorSyringSample,MotorSyringReagent,MotorCollect,MotorPump,MotorRoll;
-
+MotorGL  motorAddS1,motorAddS2,motorMoveS1,motorMoveS2,motorMoveS3,motorMoveS4,motorSubS;
+//#define MOTOR_ADDSAMPLE1_ADDR		  'C'	        //2
+//#define MOTOR_ADDSAMPLE2_ADDR		  'D'		//3
+//#define MOTOR_MOVESAMPLE1_ADDR	  'E'	        //4
+//#define MOTOR_MOVESAMPLE2_ADDR          'F'             //5
+//#define MOTOR_MOVESAMPLE3_ADDR          'G'             //6
+//#define MOTOR_MOVESAMPLE4_ADDR          'H'             //7
+//#define MOTOR_SUBSAMPLE_ADDR            'I'             //8
 void MotorInit(void)
+{
+    //样品推进电机1
+    motorAddS1.nAddr= MOTOR_ADDSAMPLE1_ADDR;
+    motorAddS1.nSpeedMax=4000;
+    motorAddS1.nSpeedMin=800;
+    motorAddS1.nSpeedStep=50;
+    motorAddS1.nTimeoutSteps=20;
+    motorAddS1.SpeedK = 6080;
+    motorAddS1.ISensitive = 150;
+    motorAddS1.HoldI = 0X40;//40
+    motorAddS1.LowspeedI = 0X49;//4f
+    motorAddS1.HighspeedI = 0x49;//4f
+    motorAddS1.nCtrlWord =MCF_USES_ORG | MCF_LEFT_LIMIT_AS_SENSOR | MCF_RESET_AS_VALVE ;//| MCF_LEFT_LIMIT;
+    //样品推进电机2
+    motorAddS2.nAddr=MOTOR_ADDSAMPLE2_ADDR;
+    motorAddS2.nSpeedMax=4000;
+    motorAddS2.nSpeedMin=800;
+    motorAddS2.nSpeedStep=50;
+    motorAddS2.nTimeoutSteps=20;
+    motorAddS2.SpeedK = 6080;
+    motorAddS2.ISensitive = 150;
+    motorAddS2.HoldI = 0X40;
+    motorAddS2.LowspeedI = 0X49;
+    motorAddS2.HighspeedI = 0x49;
+    motorAddS2.nCtrlWord =MCF_USES_ORG | MCF_LEFT_LIMIT_AS_SENSOR | MCF_RESET_AS_VALVE ;//| MCF_LEFT_LIMIT;
+    //横向运输1
+    motorMoveS1.nAddr=MOTOR_MOVESAMPLE1_ADDR;
+    motorMoveS1.nSpeedMax=4000;//16000//38000
+    motorMoveS1.nSpeedMin=800; //1000
+    motorMoveS1.nSpeedStep=50; // 300//200
+    motorMoveS1.nTimeoutSteps=20;
+    motorMoveS1.SpeedK = 4080;
+    motorMoveS1.ISensitive = 40;
+    motorMoveS1.HoldI = 0X00;
+    motorMoveS1.LowspeedI = 0x49;
+    motorMoveS1.HighspeedI = 0x49;
+    motorMoveS1.nCtrlWord=MCF_USES_ORG | MCF_RESET_AS_VALVE;//| MCF_USES_ENCODER;
+    //横向运输2
+    motorMoveS2.nAddr=MOTOR_MOVESAMPLE2_ADDR;
+    motorMoveS2.nSpeedMax=4000;
+    motorMoveS2.nSpeedMin=800;
+    motorMoveS2.nSpeedStep=50; // 400
+    motorMoveS2.nTimeoutSteps=20;
+    motorMoveS2.SpeedK = 4080;
+    motorMoveS2.ISensitive = 40;
+    motorMoveS2.HoldI = 0X00;
+    motorMoveS2.LowspeedI = 0x49;
+    motorMoveS2.HighspeedI = 0x49;
+    motorMoveS2.nCtrlWord=MCF_USES_ORG | MCF_RESET_AS_VALVE;//| MCF_USES_ENCODER;
+    //横向运输3
+    motorMoveS3.nAddr= MOTOR_MOVESAMPLE3_ADDR;
+    motorMoveS3.nSpeedMax=4000;//1000;
+    motorMoveS3.nSpeedMin=800; //400
+    motorMoveS3.nSpeedStep=50; //180
+    motorMoveS3.nTimeoutSteps=20;
+    motorMoveS3.SpeedK = 3080;
+    motorMoveS3.ISensitive = 30;
+    motorMoveS3.HoldI = 0X00;
+    motorMoveS3.LowspeedI = 0X49;
+    motorMoveS3.HighspeedI= 0x49;
+    motorMoveS3.nCtrlWord =MCF_USES_ORG | MCF_RESET_AS_VALVE;// | MCF_USES_ENCODER;
+    //横向运输4 运输到退样品
+    motorMoveS4.nAddr=MOTOR_MOVESAMPLE4_ADDR;
+    motorMoveS4.nSpeedMax=4000;
+    motorMoveS4.nSpeedMin=800;
+    motorMoveS4.nSpeedStep=50;
+    motorMoveS4.nTimeoutSteps=20;
+    motorMoveS4.nCtrlWord =MCF_USES_ORG | MCF_RESET_AS_VALVE | MCF_ORG;
+    motorMoveS4.SpeedK = 6080;
+    motorMoveS4.ISensitive = 50;
+    motorMoveS4.HoldI = 0X40;
+    motorMoveS4.LowspeedI = 0X49;
+    motorMoveS4.HighspeedI = 0x49;
+    //退样品电机
+    motorSubS.nAddr=MOTOR_SUBSAMPLE_ADDR;
+    motorSubS.nSpeedMax=4000;
+    motorSubS.nSpeedMin=800;
+    motorSubS.nSpeedStep=50;
+    motorSubS.nTimeoutSteps=20;
+    motorSubS.SpeedK = 6080;
+    motorSubS.ISensitive = 50;
+    motorSubS.HoldI = 0X40;
+    motorSubS.LowspeedI = 0X49;
+    motorSubS.HighspeedI = 0x49;
+    motorSubS.nCtrlWord =MCF_USES_ORG | MCF_USES_DEV | MCF_RESET_AS_VALVE;
+ }
+
+
+
+void MotorInitback(void)
 {
     //X,Y电机参数设置
     MotorSample.nAddr= MOTOR_Z1_ADDR;
-    MotorSample.nSpeedMax=16000;
+    MotorSample.nSpeedMax=4000;
     MotorSample.nSpeedMin=2000;
     MotorSample.nSpeedStep=50;
     MotorSample.nTimeoutSteps=7;
@@ -18,8 +115,9 @@ void MotorInit(void)
     MotorSample.LowspeedI = 0X49;//4f
     MotorSample.HighspeedI = 0x49;//4f
     MotorSample.nCtrlWord =MCF_USES_ORG | MCF_LEFT_LIMIT_AS_SENSOR | MCF_RESET_AS_VALVE ;//| MCF_LEFT_LIMIT;
+    //
     MotorRegent.nAddr=MOTOR_Z2_ADDR;
-    MotorRegent.nSpeedMax=16000;
+    MotorRegent.nSpeedMax=4000;
     MotorRegent.nSpeedMin=2000;
     MotorRegent.nSpeedStep=50;
     MotorRegent.nTimeoutSteps=7;
@@ -29,8 +127,9 @@ void MotorInit(void)
     MotorRegent.LowspeedI = 0X49;
     MotorRegent.HighspeedI = 0x49;
     MotorRegent.nCtrlWord =MCF_USES_ORG | MCF_LEFT_LIMIT_AS_SENSOR | MCF_RESET_AS_VALVE ;//| MCF_LEFT_LIMIT;
+    //
     MotorX.nAddr=MOTOR_X_ADDR;
-    MotorX.nSpeedMax=20000;//16000//38000
+    MotorX.nSpeedMax=4000;//16000//38000
     MotorX.nSpeedMin=1000; //1000
     MotorX.nSpeedStep=400; // 300//200
     MotorX.nTimeoutSteps=100;
@@ -151,7 +250,6 @@ void MotorInit(void)
     MotorRoll.nCtrlWord =MCF_RESET_AS_VALVE ;//| MCF_LEFT_LIMIT;
     */
  }
-
 
 
     
