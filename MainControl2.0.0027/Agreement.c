@@ -130,48 +130,48 @@ unsigned  int  PackDword(char* p)
 }
 
 
-//void ReceiverData(unsigned char sq0)
-//{
-//	if (FRAME_OK())	// 上一次接收的包还没处理完, 拒绝接收
-//		return;
-//	
-//	if (sq0 == '>')
-//		NRxBuff = 0;
-//	aRxBuff[NRxBuff++] = sq0;	                // 保存数据
-//	
-//	if((NRxBuff==1)&&(sq0!='>'))			// 包头错误
-//		NRxBuff = 0;
-//	else if (NRxBuff == 2)                          // 地址错误
-//        {
-//              if (sq0 != GetAddress())
-//                  NRxBuff = 0;
-//        }
-//	else if(NRxBuff==N_XY_BAO)
-//		NRxBuff = 0;
-//	else if ((sq0=='\r')||(sq0=='\n'))		// 如果检测到包尾则处理
-//	{
-//		StBao=1;
-//		nReceiveTimeout = OSTimeGet ();
-//	}
-//}
+void ReceiverData(unsigned char sq0)
+{
+	if (FRAME_OK())	// 上一次接收的包还没处理完, 拒绝接收
+		return;
+	
+	if (sq0 == '>')
+		NRxBuff = 0;
+	aRxBuff[NRxBuff++] = sq0;	                // 保存数据
+	
+	if((NRxBuff==1)&&(sq0!='>'))			// 包头错误
+		NRxBuff = 0;
+	else if (NRxBuff == 2)                          // 地址错误
+       {
+             if (sq0 != GetAddress())
+                 NRxBuff = 0;
+       }
+	else if(NRxBuff==N_XY_BAO)
+		NRxBuff = 0;
+	else if ((sq0=='\r')||(sq0=='\n'))		// 如果检测到包尾则处理
+	{
+		StBao=1;
+		nReceiveTimeout = OSTimeGet ();
+	}
+}
 
-//void SendCommand(const char* lpszFormat, ...)
-//{
-//	char* p = aTxBuff;					// 发送缓冲区
-//	va_list va;
-//	va_start(va, lpszFormat);
-//	*p++ = '>';					        // 起始符
-//        *p++ = FRAME_ADDR;                                      // 加热地址
-//         p += vsprintf(p, lpszFormat, va);
-//	va_end(va);        
-//	p += sprintf(p, "%04X\r\n", cal_crc((unsigned char*)aTxBuff, p-aTxBuff));
-//        FRAME_RESET();
-//        GPIO_SetBits(GPIOA,GPIO_Pin_11);
-//        OSTimeDly(1);
-//	UART1_SendStr((char*)aTxBuff,p-aTxBuff);
-//        OSTimeDly(2);
-//        GPIO_ResetBits(GPIOA,GPIO_Pin_11);
-//}
+void SendCommand(const char* lpszFormat, ...)
+{
+	char* p = aTxBuff;					// 发送缓冲区
+	va_list va;
+	va_start(va, lpszFormat);
+	*p++ = '>';					        // 起始符
+       *p++ = FRAME_ADDR;                                      // 加热地址
+        p += vsprintf(p, lpszFormat, va);
+	va_end(va);        
+	p += sprintf(p, "%04X\r\n", cal_crc((unsigned char*)aTxBuff, p-aTxBuff));
+       FRAME_RESET();
+       GPIO_SetBits(GPIOA,GPIO_Pin_11);
+       OSTimeDly(1);
+	UART1_SendStr((char*)aTxBuff,p-aTxBuff);
+       OSTimeDly(2);
+       GPIO_ResetBits(GPIOA,GPIO_Pin_11);
+}
 
 void HandleCommand()
 {
@@ -194,13 +194,13 @@ void HandleCommand()
            {
                extern unsigned char NRxBuff1;
 
-	      *FRAME_CRC=0;
+	          *FRAME_CRC=0;
               nLen = SendCommand1("%s", FRAME_DATA);
               aRxBuff1[nLen-1] = 0x00;
-	      if (nLen != 0)
-		SendCommand("00%s", &aRxBuff1[1]);
-	      else
-		 FRAME_RESET();
+	          if (nLen != 0)
+		      SendCommand("00%s", &aRxBuff1[1]);
+	          else
+		      FRAME_RESET();
 	      
               break;
            }

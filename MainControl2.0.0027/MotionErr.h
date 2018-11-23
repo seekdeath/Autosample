@@ -53,35 +53,40 @@ u8 Get_Drain_State(void);
 void Set_Drain_State(u8 State);
 ////////////////////////////////////////////////////
 
-#define   Add1_Idle                    0x00    //组件空闲
-#define   Add1_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
-#define   Add1_Err_Transmition         0x80    //加样泵电机通信错误
-#define   Add1_Err_Origin            0x81    //加样泵原点传感器失效
+#define   Add1_Idle                     0x00    //组件空闲
+#define   Add1_Busy                     0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Add1_Err_Transmition          0x80    //电机通信错误
+#define   Add1_Err_Origin               0x81    //原点传感器失效
 
-#define   Add2_Idle                    0x00    //组件空闲
-#define   Add2_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
-#define   Add2_Err_Transmition         0x80    //加样泵电机通信错误
-#define   Add2_Err_Origin            0x81    //加样泵原点传感器失效
+#define   Add2_Idle                     0x00    //组件空闲
+#define   Add2_Busy                     0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Add2_Err_Transmition          0x80    //电机通信错误
+#define   Add2_Err_Origin               0x81    //原点传感器失效
 
 #define   Move1_Idle                    0x00    //组件空闲
 #define   Move1_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
-#define   Move1_Err_Transmition         0x80    //加样泵电机通信错误
-#define   Move1_Err_Origin            0x81    //加样泵原点传感器失效
+#define   Move1_Err_Transmition         0x80    //电机通信错误
+#define   Move1_Err_Origin              0x81    //原点传感器失效
 
 #define   Move2_Idle                    0x00    //组件空闲
 #define   Move2_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
-#define   Move2_Err_Transmition         0x80    //加样泵电机通信错误
-#define   Move3_Err_Origin            0x81    //加样泵原点传感器失效
+#define   Move2_Err_Transmition         0x80    //电机通信错误
+#define   Move2_Err_Origin              0x81    //原点传感器失效
 
 #define   Move3_Idle                    0x00    //组件空闲
 #define   Move3_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
-#define   Move3_Err_Transmition         0x80    //加样泵电机通信错误
-#define   Move3_Err_Origin            0x81    //加样泵原点传感器失效
+#define   Move3_Err_Transmition         0x80    //电机通信错误
+#define   Move3_Err_Origin              0x81    //原点传感器失效
 
 #define   Move4_Idle                    0x00    //组件空闲
 #define   Move4_Busy                    0x01    //组件忙，此时不应再向组件发送控制指令
-#define   Move4_Err_Transmition         0x80    //加样泵电机通信错误
-#define   Move4_Err_Origin            0x81    //加样泵原点传感器失效
+#define   Move4_Err_Transmition         0x80    //电机通信错误
+#define   Move4_Err_Origin              0x81    //原点传感器失效
+
+#define   Sub_Idle                      0x00    //组件空闲
+#define   Sub_Busy                      0x01    //组件忙，此时不应再向组件发送控制指令
+#define   Sub_Err_Transmition           0x80    //电机通信错误
+#define   Sub_Err_Origin                0x81    //原点传感器失效
 
 
 u8 Get_Add1_State(void);

@@ -88,16 +88,19 @@ static  void  App_TaskStart (void *p_arg)
 
     
         
-    while(1){
-        if (IS_MAGNETIC_ACT()){
-          RESET_MAGNETIC_ACT();
-          MagneticControl();
-      }
-      if (IS_BEEP_CON()){
-          BeepControl();
-          continue;
-      }
-      OSTimeDly(100);
+    while(1)
+    {
+        // if (IS_MAGNETIC_ACT())
+        // {
+        //   RESET_MAGNETIC_ACT();
+        //   MagneticControl();
+        // }
+        // if (IS_BEEP_CON())
+        // {
+        //   BeepControl();
+        //   continue;
+        // }
+        OSTimeDly(100);
     }
     
 }
@@ -128,12 +131,12 @@ static  void  App_TaskCreate (void)
         OSTaskNameSet(APP_TASK_IC_PRIO, "HandleTaskIC", &os_err);
     #endif*/
         
-     os_err = OSTaskCreateExt((void (*)(void *))App_TaskUart1_Deal,
+     os_err = OSTaskCreateExt((void (*)(void *))appTaskUart1_Deal,
                              (void          * ) 0,
-                             (OS_STK        * )&App_TaskUart1_DealStk[APP_TASK_Uart1_Deal_STK_SIZE - 1],
+                             (OS_STK        * )&appTaskUart1_DealStk[APP_TASK_Uart1_Deal_STK_SIZE - 1],
                              (INT8U           ) APP_TASK_Uart1_Deal_PRIO,
                              (INT16U          ) APP_TASK_Uart1_Deal_PRIO,
-                             (OS_STK        * )&App_TaskUart1_DealStk[0],
+                             (OS_STK        * )&appTaskUart1_DealStk[0],
                              (INT32U          ) APP_TASK_Uart1_Deal_STK_SIZE,
                              (void          * ) 0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
@@ -142,76 +145,103 @@ static  void  App_TaskCreate (void)
         OSTaskNameSet(APP_TASK_Uart1_Deal_PRIO, "HandleTaskUart1", &os_err);
     #endif
         
-     os_err = OSTaskCreateExt((void (*)(void *))App_TaskHandleXYZ,
+     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleAdd1,
                              (void          * ) 0,
-                             (OS_STK        * )&App_TaskHandleXYZStk[APP_TASK_HandleXYZ_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleXYZ_PRIO,
-                             (INT16U          ) APP_TASK_HandleXYZ_PRIO,
-                             (OS_STK        * )&App_TaskHandleXYZStk[0],
-                             (INT32U          ) APP_TASK_HandleXYZ_STK_SIZE,
+                             (OS_STK        * )&appTaskAdd1Stk[APP_TASK_Add1_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleAdd1_PRIO,
+                             (INT16U          ) APP_TASK_HandleAdd1_PRIO,
+                             (OS_STK        * )&appTaskAdd1Stk[0],
+                             (INT32U          ) APP_TASK_Add1_STK_SIZE,
                              (void          * ) 0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleXYZ_PRIO, "HandleXYZ", &os_err);
+    OSTaskNameSet(APP_TASK_HandleAdd1_PRIO, "HandleAdd1", &os_err);
 #endif   
     
-     os_err = OSTaskCreateExt((void (*)(void *))App_TaskHandleHook,
+     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleAdd2,
                              (void          * ) 0,
-                             (OS_STK        * )&App_TaskHandleHookStk[APP_TASK_HandleHook_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleHook_PRIO,
-                             (INT16U          ) APP_TASK_HandleHook_PRIO,
-                             (OS_STK        * )&App_TaskHandleHookStk[0],
-                             (INT32U          ) APP_TASK_HandleHook_STK_SIZE,
-                             (void          * ) 0,
-                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-
-#if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleHook_PRIO, "HandleHook", &os_err);
-#endif
-    
-    os_err = OSTaskCreateExt((void (*)(void *))App_TaskHandleSyringe,
-                             (void          * ) 0,
-                             (OS_STK        * )&App_TaskHandleSyringeStk[APP_TASK_HandleSyringe_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleSyringe_PRIO,
-                             (INT16U          ) APP_TASK_HandleSyringe_PRIO,
-                             (OS_STK        * )&App_TaskHandleSyringeStk[0],
-                             (INT32U          ) APP_TASK_HandleSyringe_STK_SIZE,
+                             (OS_STK        * )&appTaskAdd2Stk[APP_TASK_Add2_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleAdd2_PRIO,
+                             (INT16U          ) APP_TASK_HandleAdd2_PRIO,
+                             (OS_STK        * )&appTaskAdd2Stk[0],
+                             (INT32U          ) APP_TASK_Add2_STK_SIZE,
                              (void          * ) 0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleSyringe_PRIO, "HandleSyringe", &os_err);
+    OSTaskNameSet(APP_TASK_HandleAdd2_PRIO, "HandleAdd2", &os_err);
 #endif
     
-    os_err = OSTaskCreateExt((void (*)(void *))App_TaskHandleCollect,
+    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove1,
                              (void          * ) 0,
-                             (OS_STK        * )&App_TaskHandleCollectStk[APP_TASK_HandleCollect_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleCollect_PRIO,
-                             (INT16U          ) APP_TASK_HandleCollect_PRIO,
-                             (OS_STK        * )&App_TaskHandleCollectStk[0],
-                             (INT32U          ) APP_TASK_HandleCollect_STK_SIZE,
+                             (OS_STK        * )&appTaskMove1Stk[APP_TASK_Move1_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleMove1_PRIO,
+                             (INT16U          ) APP_TASK_HandleMove1_PRIO,
+                             (OS_STK        * )&appTaskMove1Stk[0],
+                             (INT32U          ) APP_TASK_Move1_STK_SIZE,
                              (void          * ) 0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleCollect_PRIO, "HandleCollect", &os_err);
+    OSTaskNameSet(APP_TASK_HandleMove1_PRIO, "HandleMove1", &os_err);
 #endif
     
-    os_err = OSTaskCreateExt((void (*)(void *))App_TaskHandleWaterPump,
+    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove2,
                              (void          * ) 0,
-                             (OS_STK        * )&App_TaskHandleWaterPumpStk[APP_TASK_HandleWaterPump_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleWaterPump_PRIO,
-                             (INT16U          ) APP_TASK_HandleWaterPump_PRIO,
-                             (OS_STK        * )&App_TaskHandleWaterPumpStk[0],
-                             (INT32U          ) APP_TASK_HandleWaterPump_STK_SIZE,
+                             (OS_STK        * )&appTaskMove2Stk[APP_TASK_Move2_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleMove2_PRIO,
+                             (INT16U          ) APP_TASK_HandleMove2_PRIO,
+                             (OS_STK        * )&appTaskMove2Stk[0],
+                             (INT32U          ) APP_TASK_Move2_STK_SIZE,
                              (void          * ) 0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleWaterPump_PRIO, "HandleWaterPump", &os_err);
+    OSTaskNameSet(APP_TASK_HandleMove2_PRIO, "HandleMove2", &os_err);
 #endif
     
+    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove3,
+                             (void          * ) 0,
+                             (OS_STK        * )&appTaskMove3Stk[APP_TASK_Move3_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleMove3_PRIO,
+                             (INT16U          ) APP_TASK_HandleMove3_PRIO,
+                             (OS_STK        * )&appTaskMove3Stk[0],
+                             (INT32U          ) APP_TASK_Move3_STK_SIZE,
+                             (void          * ) 0,
+                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
+
+#if (OS_TASK_NAME_SIZE >= 10)
+    OSTaskNameSet(APP_TASK_HandleMove3_PRIO, "HandleMove3", &os_err);
+#endif
+    
+    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove4,
+                             (void          * ) 0,
+                             (OS_STK        * )&appTaskMove4Stk[APP_TASK_Move4_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleMove4_PRIO,
+                             (INT16U          ) APP_TASK_HandleMove4_PRIO,
+                             (OS_STK        * )&appTaskMove4Stk[0],
+                             (INT32U          ) APP_TASK_Move4_STK_SIZE,
+                             (void          * ) 0,
+                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
+
+#if (OS_TASK_NAME_SIZE >= 10)
+    OSTaskNameSet(APP_TASK_HandleMove4_PRIO, "HandleMove4", &os_err);
+#endif
+
+    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleSub,
+                             (void          * ) 0,
+                             (OS_STK        * )&appTaskSubStk[APP_TASK_Sub_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleSub_PRIO,
+                             (INT16U          ) APP_TASK_HandleSub_PRIO,
+                             (OS_STK        * )&appTaskSubStk[0],
+                             (INT32U          ) APP_TASK_Sub_STK_SIZE,
+                             (void          * ) 0,
+                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
+
+#if (OS_TASK_NAME_SIZE >= 10)
+    OSTaskNameSet(APP_TASK_HandleSub_PRIO, "HandleSub", &os_err);
+#endif
 /*       os_err = OSTaskCreateExt((void (*)(void *))App_TaskHandleDrain,
                              (void          * ) 0,
                              (OS_STK        * )&App_TaskHandleDrainStk[APP_TASK_HandleDrain_STK_SIZE - 1],
@@ -228,7 +258,7 @@ static  void  App_TaskCreate (void)
    
 }
 
-static void  App_TaskHandleXYZ (void *p_arg){   
+static void  appTaskHandleAdd (void *p_arg){   
     InitXYZMotor();
 //    int a=0;
     while (1)
@@ -238,7 +268,27 @@ static void  App_TaskHandleXYZ (void *p_arg){
     }
 }
 
-static void  App_TaskHandleHook (void *p_arg){   
+static void  appTaskHandleAdd2 (void *p_arg){   
+    InitXYZMotor();
+//    int a=0;
+    while (1)
+    {
+        HandleXYZ();
+        OSTimeDlyHMSM (0, 0, 0, 10);
+    }
+}
+
+static void  appTaskHandleMove1 (void *p_arg){   
+    InitXYZMotor();
+//    int a=0;
+    while (1)
+    {
+        HandleXYZ();
+        OSTimeDlyHMSM (0, 0, 0, 10);
+    }
+}
+
+static void  appTaskHandleMove2 (void *p_arg){   
     InitHookMotor();
     
     while (1)
@@ -248,7 +298,7 @@ static void  App_TaskHandleHook (void *p_arg){
     }
 }
 
-static void  App_TaskHandleSyringe (void *p_arg)
+static void  appTaskHandleMove3 (void *p_arg)
 {   
     InitSyringeMotor();
     while (1)
@@ -258,7 +308,7 @@ static void  App_TaskHandleSyringe (void *p_arg)
     }
 }
 
-static void  App_TaskHandleCollect (void *p_arg){   
+static void  appTaskHandleMove4 (void *p_arg){   
   LackWater();
   InitRollMotor();
     while (1)
@@ -269,7 +319,7 @@ static void  App_TaskHandleCollect (void *p_arg){
     }
 }
 
-static void  App_TaskHandleWaterPump (void *p_arg){   
+static void  appTaskHandleSub (void *p_arg){   
   InitWaterPumpMotor();
     while (1)
     {
@@ -287,7 +337,7 @@ static void  App_TaskHandleDrain (void *p_arg){
     }
 }*/
 
-static void  App_TaskUart1_Deal (void *p_arg){   
+static void  appTaskUart1_Deal (void *p_arg){   
     while (1)
     {
         if (FRAME_OK())
