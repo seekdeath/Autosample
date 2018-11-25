@@ -16,6 +16,10 @@
 #include <MotorDrain.h>
 #include <tim.h>
 #include <MotorRoll.h>
+#include <MotorAddSam.h>
+#include <MotorMoveSam.h>
+#include <MotorSubSam.h>
+#include <microswitch.h>
 #define MAX_SER_SIZE      			64+2+6
 unsigned char g_ucSerBuf[MAX_SER_SIZE];      // 串行数据缓冲区
 unsigned char g_ucSerBufIdx;	             // 串行数据缓冲区索引
@@ -43,10 +47,10 @@ int  main (void)
                                                                   /* Start multitasking (i.e. give control to uC/OS-II).  */
     os_err = OSTaskCreateExt((void (*)(void *)) App_TaskStart,  /* Create the start task.                               */
                              (void          * ) 0,
-                             (OS_STK        * )&App_TaskStartStk[APP_TASK_START_STK_SIZE - 1],
+                             (OS_STK        * )&appTaskStartStk[APP_TASK_START_STK_SIZE - 1],
                              (INT8U           ) APP_TASK_START_PRIO,
                              (INT16U          ) APP_TASK_START_PRIO,
-                             (OS_STK        * )&App_TaskStartStk[0],
+                             (OS_STK        * )&appTaskStartStk[0],
                              (INT32U          ) APP_TASK_START_STK_SIZE,
                              (void          * )0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
@@ -142,7 +146,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
     
    #if (OS_TASK_NAME_SIZE >= 10)
-        OSTaskNameSet(APP_TASK_Uart1_Deal_PRIO, "HandleTaskUart1", &os_err);
+        OSTaskNameSet(APP_TASK_Uart1_Deal_PRIO, "TaskUart1", &os_err);
     #endif
         
      os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleAdd1,
@@ -156,7 +160,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleAdd1_PRIO, "HandleAdd1", &os_err);
+    OSTaskNameSet(APP_TASK_HandleAdd1_PRIO, "TaskAdd1", &os_err);
 #endif   
     
      os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleAdd2,
@@ -170,7 +174,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleAdd2_PRIO, "HandleAdd2", &os_err);
+    OSTaskNameSet(APP_TASK_HandleAdd2_PRIO, "TaskAdd2", &os_err);
 #endif
     
     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove1,
@@ -184,7 +188,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleMove1_PRIO, "HandleMove1", &os_err);
+    OSTaskNameSet(APP_TASK_HandleMove1_PRIO, "TaskMove1", &os_err);
 #endif
     
     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove2,
@@ -198,7 +202,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleMove2_PRIO, "HandleMove2", &os_err);
+    OSTaskNameSet(APP_TASK_HandleMove2_PRIO, "TaskMove2", &os_err);
 #endif
     
     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove3,
@@ -212,7 +216,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleMove3_PRIO, "HandleMove3", &os_err);
+    OSTaskNameSet(APP_TASK_HandleMove3_PRIO, "TaskMove3", &os_err);
 #endif
     
     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove4,
@@ -226,7 +230,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleMove4_PRIO, "HandleMove4", &os_err);
+    OSTaskNameSet(APP_TASK_HandleMove4_PRIO, "TaskMove4", &os_err);
 #endif
 
     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleSub,
@@ -240,7 +244,7 @@ static  void  App_TaskCreate (void)
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleSub_PRIO, "HandleSub", &os_err);
+    OSTaskNameSet(APP_TASK_HandleSub_PRIO, "TaskSub", &os_err);
 #endif
 /*       os_err = OSTaskCreateExt((void (*)(void *))App_TaskHandleDrain,
                              (void          * ) 0,
@@ -258,8 +262,8 @@ static  void  App_TaskCreate (void)
    
 }
 
-static void  appTaskHandleAdd (void *p_arg){   
-    InitXYZMotor();
+static void  appTaskHandleAdd1 (void *p_arg){   
+    InitAdd1Motor();
 //    int a=0;
     while (1)
     {
@@ -269,7 +273,7 @@ static void  appTaskHandleAdd (void *p_arg){
 }
 
 static void  appTaskHandleAdd2 (void *p_arg){   
-    InitXYZMotor();
+    InitAdd2Motor();
 //    int a=0;
     while (1)
     {
@@ -279,7 +283,7 @@ static void  appTaskHandleAdd2 (void *p_arg){
 }
 
 static void  appTaskHandleMove1 (void *p_arg){   
-    InitXYZMotor();
+    InitMove1Motor();
 //    int a=0;
     while (1)
     {
@@ -289,7 +293,7 @@ static void  appTaskHandleMove1 (void *p_arg){
 }
 
 static void  appTaskHandleMove2 (void *p_arg){   
-    InitHookMotor();
+    InitMove2Motor();
     
     while (1)
     {
@@ -300,7 +304,7 @@ static void  appTaskHandleMove2 (void *p_arg){
 
 static void  appTaskHandleMove3 (void *p_arg)
 {   
-    InitSyringeMotor();
+    InitMove3Motor();
     while (1)
     {
         HandleSyringe();
@@ -310,7 +314,7 @@ static void  appTaskHandleMove3 (void *p_arg)
 
 static void  appTaskHandleMove4 (void *p_arg){   
   LackWater();
-  InitRollMotor();
+  InitMove4Motor();
     while (1)
     {
         HandleCollect();
@@ -320,10 +324,10 @@ static void  appTaskHandleMove4 (void *p_arg){
 }
 
 static void  appTaskHandleSub (void *p_arg){   
-  InitWaterPumpMotor();
+  InitSubMotor();
     while (1)
     {
-        HandleWaterPump();
+        HandleSub();
         OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }
