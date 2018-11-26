@@ -271,6 +271,14 @@ static void  appTaskHandleAdd1 (void *p_arg){
         {
             SendCommand1(NULL,"CD");
         }
+        if(Signal3 == 1)
+        {
+            SendCommand1(NULL,"DJ00001B50");
+        }
+        if(Signal5 == 1)
+        {
+            SendCommand1(NULL,"DD");
+        }
         
         OSTimeDlyHMSM (0, 0, 0, 10);
     }

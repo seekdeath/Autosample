@@ -15,27 +15,27 @@ void MotorInit(void)
 {
     //样品推进电机1
     motorAddS1.nAddr= MOTOR_ADDSAMPLE1_ADDR;
-    motorAddS1.nSpeedMax=4000;
-    motorAddS1.nSpeedMin=800;
+    motorAddS1.nSpeedMax=2000;
+    motorAddS1.nSpeedMin=600;
     motorAddS1.nSpeedStep=50;
     motorAddS1.nTimeoutSteps=20;
     motorAddS1.SpeedK = 6080;
     motorAddS1.ISensitive = 150;
     motorAddS1.HoldI = 0X40;//40
     motorAddS1.LowspeedI = 0X49;//4f
-    motorAddS1.HighspeedI = 0x49;//4f
+    motorAddS1.HighspeedI = 0x4B;//4f
     motorAddS1.nCtrlWord =MCF_USES_ORG | MCF_USES_DEV | MCF_RESET_AS_VALVE; //| MCF_RESET_AS_VALVE ;//| MCF_LEFT_LIMIT;
     //样品推进电机2
     motorAddS2.nAddr=MOTOR_ADDSAMPLE2_ADDR;
-    motorAddS2.nSpeedMax=4000;
-    motorAddS2.nSpeedMin=800;
+    motorAddS2.nSpeedMax=2000;
+    motorAddS2.nSpeedMin=600;
     motorAddS2.nSpeedStep=50;
     motorAddS2.nTimeoutSteps=20;
     motorAddS2.SpeedK = 6080;
     motorAddS2.ISensitive = 150;
     motorAddS2.HoldI = 0X40;
     motorAddS2.LowspeedI = 0X49;
-    motorAddS2.HighspeedI = 0x49;
+    motorAddS2.HighspeedI = 0x4B;
     motorAddS2.nCtrlWord =MCF_USES_ORG | MCF_USES_DEV | MCF_RESET_AS_VALVE;//| MCF_RESET_AS_VALVE ;//| MCF_LEFT_LIMIT;
     //横向运输1
     motorMoveS1.nAddr=MOTOR_MOVESAMPLE1_ADDR;
