@@ -55,7 +55,7 @@ static  OS_STK          appTaskSubStk[APP_TASK_Sub_STK_SIZE];
 static  void  App_TaskCreate              (void);
 static  void  App_EventCreate             (void);
 static  void  App_TaskStart               (void        *p_arg);
-static  void  App_TaskUart1_Deal          (void        *p_arg);
+static  void  appTaskUart1_Deal          (void        *p_arg);
 
 static  void  appTaskHandleAdd1         (void        *p_arg);
 static  void  appTaskHandleAdd2         (void        *p_arg);

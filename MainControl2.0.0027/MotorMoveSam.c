@@ -18,8 +18,8 @@ void resetMove1Motor()
     
     while  (1)//
     {
-            //获取状态
-        TRY(bOk = MotorGetStatus(motorMoveS1.nAddr, &status));
+            //获取状�?        
+      TRY(bOk = MotorGetStatus(motorMoveS1.nAddr, &status));
         if (!bOk) {Set_Move1_State(Move1_Err_Transmition);return;}
         if (status == 0x0000) break;
             //原点失败
@@ -50,10 +50,10 @@ void Move1SetPos(void)
     {
         TRY(bOk = MotorMoveTo(motorMoveS1.nAddr, Pos));
         if (!bOk) {Set_Move1_State(Move1_Err_Transmition);return;}
-        while  (1)//样品泵
+        while  (1)//样品�?        
         {
-            //获取状态
-            TRY(bOk = MotorGetStatus(motorMoveS1.nAddr, &status));
+            //获取状�?            
+          TRY(bOk = MotorGetStatus(motorMoveS1.nAddr, &status));
             if (!bOk) {Set_Move1_State(Move1_Err_Transmition);return;}
             if (status == 0x0000) break;
             //原点失败
@@ -101,7 +101,7 @@ void HandleMove1(void)
     {
         Set_Move1_State(Move1_Busy);
         RESET_Move1_R_FLAG();
-        Move1Reset();
+        resetMove1Motor();
     }
     if (IS_Move1_MOVE_FLAG())
     {
@@ -126,8 +126,12 @@ void Reset_Move1_Cancel_FLAG(void)
 }
 //复位标志
 u8 Move1_R_FLAG=0;
+u8 IS_Move1_R_FLAG(void)
+{
+    return Move1_R_FLAG;
+}
 //复位标志有效
-u8 GET_Move_R_FLAG(void)
+u8 GET_Move1_R_FLAG(void)
 {
     return Move1_R_FLAG;
 }
@@ -141,19 +145,19 @@ void RESET_Move1_R_FLAG(void)
 {
     Move1_R_FLAG=0;
 }
-//移动标志位
+//移动标志�?
 u8 Move1_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move1_MOVE_FLAG(void)
 {
     return Move1_MOVE_FLAG;
 }
-//置位移动标志位
+//置位移动标志�?
 void SET_Move1_MOVE_FLAG(void)
 {
     Move1_MOVE_FLAG=1;
 }
-//复位移动标志位
+//复位移动标志�?
 void RESET_Move1_MOVE_FLAG(void)
 {
     Move1_MOVE_FLAG=0;
@@ -163,13 +167,13 @@ void RESET_Move1_MOVE_FLAG(void)
 u8 Move1_FLAG;
 //坐标
 s32 Move1_POS;
-//获取标志，坐标
+//获取标志，坐�?
 void GetMove1Pos(u8* Move1FLAG,s32* Pos)
 {
     *Move1FLAG=Move1_FLAG;
     *Pos=Move1_POS;
 }
-//设定标志，坐标
+//设定标志，坐�?
 void SetMove1Pos(u8 Move1FLAG,s32 Pos)
 {
     Move1_FLAG=Move1FLAG;
@@ -191,8 +195,8 @@ void resetMove2Motor()
     
     while  (1)//
     {
-            //获取状态
-        TRY(bOk = MotorGetStatus(motorMoveS2.nAddr, &status));
+            //获取状�?        
+      TRY(bOk = MotorGetStatus(motorMoveS2.nAddr, &status));
         if (!bOk) {Set_Move2_State(Move2_Err_Transmition);return;}
         if (status == 0x0000) break;
             //原点失败
@@ -223,10 +227,10 @@ void Move2SetPos(void)
     {
         TRY(bOk = MotorMoveTo(motorMoveS2.nAddr, Pos));
         if (!bOk) {Set_Move2_State(Move2_Err_Transmition);return;}
-        while  (1)//样品泵
+        while  (1)//样品�?        
         {
-            //获取状态
-            TRY(bOk = MotorGetStatus(motorMoveS2.nAddr, &status));
+            //获取状�?            
+          TRY(bOk = MotorGetStatus(motorMoveS2.nAddr, &status));
             if (!bOk) {Set_Move2_State(Move2_Err_Transmition);return;}
             if (status == 0x0000) break;
             //原点失败
@@ -274,7 +278,7 @@ void HandleMove2(void)
     {
         Set_Move2_State(Move2_Busy);
         RESET_Move2_R_FLAG();
-        Move1Reset();
+        resetMove2Motor();
     }
     if (IS_Move2_MOVE_FLAG())
     {
@@ -299,6 +303,10 @@ void Reset_Move2_Cancel_FLAG(void)
 }
 //复位标志
 u8 Move2_R_FLAG=0;
+u8 IS_Move2_R_FLAG(void)
+{
+    return Move2_R_FLAG;
+}
 //复位标志有效
 u8 GET_Move2_R_FLAG(void)
 {
@@ -314,19 +322,19 @@ void RESET_Move2_R_FLAG(void)
 {
     Move2_R_FLAG=0;
 }
-//移动标志位
+//移动标志�?
 u8 Move2_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move2_MOVE_FLAG(void)
 {
     return Move2_MOVE_FLAG;
 }
-//置位移动标志位
+//置位移动标志�?
 void SET_Move2_MOVE_FLAG(void)
 {
     Move2_MOVE_FLAG=1;
 }
-//复位移动标志位
+//复位移动标志�?
 void RESET_Move2_MOVE_FLAG(void)
 {
     Move2_MOVE_FLAG=0;
@@ -336,13 +344,13 @@ void RESET_Move2_MOVE_FLAG(void)
 u8 Move2_FLAG;
 //坐标
 s32 Move2_POS;
-//获取标志，坐标
+//获取标志，坐�?
 void GetMove2Pos(u8* Move2FLAG,s32* Pos)
 {
     *Move2FLAG=Move2_FLAG;
     *Pos=Move2_POS;
 }
-//设定标志，坐标
+//设定标志，坐�?
 void SetMove2Pos(u8 Move2FLAG,s32 Pos)
 {
     Move2_FLAG=Move2FLAG;
@@ -364,7 +372,7 @@ void resetMove3Motor()
     
     while  (1)//
     {
-            //获取状态
+            //获取状�?        
         TRY(bOk = MotorGetStatus(motorMoveS3.nAddr, &status));
         if (!bOk) {Set_Move3_State(Move3_Err_Transmition);return;}
         if (status == 0x0000) break;
@@ -396,10 +404,10 @@ void Move3SetPos(void)
     {
         TRY(bOk = MotorMoveTo(motorMoveS3.nAddr, Pos));
         if (!bOk) {Set_Move3_State(Move3_Err_Transmition);return;}
-        while  (1)//样品泵
+        while  (1)//样品�?        
         {
-            //获取状态
-            TRY(bOk = MotorGetStatus(motorMoveS3.nAddr, &status));
+            //获取状�?            
+          TRY(bOk = MotorGetStatus(motorMoveS3.nAddr, &status));
             if (!bOk) {Set_Move3_State(Move3_Err_Transmition);return;}
             if (status == 0x0000) break;
             //原点失败
@@ -447,7 +455,7 @@ void HandleMove3(void)
     {
         Set_Move3_State(Move2_Busy);
         RESET_Move3_R_FLAG();
-        Move1Reset();
+        resetMove3Motor();
     }
     if (IS_Move3_MOVE_FLAG())
     {
@@ -472,6 +480,10 @@ void Reset_Move3_Cancel_FLAG(void)
 }
 //复位标志
 u8 Move3_R_FLAG=0;
+u8 IS_Move3_R_FLAG(void)
+{
+    return Move3_R_FLAG;
+}
 //复位标志有效
 u8 GET_Move3_R_FLAG(void)
 {
@@ -487,19 +499,19 @@ void RESET_Move3_R_FLAG(void)
 {
     Move3_R_FLAG=0;
 }
-//移动标志位
+//移动标志�?
 u8 Move3_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move3_MOVE_FLAG(void)
 {
     return Move3_MOVE_FLAG;
 }
-//置位移动标志位
+//置位移动标志�?
 void SET_Move3_MOVE_FLAG(void)
 {
     Move3_MOVE_FLAG=1;
 }
-//复位移动标志位
+//复位移动标志�?
 void RESET_Move3_MOVE_FLAG(void)
 {
     Move3_MOVE_FLAG=0;
@@ -509,13 +521,13 @@ void RESET_Move3_MOVE_FLAG(void)
 u8 Move3_FLAG;
 //坐标
 s32 Move3_POS;
-//获取标志，坐标
+//获取标志，坐�?
 void GetMove3Pos(u8* Move3FLAG,s32* Pos)
 {
     *Move3FLAG=Move3_FLAG;
     *Pos=Move3_POS;
 }
-//设定标志，坐标
+//设定标志，坐�?
 void SetMove3Pos(u8 Move3FLAG,s32 Pos)
 {
     Move3_FLAG=Move3FLAG;
@@ -537,7 +549,7 @@ void resetMove4Motor()
     
     while  (1)//
     {
-            //获取状态
+            //获取状�?        
         TRY(bOk = MotorGetStatus(motorMoveS4.nAddr, &status));
         if (!bOk) {Set_Move4_State(Move4_Err_Transmition);return;}
         if (status == 0x0000) break;
@@ -569,10 +581,11 @@ void Move4SetPos(void)
     {
         TRY(bOk = MotorMoveTo(motorMoveS4.nAddr, Pos));
         if (!bOk) {Set_Move4_State(Move4_Err_Transmition);return;}
-        while  (1)//样品泵
+        while  (1)//样品�?        
         {
-            //获取状态
-            TRY(bOk = MotorGetStatus(motorMoveS4.nAddr, &status));
+            //获取状�?            
+          
+          TRY(bOk = MotorGetStatus(motorMoveS4.nAddr, &status));
             if (!bOk) {Set_Move4_State(Move4_Err_Transmition);return;}
             if (status == 0x0000) break;
             //原点失败
@@ -620,7 +633,7 @@ void HandleMove4(void)
     {
         Set_Move4_State(Move4_Busy);
         RESET_Move4_R_FLAG();
-        Move1Reset();
+        resetMove4Motor();
     }
     if (IS_Move4_MOVE_FLAG())
     {
@@ -645,6 +658,10 @@ void Reset_Move4_Cancel_FLAG(void)
 }
 //复位标志
 u8 Move4_R_FLAG=0;
+u8 IS_Move4_R_FLAG(void)
+{
+    return Move4_R_FLAG;
+}
 //复位标志有效
 u8 GET_Move4_R_FLAG(void)
 {
@@ -660,19 +677,19 @@ void RESET_Move4_R_FLAG(void)
 {
     Move4_R_FLAG=0;
 }
-//移动标志位
+//移动标志�?
 u8 Move4_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move4_MOVE_FLAG(void)
 {
     return Move4_MOVE_FLAG;
 }
-//置位移动标志位
+//置位移动标志�?
 void SET_Move4_MOVE_FLAG(void)
 {
     Move4_MOVE_FLAG=1;
 }
-//复位移动标志位
+//复位移动标志�?
 void RESET_Move4_MOVE_FLAG(void)
 {
     Move4_MOVE_FLAG=0;
@@ -682,13 +699,13 @@ void RESET_Move4_MOVE_FLAG(void)
 u8 Move4_FLAG;
 //坐标
 s32 Move4_POS;
-//获取标志，坐标
+//获取标志，坐�?
 void GetMove4Pos(u8* Move4FLAG,s32* Pos)
 {
     *Move4FLAG=Move4_FLAG;
     *Pos=Move4_POS;
 }
-//设定标志，坐标
+//设定标志，坐�?
 void SetMove4Pos(u8 Move4FLAG,s32 Pos)
 {
     Move4_FLAG=Move4FLAG;

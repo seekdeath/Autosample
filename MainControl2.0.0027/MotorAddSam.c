@@ -101,7 +101,7 @@ void HandleAdd1(void)
     {
         Set_Add1_State(Add1_Busy);
         RESET_Add1_R_FLAG();
-        Add1Reset();
+        resetAdd1Motor();
     }
     if (IS_Add1_MOVE_FLAG())
     {
@@ -127,6 +127,10 @@ void Reset_Add1_Cancel_FLAG(void)
 //复位标志
 u8 Add1_R_FLAG=0;
 //复位标志有效
+u8 IS_Add1_R_FLAG(void)
+{
+    return Add1_R_FLAG;
+}
 u8 GET_Add1_R_FLAG(void)
 {
     return Add1_R_FLAG;
@@ -274,7 +278,7 @@ void HandleAdd2(void)
     {
         Set_Add2_State(Add1_Busy);
         RESET_Add2_R_FLAG();
-        Add2Reset();
+        resetAdd2Motor();
     }
     if (IS_Add2_MOVE_FLAG())
     {
@@ -299,6 +303,10 @@ void Reset_Add2_Cancel_FLAG(void)
 }
 //复位标志
 u8 Add2_R_FLAG=0;
+u8 IS_Add2_R_FLAG(void)
+{
+    return Add2_R_FLAG;
+}
 //复位标志有效
 u8 GET_Add2_R_FLAG(void)
 {

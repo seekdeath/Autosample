@@ -1,7 +1,7 @@
-#include <includes.h>
-#include <MotorTrasmition.h>
-#include <Motor.h>
-#include <MotionErr.h>
+// #include <includes.h>
+// #include <MotorTrasmition.h>
+// #include <Motor.h>
+// #include <MotionErr.h>
 
 void resetAdd1Motor();
 ///
@@ -25,6 +25,7 @@ void Reset_Add1_Cancel_FLAG(void);
 //复位标志
 // u8 Add1_R_FLAG=0;
 //复位标志有效
+u8 IS_Add1_R_FLAG(void);
 u8 GET_Add1_R_FLAG(void);
 //设定复位标志有效
 void SET_Add1_R_FLAG(void);
@@ -70,6 +71,7 @@ void Reset_Add2_Cancel_FLAG(void);
 //复位标志
 // u8 Add2_R_FLAG=0;
 //复位标志有效
+u8 IS_Add2_R_FLAG(void);
 u8 GET_Add2_R_FLAG(void);
 //设定复位标志有效
 void SET_Add2_R_FLAG(void);

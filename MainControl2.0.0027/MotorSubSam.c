@@ -3,7 +3,7 @@
 #include <Motor.h>
 #include <MotionErr.h>
 #include <MotorSubSam.h>
-void resetSub1Motor()
+void resetSubMotor()
 {
     u8	bOk = 1;
 	u16	status;
@@ -18,8 +18,8 @@ void resetSub1Motor()
     
     while  (1)//
     {
-            //获取状态
-        TRY(bOk = MotorGetStatus(motorSubS.nAddr, &status));
+            //获取状�?        
+            TRY(bOk = MotorGetStatus(motorSubS.nAddr, &status));
         if (!bOk) {Set_Sub_State(Sub_Err_Transmition);return;}
         if (status == 0x0000) break;
             //原点失败
@@ -50,9 +50,9 @@ void SubSetPos(void)
     {
         TRY(bOk = MotorMoveTo(motorSubS.nAddr, Pos));
         if (!bOk) {Set_Sub_State(Sub_Err_Transmition);return;}
-        while  (1)//样品泵
+        while  (1)//样品�?        
         {
-            //获取状态
+            //获取状�?            
             TRY(bOk = MotorGetStatus(motorSubS.nAddr, &status));
             if (!bOk) {Set_Sub_State(Sub_Err_Transmition);return;}
             if (status == 0x0000) break;
@@ -101,7 +101,7 @@ void HandleSub(void)
     {
         Set_Sub_State(Sub_Busy);
         RESET_Sub_R_FLAG();
-        SubReset();
+        resetSubMotor();
     }
     if (IS_Sub_MOVE_FLAG())
     {
@@ -126,6 +126,10 @@ void Reset_Sub_Cancel_FLAG(void)
 }
 //复位标志
 u8 Sub_R_FLAG=0;
+u8 IS_Sub_R_FLAG(void)
+{
+    return Sub_R_FLAG;
+}
 //复位标志有效
 u8 GET_Sub_R_FLAG(void)
 {
@@ -137,23 +141,25 @@ void SET_Sub_R_FLAG(void)
     Sub_R_FLAG=1;
 }
 //取消复位标志
+
 void RESET_Sub_R_FLAG(void)
 {
     Sub_R_FLAG=0;
 }
-//移动标志位
+//移动标志�?
 u8 Sub_MOVE_FLAG=0;
 //移动标志位有效？
+
 u8 IS_Sub_MOVE_FLAG(void)
 {
     return Sub_MOVE_FLAG;
 }
-//置位移动标志位
+//置位移动标志�?
 void SET_Sub_MOVE_FLAG(void)
 {
     Sub_MOVE_FLAG=1;
 }
-//复位移动标志位
+//复位移动标志�?
 void RESET_Sub_MOVE_FLAG(void)
 {
     Sub_MOVE_FLAG=0;
@@ -163,13 +169,13 @@ void RESET_Sub_MOVE_FLAG(void)
 u8 Sub_FLAG;
 //坐标
 s32 Sub_POS;
-//获取标志，坐标
+//获取标志，坐�?
 void GetSubPos(u8* SubFLAG,s32* Pos)
 {
     *SubFLAG=Sub_FLAG;
     *Pos=Sub_POS;
 }
-//设定标志，坐标
+//设定标志，坐�?
 void SetSubPos(u8 SubFLAG,s32 Pos)
 {
     Sub_FLAG=SubFLAG;

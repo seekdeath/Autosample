@@ -9,14 +9,10 @@
 #include  <stm32f10x_lib.h>
 #include  <stm32f10x_systick.h>
 #include  <stm32f10x_usart.h>
-#include  <MotorXYZ.h>
-#include  <MotorSyringe.h>
-#include  <MotorHook.h>
-#include  <MotorCollect.h>
+
 #include  <Motor.h>
 #include  <MotionErr.h>
 #include  <Motortrasmition.h>
-#include  <WaterPump.h>
 #include  <i2c.h>
 #include  <MotorTrasmition.h>
 //#include  <motor.h>
@@ -210,11 +206,11 @@ void HandleCommand()
          case 0x02:	//查询系统状态("02")
            switch (PackByte(FRAME_DATA))
            {
-              case 0x01:SendCommand("0201%02hX",Get_XYZ_State());break;
-              case 0x02:SendCommand("0202%02hX",Get_Hook_State());break;
-              case 0x03:SendCommand("0203%02hX",Get_Syringe_State());break;
-              case 0x04:SendCommand("0204%02hX",Get_Collect_State());break;
-              case 0x05:SendCommand("0205%02hX",Get_WaterPump_State());break;
+//              case 0x01:SendCommand("0201%02hX",Get_XYZ_State());break;
+//              case 0x02:SendCommand("0202%02hX",Get_Hook_State());break;
+//              case 0x03:SendCommand("0203%02hX",Get_Syringe_State());break;
+//              case 0x04:SendCommand("0204%02hX",Get_Collect_State());break;
+//              case 0x05:SendCommand("0205%02hX",Get_WaterPump_State());break;
            }
            break;
          case 0x03:	//写 EEPROM("03")
@@ -269,38 +265,38 @@ void HandleCommand()
 //           }
          case 0x05:     //系统复位急停
            {
-                switch (PackByte(FRAME_DATA))
-                {
-                      case 0x01:
-                           //if (Get_XYZ_State()==0)
-                           //{
-                               Set_XYZ_State(XYZ_Idle);
-                               if (FRAME_DATA[2]=='0')Set_XYZ_R_FLAG();
-                               else if (FRAME_DATA[2]=='1')Set_XYZ_Cancel();
-                            //}
-                            
-                            SendCommand("05");
-                            break;
-                      
-                    case 0x02:
-                            //if (Get_Hook_State()==0)
-                            //{
-                               Set_Hook_State(Hook_Idle);
-                               if (FRAME_DATA[2]=='0')Set_Hook_R_FLAG();
-                               else if (FRAME_DATA[2]=='1')Set_Hook_Cancel_FLAG();
-                            //}
-                            SendCommand("05");
-                            break;
-                      
-                    case 0x03:
-                            //if (Get_Syringe_State()==0){
-                                Set_Syringe_State(Syringe_Idle);
-                                if (FRAME_DATA[2]=='0')SET_Syringe_R_FLAG();
-                                else if (FRAME_DATA[2]=='1')Set_Syringe_Cancel_FLAG();
-                            //    }
-                            SendCommand("05");
-                            break;
-                }
+//                switch (PackByte(FRAME_DATA))
+//                {
+//                      case 0x01:
+//                           //if (Get_XYZ_State()==0)
+//                           //{
+//                               Set_XYZ_State(XYZ_Idle);
+//                               if (FRAME_DATA[2]=='0')Set_XYZ_R_FLAG();
+//                               else if (FRAME_DATA[2]=='1')Set_XYZ_Cancel();
+//                            //}
+//                            
+//                            SendCommand("05");
+//                            break;
+//                      
+//                    case 0x02:
+//                            //if (Get_Hook_State()==0)
+//                            //{
+//                               Set_Hook_State(Hook_Idle);
+//                               if (FRAME_DATA[2]=='0')Set_Hook_R_FLAG();
+//                               else if (FRAME_DATA[2]=='1')Set_Hook_Cancel_FLAG();
+//                            //}
+//                            SendCommand("05");
+//                            break;
+//                      
+//                    case 0x03:
+//                            //if (Get_Syringe_State()==0){
+//                                Set_Syringe_State(Syringe_Idle);
+//                                if (FRAME_DATA[2]=='0')SET_Syringe_R_FLAG();
+//                                else if (FRAME_DATA[2]=='1')Set_Syringe_Cancel_FLAG();
+//                            //    }
+//                            SendCommand("05");
+//                            break;
+//                }
            }
            break;
          case 0x06:     //锁定/释放电机("06")
@@ -326,219 +322,219 @@ void HandleCommand()
           
         case 0x08:      //设置XYZ加样臂坐标
           {
-              s32 XPos=0,YPos=0;
-              u8 Z1Z2Flag = 0xFF;
-              s32 Z1Pos=0,Z2Pos=0;
-              Z1Z2Flag = FRAME_DATA[0]-'0';
-              sscanf((char const *)&FRAME_DATA[1],"%08lX%08lX%08lX%08lX",&XPos,&YPos,&Z1Pos,&Z2Pos);
-//              if (Get_XYZ_State()==0){
-                  Set_XYZ_Pos(XPos,YPos);
-                  SetZ1Z2Pos(Z1Z2Flag,Z1Pos,Z2Pos);
-                  Set_XYZ_XY_FLAG();
-//              }
+//              s32 XPos=0,YPos=0;
+//              u8 Z1Z2Flag = 0xFF;
+//              s32 Z1Pos=0,Z2Pos=0;
+//              Z1Z2Flag = FRAME_DATA[0]-'0';
+//              sscanf((char const *)&FRAME_DATA[1],"%08lX%08lX%08lX%08lX",&XPos,&YPos,&Z1Pos,&Z2Pos);
+////              if (Get_XYZ_State()==0){
+//                  Set_XYZ_Pos(XPos,YPos);
+//                  SetZ1Z2Pos(Z1Z2Flag,Z1Pos,Z2Pos);
+//                  Set_XYZ_XY_FLAG();
+////              }
               SendCommand("08");
           }
           break;
           
         case 0x09:      //设置加样针坐标
           {
-              u8 Z1Z2Flag = 0xFF;
-              s32 Pos1=0,Pos2=0;
-              //if (Get_XYZ_State()==0)
-              //{
-                  Z1Z2Flag = FRAME_DATA[0]-'0';
-                  sscanf((char const *)&FRAME_DATA[1],"%08lX%08lX",&Pos1,&Pos2);
-                  switch(Z1Z2Flag)
-                  {
-                    //加样针移动
-                    case 0:
-                      SetZ1Z2Pos(Z1Z2Flag,Pos1,Pos2);
-                      Set_XYZ_Z1Z2_FLAG();
-                      break;
-                      
-                    //样品针液位感应
-                    case 1:
-                      SetZ1Z2Pos(Z1Z2Flag,Pos1,Pos2);
-                      Set_XYZ_TL_FLAG();
-                      break;
-                      
-                    //试剂针液位感应
-                    case 2:
-                      SetZ1Z2Pos(Z1Z2Flag,Pos1,Pos2);
-                      Set_XYZ_TL_FLAG();
-                      break;
-                  }
-              //}
+//              u8 Z1Z2Flag = 0xFF;
+//              s32 Pos1=0,Pos2=0;
+//              //if (Get_XYZ_State()==0)
+//              //{
+//                  Z1Z2Flag = FRAME_DATA[0]-'0';
+//                  sscanf((char const *)&FRAME_DATA[1],"%08lX%08lX",&Pos1,&Pos2);
+//                  switch(Z1Z2Flag)
+//                  {
+//                    //加样针移动
+//                    case 0:
+//                      SetZ1Z2Pos(Z1Z2Flag,Pos1,Pos2);
+//                      Set_XYZ_Z1Z2_FLAG();
+//                      break;
+//                      
+//                    //样品针液位感应
+//                    case 1:
+//                      SetZ1Z2Pos(Z1Z2Flag,Pos1,Pos2);
+//                      Set_XYZ_TL_FLAG();
+//                      break;
+//                      
+//                    //试剂针液位感应
+//                    case 2:
+//                      SetZ1Z2Pos(Z1Z2Flag,Pos1,Pos2);
+//                      Set_XYZ_TL_FLAG();
+//                      break;
+//                  }
+//              //}
               SendCommand("09");
           }
           break;
         case 0x0A:      //读取XYZ坐标
           {
-              s32 XPos,YPos,Z1Pos,Z2Pos;
-              ReadXYZPos(&XPos,&YPos,&Z1Pos,&Z2Pos);
-              SendCommand("0A%08lX%08lX%08lX%08lX",XPos,YPos,Z1Pos,Z2Pos);
+//              s32 XPos,YPos,Z1Pos,Z2Pos;
+//              ReadXYZPos(&XPos,&YPos,&Z1Pos,&Z2Pos);
+//              SendCommand("0A%08lX%08lX%08lX%08lX",XPos,YPos,Z1Pos,Z2Pos);
           }
           break;
         case 0x0B:      //设置杯钩参数 
           {
-              s16 Pos1,Pos2;
-              u8  flag,Pos3;
-//              if (Get_Hook_State()==0)
-//              {
-                  flag = PackByte(FRAME_DATA);
-                  sscanf((char const *)&FRAME_DATA[2],"%04hX%04hX",&Pos1,&Pos2);
-                  Pos3=PackByte(&FRAME_DATA[10]);
-                  SetHookParam(flag,Pos1,Pos2,Pos3);
-                  Set_Hook_FLAG();
-//              }
+//              s16 Pos1,Pos2;
+//              u8  flag,Pos3;
+////              if (Get_Hook_State()==0)
+////              {
+//                  flag = PackByte(FRAME_DATA);
+//                  sscanf((char const *)&FRAME_DATA[2],"%04hX%04hX",&Pos1,&Pos2);
+//                  Pos3=PackByte(&FRAME_DATA[10]);
+//                  SetHookParam(flag,Pos1,Pos2,Pos3);
+//                  Set_Hook_FLAG();
+////              }
               SendCommand("0B");
           }
           break;
           case 0x0C:      //读取杯钩参数 
           {
-              s32 Pos1,Pos2;
-              u8 Pos3,bOk=1;
-              //u8  flag,bOk=1;
-              //flag=PackByte(FRAME_DATA);
-              //if (flag==0x01)
-              //{
-              TRY(bOk = MotorGetPos(MotorMotiveHook.nAddr,&Pos1));
-              //}
-              //else if (flag==0x02)
-              //{
-              TRY(bOk = MotorGetPos(MotorUDHook.nAddr,&Pos2));
-              //}
-              //else if (flag==0x03)
-              //{
-              if (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_10))
-                 Pos3=0x01;
-              else
-                 Pos3=0x00;
-              //}
-              bOk=bOk;
-              SendCommand("0C%04hX%04hX%02hX",Pos1,Pos2,Pos3);
+//              s32 Pos1,Pos2;
+//              u8 Pos3,bOk=1;
+//              //u8  flag,bOk=1;
+//              //flag=PackByte(FRAME_DATA);
+//              //if (flag==0x01)
+//              //{
+//              TRY(bOk = MotorGetPos(MotorMotiveHook.nAddr,&Pos1));
+//              //}
+//              //else if (flag==0x02)
+//              //{
+//              TRY(bOk = MotorGetPos(MotorUDHook.nAddr,&Pos2));
+//              //}
+//              //else if (flag==0x03)
+//              //{
+//              if (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_10))
+//                 Pos3=0x01;
+//              else
+//                 Pos3=0x00;
+//              //}
+//              bOk=bOk;
+//              SendCommand("0C%04hX%04hX%02hX",Pos1,Pos2,Pos3);
           }
           break;
           case 0x0D:      //输送测试杯子 
           {
-              u16  time;
-              
-              time=PackWord(FRAME_DATA);
-              Set_Collect_State(Collect_Idle);
-              SetCollectTime(time);
-              Set_Collect_FLAG();
-              
+//              u16  time;
+//              
+//              time=PackWord(FRAME_DATA);
+//              Set_Collect_State(Collect_Idle);
+//              SetCollectTime(time);
+//              Set_Collect_FLAG();
+//              
               SendCommand("0D");
           }
           break;
           case 0x0E:      //设置加样泵坐标 
           {
-              s32 param;
-              u8  flag;
-              u16 Per;
-              flag = PackByte(&FRAME_DATA[0]);
-              sscanf((char const *)&FRAME_DATA[2],"%08lX",&param);
-              Per = PackByte(&FRAME_DATA[10]);
-              SetSyringePos(flag,param,Per);
-              SET_Syringe_MOVE_FLAG();
+//              s32 param;
+//              u8  flag;
+//              u16 Per;
+//              flag = PackByte(&FRAME_DATA[0]);
+//              sscanf((char const *)&FRAME_DATA[2],"%08lX",&param);
+//              Per = PackByte(&FRAME_DATA[10]);
+//              SetSyringePos(flag,param,Per);
+//              SET_Syringe_MOVE_FLAG();
               SendCommand("0E");
           }
           break;
           case 0x0F:      //读取加样泵坐标 
           {
-              u8  bOk=1;
-              s32 Pos;
-              u8  flag;
-              flag = PackByte(&FRAME_DATA[0]);
-              if (flag == 0x01)
-              {
-                  TRY(bOk = MotorGetPos(MotorSyringSample.nAddr,&Pos));
-                  bOk = bOk;
-                  SendCommand("0F%08lX",Pos);
-              }
-              else if (flag == 0x02)
-              {
-                  TRY(bOk = MotorGetPos(MotorSyringReagent.nAddr,&Pos));
-                  bOk = bOk;
-                  SendCommand("0F%08lX",Pos);
-              }
+//              u8  bOk=1;
+//              s32 Pos;
+//              u8  flag;
+//              flag = PackByte(&FRAME_DATA[0]);
+//              if (flag == 0x01)
+//              {
+//                  TRY(bOk = MotorGetPos(MotorSyringSample.nAddr,&Pos));
+//                  bOk = bOk;
+//                  SendCommand("0F%08lX",Pos);
+//              }
+//              else if (flag == 0x02)
+//              {
+//                  TRY(bOk = MotorGetPos(MotorSyringReagent.nAddr,&Pos));
+//                  bOk = bOk;
+//                  SendCommand("0F%08lX",Pos);
+//              }
           }
           break;
           case 0x10:      //转停冲洗泵 
           {
-              u8 flag =0;
-              u8 Channel=0;
-              u8 ONOFF[3]={0};
-              u16 time[3]={0};
-              
-              u8 c = FRAME_DATA[0];
-              if (c != '\0')//有参数
-              {
-                flag=PackByte(&FRAME_DATA[0]);
-                for (Channel=0;Channel<3;Channel++)
-                {
-                  ONOFF[Channel]=FRAME_DATA[2+Channel*7]-'0';
-                  time[Channel]=PackWord(&FRAME_DATA[5+Channel*7]);
-                  if (flag&(0x01<<Channel))
-                    SetWaterPumpParam(Channel,ONOFF[Channel],time[Channel]);
-                }
-              }
-              //读取冲洗泵状态
-              for (Channel=0;Channel<3;Channel++)
-                GetWaterPumpParam(Channel,&ONOFF[Channel],&time[Channel]);
-              SendCommand("10%hX%hX%hX",ONOFF[0],ONOFF[1],ONOFF[2]);
+//              u8 flag =0;
+//              u8 Channel=0;
+//              u8 ONOFF[3]={0};
+//              u16 time[3]={0};
+//              
+//              u8 c = FRAME_DATA[0];
+//              if (c != '\0')//有参数
+//              {
+//                flag=PackByte(&FRAME_DATA[0]);
+//                for (Channel=0;Channel<3;Channel++)
+//                {
+//                  ONOFF[Channel]=FRAME_DATA[2+Channel*7]-'0';
+//                  time[Channel]=PackWord(&FRAME_DATA[5+Channel*7]);
+//                  if (flag&(0x01<<Channel))
+//                    SetWaterPumpParam(Channel,ONOFF[Channel],time[Channel]);
+//                }
+//              }
+//              //读取冲洗泵状态
+//              for (Channel=0;Channel<3;Channel++)
+//                GetWaterPumpParam(Channel,&ONOFF[Channel],&time[Channel]);
+//              SendCommand("10%hX%hX%hX",ONOFF[0],ONOFF[1],ONOFF[2]);
           }
           break;
           case 0x11:     //蜂鸣器
           {
-              u8 state;
-              u16 OnTime,OffTime;
-              state=FRAME_DATA[0]-'0';
-              OnTime=PackWord(&FRAME_DATA[1]);
-              OffTime=PackWord(&FRAME_DATA[5]);
-              if (state)
-                SET_BEEP_CON();
-              else
-                RESET_BEEP_CON();
-              SetBeepParam(OnTime,OffTime);
-              SendCommand("11");
+//              u8 state;
+//              u16 OnTime,OffTime;
+//              state=FRAME_DATA[0]-'0';
+//              OnTime=PackWord(&FRAME_DATA[1]);
+//              OffTime=PackWord(&FRAME_DATA[5]);
+//              if (state)
+//                SET_BEEP_CON();
+//              else
+//                RESET_BEEP_CON();
+//              SetBeepParam(OnTime,OffTime);
+//              SendCommand("11");
           }
           break;
           case 0x12:     //开合电磁阀
           {
-              u8 select,state;
-              select=PackByte(FRAME_DATA);
-              state=PackByte(&FRAME_DATA[2]);
-              
-              switch(select)
-              {
-              case 1:
-              case 2:
-                   //1,2号电磁阀使用加样泵控制板接口
-                   SetSyringePos(select+3,state,0);
-                   SET_Syringe_MOVE_FLAG();
-                   break;
-                   /*if (state)
-                      GPIO_SetBits(GPIOB,GPIO_Pin_10);
-                   else
-                      GPIO_ResetBits(GPIOB,GPIO_Pin_10);
-                   break;*/
-              
-              case 3:
-                   //1,2,3号电磁阀使用主控制板接口控制
-                   /*SetMagneticSelect(select);
-                   SetMagneticState(state);
-                   SET_MAGNETIC_ACT();
-                   break;*/
-                   if (state)
-                      GPIO_SetBits(GPIOB,GPIO_Pin_13);
-                   else
-                      GPIO_ResetBits(GPIOB,GPIO_Pin_13);
-                   break;
-              case 4:
-              case 5:
-                   break;
-              }
+//              u8 select,state;
+//              select=PackByte(FRAME_DATA);
+//              state=PackByte(&FRAME_DATA[2]);
+//              
+//              switch(select)
+//              {
+//              case 1:
+//              case 2:
+//                   //1,2号电磁阀使用加样泵控制板接口
+//                   SetSyringePos(select+3,state,0);
+//                   SET_Syringe_MOVE_FLAG();
+//                   break;
+//                   /*if (state)
+//                      GPIO_SetBits(GPIOB,GPIO_Pin_10);
+//                   else
+//                      GPIO_ResetBits(GPIOB,GPIO_Pin_10);
+//                   break;*/
+//              
+//              case 3:
+//                   //1,2,3号电磁阀使用主控制板接口控制
+//                   /*SetMagneticSelect(select);
+//                   SetMagneticState(state);
+//                   SET_MAGNETIC_ACT();
+//                   break;*/
+//                   if (state)
+//                      GPIO_SetBits(GPIOB,GPIO_Pin_13);
+//                   else
+//                      GPIO_ResetBits(GPIOB,GPIO_Pin_13);
+//                   break;
+//              case 4:
+//              case 5:
+//                   break;
+//              }
               SendCommand("12");
           }
           break;
@@ -570,138 +566,138 @@ void HandleCommand()
         
           case 0x15:
               {
-                u8 uMotorAdr;
-                u16   nSpeedMin;
-                u16   nSpeedMax;
-                u16   nSpeedStep;
-                
-                uMotorAdr = FRAME_DATA[0];
-                
-                nSpeedMin = PackWord(&FRAME_DATA[1]);
-                nSpeedMax = PackWord(&FRAME_DATA[5]);
-                nSpeedStep = PackByte(&FRAME_DATA[9]);
+//                u8 uMotorAdr;
+//                u16   nSpeedMin;
+//                u16   nSpeedMax;
+//                u16   nSpeedStep;
+//                
+//                uMotorAdr = FRAME_DATA[0];
+//                
+//                nSpeedMin = PackWord(&FRAME_DATA[1]);
+//                nSpeedMax = PackWord(&FRAME_DATA[5]);
+//                nSpeedStep = PackByte(&FRAME_DATA[9]);
 
-                switch(uMotorAdr)
-                {
-                  case MOTOR_Z1_ADDR:
-                      MotorSample.nSpeedMin = nSpeedMin;
-                      MotorSample.nSpeedMax = nSpeedMax;
-                      MotorSample.nSpeedStep = nSpeedStep;
-                      InitXYZMotor();
-                      break;
-                
-                  case MOTOR_Z2_ADDR:
-                      MotorRegent.nSpeedMin = nSpeedMin;
-                      MotorRegent.nSpeedMax = nSpeedMax;
-                      MotorRegent.nSpeedStep = nSpeedStep;
-                      InitXYZMotor();
-                      break;
-                   
-                  case MOTOR_X_ADDR:
-                      MotorX.nSpeedMin = nSpeedMin;
-                      MotorX.nSpeedMax = nSpeedMax;
-                      MotorX.nSpeedStep = nSpeedStep;
-                      InitXYZMotor();
-                      break;
-                
-                  case MOTOR_Y_ADDR:
-                      MotorY.nSpeedMin = nSpeedMin;
-                      MotorY.nSpeedMax = nSpeedMax;
-                      MotorY.nSpeedStep = nSpeedStep;
-                      InitXYZMotor();
-                      break;
-              
-                  case MOTOR_HOOK_ADDR:
-                      MotorMotiveHook.nSpeedMin = nSpeedMin;
-                      MotorMotiveHook.nSpeedMax = nSpeedMax;
-                      MotorMotiveHook.nSpeedStep = nSpeedStep;
-                      InitHookMotor();
-                      break;
-              
-                  case MOTOR_HOOKUD_ADDR:
-                      MotorUDHook.nSpeedMin = nSpeedMin;
-                      MotorUDHook.nSpeedMax = nSpeedMax;
-                      MotorUDHook.nSpeedStep = nSpeedStep;
-                      InitHookMotor();
-                      break;
-                
-                  case MOTOR_SYRINGE_ADDR:
-                      MotorSyringSample.nSpeedMin = nSpeedMin;
-                      MotorSyringSample.nSpeedMax = nSpeedMax;
-                      MotorSyringSample.nSpeedStep = nSpeedStep;
-                      InitSyringeMotor();
-                      break;
-                
-                  case MOTOR_DRAIN_ADDR:
-                      MotorSyringReagent.nSpeedMin = nSpeedMin;
-                      MotorSyringReagent.nSpeedMax = nSpeedMax;
-                      MotorSyringReagent.nSpeedStep = nSpeedStep;
-                      InitSyringeMotor();
-                      break;
-                }
+//                switch(uMotorAdr)
+//                {
+//                  case MOTOR_Z1_ADDR:
+//                      MotorSample.nSpeedMin = nSpeedMin;
+//                      MotorSample.nSpeedMax = nSpeedMax;
+//                      MotorSample.nSpeedStep = nSpeedStep;
+//                      InitXYZMotor();
+//                      break;
+//                
+//                  case MOTOR_Z2_ADDR:
+//                      MotorRegent.nSpeedMin = nSpeedMin;
+//                      MotorRegent.nSpeedMax = nSpeedMax;
+//                      MotorRegent.nSpeedStep = nSpeedStep;
+//                      InitXYZMotor();
+//                      break;
+//                   
+//                  case MOTOR_X_ADDR:
+//                      MotorX.nSpeedMin = nSpeedMin;
+//                      MotorX.nSpeedMax = nSpeedMax;
+//                      MotorX.nSpeedStep = nSpeedStep;
+//                      InitXYZMotor();
+//                      break;
+//                
+//                  case MOTOR_Y_ADDR:
+//                      MotorY.nSpeedMin = nSpeedMin;
+//                      MotorY.nSpeedMax = nSpeedMax;
+//                      MotorY.nSpeedStep = nSpeedStep;
+//                      InitXYZMotor();
+//                      break;
+//              
+//                  case MOTOR_HOOK_ADDR:
+//                      MotorMotiveHook.nSpeedMin = nSpeedMin;
+//                      MotorMotiveHook.nSpeedMax = nSpeedMax;
+//                      MotorMotiveHook.nSpeedStep = nSpeedStep;
+//                      InitHookMotor();
+//                      break;
+//              
+//                  case MOTOR_HOOKUD_ADDR:
+//                      MotorUDHook.nSpeedMin = nSpeedMin;
+//                      MotorUDHook.nSpeedMax = nSpeedMax;
+//                      MotorUDHook.nSpeedStep = nSpeedStep;
+//                      InitHookMotor();
+//                      break;
+//                
+//                  case MOTOR_SYRINGE_ADDR:
+//                      MotorSyringSample.nSpeedMin = nSpeedMin;
+//                      MotorSyringSample.nSpeedMax = nSpeedMax;
+//                      MotorSyringSample.nSpeedStep = nSpeedStep;
+//                      InitSyringeMotor();
+//                      break;
+//                
+//                  case MOTOR_DRAIN_ADDR:
+//                      MotorSyringReagent.nSpeedMin = nSpeedMin;
+//                      MotorSyringReagent.nSpeedMax = nSpeedMax;
+//                      MotorSyringReagent.nSpeedStep = nSpeedStep;
+//                      InitSyringeMotor();
+//                      break;
+//                }
                 SendCommand("15");
              }
              break;
     
        case 0x16:
             {
-              u8 uMotorAdr;
-              uMotorAdr = FRAME_DATA[0];
-              u16   nSpeedMin;
-              u16   nSpeedMax;
-              u16   nSpeedStep;
+//              u8 uMotorAdr;
+//              uMotorAdr = FRAME_DATA[0];
+//              u16   nSpeedMin;
+//              u16   nSpeedMax;
+//              u16   nSpeedStep;
               
-              switch(uMotorAdr)
-              {
-                case MOTOR_Z1_ADDR:
-                    nSpeedMin = MotorSample.nSpeedMin;
-                    nSpeedMax = MotorSample.nSpeedMax;
-                    nSpeedStep = MotorSample.nSpeedStep;
-                    break;
-                
-                case MOTOR_Z2_ADDR:
-                    nSpeedMin = MotorRegent.nSpeedMin;
-                    nSpeedMax = MotorRegent.nSpeedMax;
-                    nSpeedStep = MotorRegent.nSpeedStep;
-                    break;
-                   
-                case MOTOR_X_ADDR:
-                    nSpeedMin = MotorX.nSpeedMax;
-                    nSpeedMax = MotorX.nSpeedMin;
-                    nSpeedStep = MotorX.nSpeedStep;
-                    break;
-                
-                case MOTOR_Y_ADDR:
-                    nSpeedMin = MotorY.nSpeedMax;
-                    nSpeedMax = MotorY.nSpeedMin;
-                    nSpeedStep = MotorY.nSpeedStep;
-                    break;
-              
-                case MOTOR_HOOK_ADDR:
-                    nSpeedMin =  MotorMotiveHook.nSpeedMax;
-                    nSpeedMax =  MotorMotiveHook.nSpeedMin;
-                    nSpeedStep = MotorMotiveHook.nSpeedStep;
-                    break;
-              
-                case MOTOR_HOOKUD_ADDR:
-                    nSpeedMin = MotorUDHook.nSpeedMax;
-                    nSpeedMax = MotorUDHook.nSpeedMin;
-                    nSpeedStep =MotorUDHook.nSpeedStep;
-                    break;
-                
-                case MOTOR_SYRINGE_ADDR:
-                    nSpeedMin = MotorSyringSample.nSpeedMax;
-                    nSpeedMax = MotorSyringSample.nSpeedMin;
-                    nSpeedStep = MotorSyringSample.nSpeedStep;
-                    break;
-                
-                case MOTOR_DRAIN_ADDR:
-                    nSpeedMin = MotorSyringReagent.nSpeedMax;
-                    nSpeedMax = MotorSyringReagent.nSpeedMin;
-                    nSpeedStep = MotorSyringReagent.nSpeedStep;
-                    break;
-              }
-              SendCommand("16%04hX%04hX%02hX",nSpeedMin,nSpeedMax,nSpeedStep);
+//              switch(uMotorAdr)
+//              {
+//                case MOTOR_Z1_ADDR:
+//                    nSpeedMin = MotorSample.nSpeedMin;
+//                    nSpeedMax = MotorSample.nSpeedMax;
+//                    nSpeedStep = MotorSample.nSpeedStep;
+//                    break;
+//                
+//                case MOTOR_Z2_ADDR:
+//                    nSpeedMin = MotorRegent.nSpeedMin;
+//                    nSpeedMax = MotorRegent.nSpeedMax;
+//                    nSpeedStep = MotorRegent.nSpeedStep;
+//                    break;
+//                   
+//                case MOTOR_X_ADDR:
+//                    nSpeedMin = MotorX.nSpeedMax;
+//                    nSpeedMax = MotorX.nSpeedMin;
+//                    nSpeedStep = MotorX.nSpeedStep;
+//                    break;
+//                
+//                case MOTOR_Y_ADDR:
+//                    nSpeedMin = MotorY.nSpeedMax;
+//                    nSpeedMax = MotorY.nSpeedMin;
+//                    nSpeedStep = MotorY.nSpeedStep;
+//                    break;
+//              
+//                case MOTOR_HOOK_ADDR:
+//                    nSpeedMin =  MotorMotiveHook.nSpeedMax;
+//                    nSpeedMax =  MotorMotiveHook.nSpeedMin;
+//                    nSpeedStep = MotorMotiveHook.nSpeedStep;
+//                    break;
+//              
+//                case MOTOR_HOOKUD_ADDR:
+//                    nSpeedMin = MotorUDHook.nSpeedMax;
+//                    nSpeedMax = MotorUDHook.nSpeedMin;
+//                    nSpeedStep =MotorUDHook.nSpeedStep;
+//                    break;
+//                
+//                case MOTOR_SYRINGE_ADDR:
+//                    nSpeedMin = MotorSyringSample.nSpeedMax;
+//                    nSpeedMax = MotorSyringSample.nSpeedMin;
+//                    nSpeedStep = MotorSyringSample.nSpeedStep;
+//                    break;
+//                
+//                case MOTOR_DRAIN_ADDR:
+//                    nSpeedMin = MotorSyringReagent.nSpeedMax;
+//                    nSpeedMax = MotorSyringReagent.nSpeedMin;
+//                    nSpeedStep = MotorSyringReagent.nSpeedStep;
+//                    break;
+//              }
+//              SendCommand("16%04hX%04hX%02hX",nSpeedMin,nSpeedMax,nSpeedStep);
             }
          break;
          case 0x17:     //控制缺液报警

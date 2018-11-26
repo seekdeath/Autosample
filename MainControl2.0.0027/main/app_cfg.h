@@ -107,12 +107,12 @@
 #define  APP_TASK_START_STK_SIZE                    64
 #define  APP_TASK_Uart1_Deal_STK_SIZE               256//128
 #define  APP_TASK_Add1_STK_SIZE                     128
-#define  APP_TASK_Add2_STK_SIZE                     128//64
-#define  APP_TASK_Move1_STK_SIZE                    128
-#define  APP_TASK_Move2_STK_SIZE                    128//64
-#define  APP_TASK_Move3_STK_SIZE                    128
-#define  APP_TASK_Move4_STK_SIZE                    128//32
-#define  APP_TASK_Sub_STK_SIZE                      128
+#define  APP_TASK_Add2_STK_SIZE                     64//64
+#define  APP_TASK_Move1_STK_SIZE                    64
+#define  APP_TASK_Move2_STK_SIZE                    64//64
+#define  APP_TASK_Move3_STK_SIZE                    64
+#define  APP_TASK_Move4_STK_SIZE                    64//32
+#define  APP_TASK_Sub_STK_SIZE                      64
 
 
 /*
