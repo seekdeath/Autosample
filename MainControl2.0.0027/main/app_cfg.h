@@ -74,6 +74,7 @@
 #define  APP_TASK_HandleMove3_PRIO                  OS_LOWEST_PRIO-11
 #define  APP_TASK_HandleMove4_PRIO                  OS_LOWEST_PRIO-9
 #define  APP_TASK_HandleSub_PRIO                    OS_LOWEST_PRIO-12
+#define  APP_TASK_PRIO                              OS_LOWEST_PRIO-14
 
 // #define  APP_TASK_HandleXYZ_PRIO                    OS_LOWEST_PRIO-10
 // #define  APP_TASK_HandleSyringe_PRIO                OS_LOWEST_PRIO-8
@@ -106,13 +107,14 @@
 
 #define  APP_TASK_START_STK_SIZE                    64
 #define  APP_TASK_Uart1_Deal_STK_SIZE               256//128
-#define  APP_TASK_Add1_STK_SIZE                     128
+#define  APP_TASK_Add1_STK_SIZE                     64
 #define  APP_TASK_Add2_STK_SIZE                     64//64
 #define  APP_TASK_Move1_STK_SIZE                    64
 #define  APP_TASK_Move2_STK_SIZE                    64//64
 #define  APP_TASK_Move3_STK_SIZE                    64
 #define  APP_TASK_Move4_STK_SIZE                    64//32
 #define  APP_TASK_Sub_STK_SIZE                      64
+#define  APP_TASK_STK_SIZE                          128
 
 
 /*

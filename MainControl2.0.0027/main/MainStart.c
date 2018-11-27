@@ -107,10 +107,10 @@ static  void  App_TaskStart (void *p_arg)
         //   continue;
         // }
         
-            GPIO_SetBits(GPIOA,GPIO_Pin_4);
-            OSTimeDly(200);
-    GPIO_ResetBits(GPIOA,GPIO_Pin_4);
-    OSTimeDly(200);
+        GPIO_SetBits(GPIOA,GPIO_Pin_4);
+        OSTimeDly(200);
+        GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+        OSTimeDly(200);
      
     }
     
@@ -241,10 +241,23 @@ static  void  App_TaskCreate (void)
     OSTaskNameSet(APP_TASK_HandleSub_PRIO, "TaskSub", &os_err);
 #endif
 
+os_err = OSTaskCreateExt((void (*)(void *))appTask,
+                             (void          * ) 0,
+                             (OS_STK        * )&appTaskStk[APP_TASK_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_PRIO,
+                             (INT16U          ) APP_TASK_PRIO,
+                             (OS_STK        * )&appTaskStk[0],
+                             (INT32U          ) APP_TASK_STK_SIZE,
+                             (void          * ) 0,
+                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
+
+#if (OS_TASK_NAME_SIZE >= 10)
+    OSTaskNameSet(APP_TASK_PRIO, "appTask", &os_err);
+#endif
+
    
 }
-
-static void  appTaskHandleAdd1 (void *p_arg){   
+static void  appTask (void *p_arg){   
     InitAdd1Motor();
     InitAdd2Motor();
     InitMove1Motor();
@@ -259,10 +272,8 @@ static void  appTaskHandleAdd1 (void *p_arg){
 //    resetMove3Motor();
 //    resetMove4Motor();
 //    resetSubMotor();
-//    int a=0;
     while (1)
     {
-//        HandleXYZ();
         if(Signal2 == 1)
         {
             SendCommand1(NULL,"CJ00001B50");
@@ -283,6 +294,16 @@ static void  appTaskHandleAdd1 (void *p_arg){
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
+static void  appTaskHandleAdd1 (void *p_arg){   
+    
+//    int a=0;
+    while (1)
+    {
+//        HandleXYZ();
+        HandleAdd1();
+        OSTimeDlyHMSM (0, 0, 0, 10);
+    }
+}
 
 static void  appTaskHandleAdd2 (void *p_arg){   
 //    InitAdd2Motor();
@@ -290,6 +311,7 @@ static void  appTaskHandleAdd2 (void *p_arg){
     while (1)
     {
 //        HandleXYZ();
+        HandleAdd2();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -300,6 +322,7 @@ static void  appTaskHandleMove1 (void *p_arg){
     while (1)
     {
 //        HandleXYZ();
+        HandleMove1();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -310,6 +333,7 @@ static void  appTaskHandleMove2 (void *p_arg){
     while (1)
     {
 //        HandleHook();
+        HandleMove2();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -320,6 +344,7 @@ static void  appTaskHandleMove3 (void *p_arg)
     while (1)
     {
 //        HandleSyringe();
+        HandleMove3();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -329,7 +354,7 @@ static void  appTaskHandleMove4 (void *p_arg){
 //  InitMove4Motor();
     while (1)
     {
-
+        HandleMove4();
         OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }
