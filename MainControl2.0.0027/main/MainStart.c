@@ -35,6 +35,9 @@ OS_EVENT       *MutexUart2;
 
 
 
+///
+
+
 
 
 
@@ -255,6 +258,20 @@ os_err = OSTaskCreateExt((void (*)(void *))appTask,
     OSTaskNameSet(APP_TASK_PRIO, "appTask", &os_err);
 #endif
 
+os_err = OSTaskCreateExt((void (*)(void *))appTaskLed,
+                             (void          * ) 0,
+                             (OS_STK        * )&appTaskLedStk[APP_TASK_LED_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_LED_PRIO,
+                             (INT16U          ) APP_TASK_LED_PRIO,
+                             (OS_STK        * )&appTaskLedStk[0],
+                             (INT32U          ) APP_TASK_LED_STK_SIZE,
+                             (void          * ) 0,
+                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
+
+#if (OS_TASK_NAME_SIZE >= 10)
+    OSTaskNameSet(APP_TASK_PRIO, "appTaskLed", &os_err);
+#endif
+
    
 }
 static void  appTask (void *p_arg){   
@@ -272,11 +289,40 @@ static void  appTask (void *p_arg){
 //    resetMove3Motor();
 //    resetMove4Motor();
 //    resetSubMotor();
+
+/*
+状态：  1，两个进样位，右侧进样位需要传送到左侧的进样位后，再由驱动机构送入采样位。
+       2，左边进样机构为急诊进样，从头到尾优先处理
+
+
+       ？：
+       1，如果后边没处理完，但是进样位放了几个样品架应该怎么处理？到位开关被触发（先算步数进行运动）
+       2，如果到位之后，运送架回去后，微动开关能自动恢复为不触发的状态为最好。
+
+*/
+///
     while (1)
     {
-        if(Signal2 == 1)
+        if(Signal3 == 1)
         {
-            SendCommand1(NULL,"CJ00001B50");
+            // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
+            if(add2ArriveFlag == 1)///只有到位后的可以复位
+            {
+                resetAdd1Motor();
+            }
+            if(Signal5 == 1)
+            {
+                add2Step = add2TotalStep - add2Count * add2IntervelStep;
+                SetAdd2Pos(0x01,add2Step);
+                SET_Add1_MOVE_FLAG();
+                add2Count++;
+            }
+        }
+        if((Signal2 == 1)&&(Signal4 != 1)&&(add1RunFlag == 0))
+        {
+            // SendCommand1(NULL,"CJ00001B50");
+            SetAdd1Pos(0x01,7000);
+            SET_Add1_MOVE_FLAG();
         }
         if(Signal4 == 1)
         {
@@ -364,6 +410,54 @@ static void  appTaskHandleSub (void *p_arg){
     while (1)
     {
         HandleSub();
+        OSTimeDlyHMSM (0, 0, 0, 100);
+    }
+}
+static void  appTaskLed (void *p_arg){   
+//  InitSubMotor();
+    while (1)
+    {
+        // HandleSub();
+        if(led1Flag == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_4);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+        if(led2Flag == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_5);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_5);
+        if(led3Flag == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_6);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_6);
+        if(led4Flag == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_7);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_7);
+
+        OSTimeDlyHMSM (0, 0, 0, 100);
+
+        if(led1Flag == 1)
+        {
+            GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+        }
+        if(led2Flag == 1)
+        {
+            GPIO_ResetBits(GPIOA,GPIO_Pin_5);
+        }
+        if(led3Flag == 1)
+        {
+            GPIO_ResetBits(GPIOA,GPIO_Pin_6);
+        }
+        if(led4Flag == 1)
+        {
+            GPIO_ResetBits(GPIOA,GPIO_Pin_7);
+        }
+
         OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }

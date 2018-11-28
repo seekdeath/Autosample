@@ -75,6 +75,7 @@
 #define  APP_TASK_HandleMove4_PRIO                  OS_LOWEST_PRIO-9
 #define  APP_TASK_HandleSub_PRIO                    OS_LOWEST_PRIO-12
 #define  APP_TASK_PRIO                              OS_LOWEST_PRIO-14
+#define  APP_TASK_LED_PRIO                          OS_LOWEST_PRIO-4
 
 // #define  APP_TASK_HandleXYZ_PRIO                    OS_LOWEST_PRIO-10
 // #define  APP_TASK_HandleSyringe_PRIO                OS_LOWEST_PRIO-8
@@ -115,6 +116,7 @@
 #define  APP_TASK_Move4_STK_SIZE                    64//32
 #define  APP_TASK_Sub_STK_SIZE                      64
 #define  APP_TASK_STK_SIZE                          128
+#define  APP_TASK_LED_STK_SIZE                      64
 
 
 /*

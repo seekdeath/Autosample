@@ -1,6 +1,51 @@
 #include <includes.h>
 #include <Motor.h>
 
+u8  add1Count = 0;
+u8  add2Count = 0;
+
+int add1TotalStep = 7000;   //总体行程总步数
+int add1IntervelStep = 200;///暂定每个间隔步数为200步
+
+int add2TotalStep = 7000;
+int add2IntervelStep = 200;
+
+int add1Step = 0;//准备运行步数
+int add2Step = 0;//
+
+////定义点变量备用
+////
+u8  add1RunFlag = 0;
+u8  add2RunFlag = 0;
+u8  move1RunFlag = 0;
+u8  move2RunFlag = 0;
+u8  move3RunFlag = 0;
+u8  move4RunFlag = 0;
+u8  subRunFlag = 0;
+
+///
+u8  add1ArriveFlag = 0;
+u8  add2ArriveFlag = 0;
+u8  move1ArriveFlag = 0;
+u8  move2ArriveFlag = 0;
+u8  move3ArriveFlag = 0;
+u8  move4ArriveFlag = 0;
+u8  subArriveFlag = 0;
+
+///
+u8  add1ResetFlag = 0;
+u8  add2ResetFlag = 0;
+u8  move1ResetFlag = 0;
+u8  move2ResetFlag = 0;
+u8  move3ResetFlag = 0;
+u8  move4ResetFlag = 0;
+u8  subResetFlag = 0;
+
+u8  led1Flag = 0;
+u8  led2Flag = 0;
+u8  led3Flag = 0;
+u8  led4Flag = 0;
+
 MotorGL  MotorX,MotorY,MotorRegent,MotorSample,MotorMotiveHook;
 MotorGL  MotorUDHook,MotorSyringSample,MotorSyringReagent,MotorCollect,MotorPump,MotorRoll;
 MotorGL  motorAddS1,motorAddS2,motorMoveS1,motorMoveS2,motorMoveS3,motorMoveS4,motorSubS;

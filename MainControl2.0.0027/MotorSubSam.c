@@ -21,7 +21,11 @@ void resetSubMotor()
             //获取状�?        
             TRY(bOk = MotorGetStatus(motorSubS.nAddr, &status));
         if (!bOk) {Set_Sub_State(Sub_Err_Transmition);return;}
-        if (status == 0x0000) break;
+        if (status == 0x0000) 
+        {
+            subResetFlag = 1;
+            break;
+        }
             //原点失败
         else if (status >0x8000)  {Set_Sub_State(Sub_Err_Origin);return;}
             //是否取消
@@ -55,7 +59,11 @@ void SubSetPos(void)
             //获取状�?            
             TRY(bOk = MotorGetStatus(motorSubS.nAddr, &status));
             if (!bOk) {Set_Sub_State(Sub_Err_Transmition);return;}
-            if (status == 0x0000) break;
+            if (status == 0x0000) 
+            {
+                subArriveFlag = 1;
+                break;
+            }
             //原点失败
             else if (status >0x8000)  {Set_Sub_State(Sub_Err_Origin);return;}
             //是否取消

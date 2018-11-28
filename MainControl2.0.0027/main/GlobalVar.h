@@ -52,6 +52,7 @@ static  OS_STK          appTaskMove3Stk[APP_TASK_Move3_STK_SIZE];
 static  OS_STK          appTaskMove4Stk[APP_TASK_Move4_STK_SIZE];
 static  OS_STK          appTaskSubStk[APP_TASK_Sub_STK_SIZE];
 static  OS_STK          appTaskStk[APP_TASK_STK_SIZE];
+static  OS_STK          appTaskLedStk[APP_TASK_LED_STK_SIZE];
 //---------------------------------------------------
 static  void  App_TaskCreate              (void);
 static  void  App_EventCreate             (void);

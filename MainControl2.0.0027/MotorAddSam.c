@@ -21,7 +21,11 @@ void resetAdd1Motor()
             //获取状态
         TRY(bOk = MotorGetStatus(motorAddS1.nAddr, &status));
         if (!bOk) {Set_Add1_State(Add1_Err_Transmition);return;}
-        if (status == 0x0000) break;
+        if (status == 0x0000) 
+        {
+            add1ResetFlag = 1;
+            break;
+        }
             //原点失败
         else if (status >0x8000)  {Set_Add1_State(Add1_Err_Origin);return;}
             //是否取消
@@ -55,7 +59,11 @@ void Add1SetPos(void)
             //获取状态
             TRY(bOk = MotorGetStatus(motorAddS1.nAddr, &status));
             if (!bOk) {Set_Add1_State(Add1_Err_Transmition);return;}
-            if (status == 0x0000) break;
+            if (status == 0x0000) 
+            {
+                add1ArriveFlag = 1;
+                break;
+            }
             //原点失败
             else if (status >0x8000)  {Set_Add1_State(Add1_Err_Origin);return;}
             //是否取消
@@ -198,7 +206,11 @@ void resetAdd2Motor()
             //获取状态
         TRY(bOk = MotorGetStatus(motorAddS2.nAddr, &status));
         if (!bOk) {Set_Add2_State(Add2_Err_Transmition);return;}
-        if (status == 0x0000) break;
+        if (status == 0x0000) 
+        {
+            add2ResetFlag = 1;
+            break;
+        }
             //原点失败
         else if (status >0x8000)  {Set_Add2_State(Add2_Err_Origin);return;}
             //是否取消
@@ -232,7 +244,11 @@ void Add2SetPos(void)
             //获取状态
             TRY(bOk = MotorGetStatus(motorAddS2.nAddr, &status));
             if (!bOk) {Set_Add2_State(Add2_Err_Transmition);return;}
-            if (status == 0x0000) break;
+            if (status == 0x0000) 
+            {
+                add2ArriveFlag = 1;
+                break;
+            }
             //原点失败
             else if (status >0x8000)  {Set_Add2_State(Add2_Err_Origin);return;}
             //是否取消

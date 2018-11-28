@@ -1,4 +1,47 @@
+extern u8  add1Count ;
+extern u8  add2Count ;
 
+extern int add1TotalStep ;   //总体行程总步数
+extern int add1IntervelStep ;///暂定每个间隔步数为200步
+
+extern int add2TotalStep ;
+extern int add2IntervelStep ;
+
+extern int add1Step ;//准备运行步数
+extern int add2Step ;//
+
+////定义点变量备用
+////
+extern u8  add1RunFlag ;
+extern u8  add2RunFlag ;
+extern u8  move1RunFlag ;
+extern u8  move2RunFlag ;
+extern u8  move3RunFlag ;
+extern u8  move4RunFlag ;
+extern u8  subRunFlag ;
+
+///
+extern u8  add1ArriveFlag ;
+extern u8  add2ArriveFlag ;
+extern u8  move1ArriveFlag ;
+extern u8  move2ArriveFlag ;
+extern u8  move3ArriveFlag ;
+extern u8  move4ArriveFlag ;
+extern u8  subArriveFlag ;
+
+///
+extern u8  add1ResetFlag ;
+extern u8  add2ResetFlag ;
+extern u8  move1ResetFlag ;
+extern u8  move2ResetFlag ;
+extern u8  move3ResetFlag ;
+extern u8  move4ResetFlag ;
+extern u8  subResetFlag ;
+
+extern u8  led1Flag ;
+extern u8  led2Flag ;
+extern u8  led3Flag ;
+extern u8  led4Flag ;
 
 #define MOTOR_COUNT					10				// 该板控制的电机数
 #define MOTOR_ADDR_TO_INDEX(addr)	((addr)-'C')	// 将电机地址转换为索引值
