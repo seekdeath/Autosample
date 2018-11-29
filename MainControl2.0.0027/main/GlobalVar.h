@@ -66,6 +66,7 @@ static  void  appTaskHandleMove2        (void        *p_arg);
 static  void  appTaskHandleMove3        (void        *p_arg);
 static  void  appTaskHandleMove4        (void        *p_arg);
 static  void  appTaskHandleSub          (void        *p_arg);
-static  void  appTask                   (void        *p_arg);
+static  void  appTaskHandle                   (void        *p_arg);
+static  void  appTaskHandleLed          (void        *p_arg);
 
 #endif

@@ -43,6 +43,14 @@ extern u8  led2Flag ;
 extern u8  led3Flag ;
 extern u8  led4Flag ;
 
+extern u8  move1WorkFlag ;
+extern u8  move2WorkFlag ;
+extern u8  move3WorkFlag ;
+extern u8  move4WorkFlag ;
+
+extern u8  move2Flag ;
+extern u8  move3Flag ;
+
 #define MOTOR_COUNT					10				// 该板控制的电机数
 #define MOTOR_ADDR_TO_INDEX(addr)	((addr)-'C')	// 将电机地址转换为索引值
 #define MOTOR_INDEX_TO_ADDR(idx)	((idx) +'C')	// 将电机索引转换为地址

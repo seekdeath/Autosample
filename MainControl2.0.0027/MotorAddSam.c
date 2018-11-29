@@ -62,6 +62,7 @@ void Add1SetPos(void)
             if (status == 0x0000) 
             {
                 add1ArriveFlag = 1;
+                add1RunFlag = 0;
                 break;
             }
             //原点失败
@@ -234,7 +235,7 @@ void Add2SetPos(void)
 	u16	status;
 	s32	Pos;
     
-    GetAdd1Pos(&Add2FLAG,&Pos);
+    GetAdd2Pos(&Add2FLAG,&Pos);
     if (Add2FLAG == 0x81 || Add2FLAG == 0x01)//判断add1motor目标位置是否有效
     {
         TRY(bOk = MotorMoveTo(motorAddS2.nAddr, Pos));
@@ -247,6 +248,7 @@ void Add2SetPos(void)
             if (status == 0x0000) 
             {
                 add2ArriveFlag = 1;
+                add2RunFlag = 0;
                 break;
             }
             //原点失败

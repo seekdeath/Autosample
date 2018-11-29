@@ -42,7 +42,7 @@
 #define OS_MAX_FLAGS              5    /* Max. number of Event Flag Groups    in your application      */
 #define OS_MAX_MEM_PART           5    /* Max. number of memory partitions                             */
 #define OS_MAX_QS                 4    /* Max. number of queue control blocks in your application      */
-#define OS_MAX_TASKS             16    /* Max. number of tasks in your application, MUST be >= 2       */
+#define OS_MAX_TASKS             17    /* Max. number of tasks in your application, MUST be >= 2       */
 
 #define OS_SCHED_LOCK_EN          1    /*     Include code for OSSchedLock() and OSSchedUnlock()       */
 

@@ -33,7 +33,7 @@ OS_EVENT       *I2CSem;
 OS_EVENT       *UartSem;
 OS_EVENT       *MutexUart2;
 
-
+#define MAXCOUNT    10
 
 ///
 
@@ -244,7 +244,7 @@ static  void  App_TaskCreate (void)
     OSTaskNameSet(APP_TASK_HandleSub_PRIO, "TaskSub", &os_err);
 #endif
 
-os_err = OSTaskCreateExt((void (*)(void *))appTask,
+os_err = OSTaskCreateExt((void (*)(void *))appTaskHandle,
                              (void          * ) 0,
                              (OS_STK        * )&appTaskStk[APP_TASK_STK_SIZE - 1],
                              (INT8U           ) APP_TASK_PRIO,
@@ -258,23 +258,35 @@ os_err = OSTaskCreateExt((void (*)(void *))appTask,
     OSTaskNameSet(APP_TASK_PRIO, "appTask", &os_err);
 #endif
 
-os_err = OSTaskCreateExt((void (*)(void *))appTaskLed,
-                             (void          * ) 0,
-                             (OS_STK        * )&appTaskLedStk[APP_TASK_LED_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_LED_PRIO,
-                             (INT16U          ) APP_TASK_LED_PRIO,
-                             (OS_STK        * )&appTaskLedStk[0],
-                             (INT32U          ) APP_TASK_LED_STK_SIZE,
-                             (void          * ) 0,
-                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-
-#if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_PRIO, "appTaskLed", &os_err);
-#endif
+//os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleLed,
+//                             (void          * ) 0,
+//                             (OS_STK        * )&appTaskLedStk[APP_TASK_LED_STK_SIZE - 1],
+//                             (INT8U           ) APP_TASK_LED_PRIO,
+//                             (INT16U          ) APP_TASK_LED_PRIO,
+//                             (OS_STK        * )&appTaskLedStk[0],
+//                             (INT32U          ) APP_TASK_LED_STK_SIZE,
+//                             (void          * ) 0,
+//                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
+//
+//#if (OS_TASK_NAME_SIZE >= 10)
+//    OSTaskNameSet(APP_TASK_PRIO, "TaskLed", &os_err);
+//#endif
 
    
 }
-static void  appTask (void *p_arg){   
+/*
+状态：  1，两个进样位，右侧进样位需要传送到左侧的进样位后，再由驱动机构送入采样位。
+       2，左边进样机构为急诊进样，从头到尾优先处理
+        Signal2 and Signal4 是普通进样位
+        Signal3 and Signal5 是急诊进样位
+
+
+       ？：
+       1，如果后边没处理完，但是进样位放了几个样品架应该怎么处理？到位开关被触发（先算步数进行运动）
+       2，如果到位之后，运送架回去后，微动开关能自动恢复为不触发的状态为最好。
+
+*/
+static void  appTaskHandle (void *p_arg){   
     InitAdd1Motor();
     InitAdd2Motor();
     InitMove1Motor();
@@ -284,60 +296,235 @@ static void  appTask (void *p_arg){
     InitSubMotor();
     resetAdd1Motor();
     resetAdd2Motor();
-//    resetMove1Motor();
-//    resetMove2Motor();
-//    resetMove3Motor();
-//    resetMove4Motor();
-//    resetSubMotor();
+    resetMove1Motor();
+    resetMove2Motor();
+    resetMove3Motor();
+    resetMove4Motor();
+    resetSubMotor();
+    // SendCommand1(NULL,"FJ00000100");
 
-/*
-状态：  1，两个进样位，右侧进样位需要传送到左侧的进样位后，再由驱动机构送入采样位。
-       2，左边进样机构为急诊进样，从头到尾优先处理
-
-
-       ？：
-       1，如果后边没处理完，但是进样位放了几个样品架应该怎么处理？到位开关被触发（先算步数进行运动）
-       2，如果到位之后，运送架回去后，微动开关能自动恢复为不触发的状态为最好。
-
-*/
 ///
     while (1)
-    {
+    {//add2 进样机构
         if(Signal3 == 1)
         {
             // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
-            if(add2ArriveFlag == 1)///只有到位后的可以复位
-            {
-                resetAdd1Motor();
-            }
-            if(Signal5 == 1)
+            
+            if((add2Count != 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1)&&(add2Count != MAXCOUNT))
             {
                 add2Step = add2TotalStep - add2Count * add2IntervelStep;
                 SetAdd2Pos(0x01,add2Step);
-                SET_Add1_MOVE_FLAG();
+                SET_Add2_MOVE_FLAG();
+                add2RunFlag = 1;
+                add2ResetFlag = 0;
+                add2Count++;
+            }
+            if((add2Count == 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1))
+            {
+                SetAdd2Pos(0x01,7100);
+                SET_Add2_MOVE_FLAG();
+                add2RunFlag = 1;
+                add2ResetFlag = 0;
                 add2Count++;
             }
         }
-        if((Signal2 == 1)&&(Signal4 != 1)&&(add1RunFlag == 0))
+        if(add2ArriveFlag == 1)///只有到位后的可以复位
         {
-            // SendCommand1(NULL,"CJ00001B50");
-            SetAdd1Pos(0x01,7000);
+            resetAdd2Motor();
+            add2ArriveFlag = 0;
+        }
+        ///add1
+        if(Signal2 == 1)
+        {
+            // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
+            
+            if((add1Count != 0)&&(add1RunFlag == 0)&&(add1ResetFlag == 1)&&(add1Count != MAXCOUNT))
+            {
+                add1Step = add1TotalStep - add1Count * add1IntervelStep;
+                SetAdd1Pos(0x01,add1Step);
+                SET_Add1_MOVE_FLAG();
+                add1RunFlag = 1;
+                add1ResetFlag = 0;
+                add1Count++;
+            }
+            if((add1Count == 0)&&(add1RunFlag == 0)&&(add1ResetFlag == 1))
+            {
+                SetAdd1Pos(0x01,7100);
+                SET_Add1_MOVE_FLAG();
+                add1RunFlag = 1;
+                add1ResetFlag = 0;
+                add1Count++;
+            }
+        }
+        if(add1ArriveFlag == 1)///只有到位后的可以复位
+        {
+            resetAdd1Motor();
+            add1ArriveFlag = 0;
+        }
+        //顶到位
+        if((add2Count != 0)&&(Signal5 != 1)&&(add2RunFlag != 1))
+        {
+            SetAdd2Pos(0x01,7100);
+            SET_Add2_MOVE_FLAG();
+            add2RunFlag = 1;
+            add2ResetFlag = 0;
+        }
+        if((add1Count != 0)&&(Signal4 != 1)&&(add1RunFlag != 1))
+        {
+            SetAdd1Pos(0x01,7100);
             SET_Add1_MOVE_FLAG();
+            add1RunFlag = 1;
+            add1ResetFlag = 0;
         }
-        if(Signal4 == 1)
+        ////////横向传送机构运动
+         if((add2Count != 0)&&(move3WorkFlag == 0))
+         {
+             if((move3WorkFlag == 0)&&(Signal5 == 1))
+             {
+                 if(add2Count != 0)
+                 {
+                     // SetMove2Pos(0x01,)
+                     SetMove2Pos(0x01,2900);
+                     SET_Move2_MOVE_FLAG();
+    //                 move2WorkFlag = 1;
+                     move2Flag = 1;
+                 }
+                 if(move2Flag == 1)
+                 {
+                     if(move2ArriveFlag ==1)
+                     {
+                         move2Flag = 2;
+                     }
+                 }
+                 if(move2Flag == 2)
+                 {
+//                     resetMove2Motor();
+                     SET_Move2_R_FLAG();
+                     move2Flag = 3;
+                 }
+                 if(move2Flag == 3)
+                 {
+                     if(move2ResetFlag == 1)
+                     {
+    //                     move2WorkFlag = 0;
+                         add2Count--;
+                         move3WorkFlag = 1;
+                     }
+                 }
+
+             }
+         }
+        if(move3WorkFlag == 1)
         {
-            SendCommand1(NULL,"CD");
-        }
-        if(Signal3 == 1)
-        {
-            SendCommand1(NULL,"DJ00001B50");
-        }
-        if(Signal5 == 1)
-        {
-            SendCommand1(NULL,"DD");
+            if(move3Flag == 0)
+            {
+                resetMove3Motor();
+                move3Flag = 1;
+            }
+            if(move3Flag == 1)
+            {
+                SetMove3Pos(0x01,500);
+                SET_Move3_MOVE_FLAG();
+                move3Flag = 2;
+            }
+            if(move3Flag == 2)
+            {
+                if(move3ArriveFlag == 1)
+                {
+                    move3Flag = 3;
+                }
+            }
+            if(move3Flag == 3)
+            {
+                SetMove3Pos(0x01,1000);
+                SET_Move3_MOVE_FLAG();
+                move3Flag = 4;
+            }
+            if(move3Flag == 4)
+            {
+                if(move3ArriveFlag == 1)
+                {
+                    move3Flag = 5;
+                }
+            }
+            if(move3Flag == 5)
+            {
+                SetMove3Pos(0x01,1500);
+                SET_Move3_MOVE_FLAG();
+                move3Flag = 6;
+            }
+            if(move3Flag == 6)
+            {
+                if(move3ArriveFlag == 1)
+                {
+                    move3Flag = 7;
+                }
+            }
+            if(move3Flag == 7)
+            {
+                SetMove3Pos(0x01,2000);
+                SET_Move3_MOVE_FLAG();
+                move3Flag = 8;
+            }
+            if(move3Flag == 8)
+            {
+                if(move3ArriveFlag == 1)
+                {
+                    move3Flag = 9;
+                }
+            }
+            if(move3Flag == 9)
+            {
+                SetMove3Pos(0x01,2500);
+                SET_Move3_MOVE_FLAG();
+                move3Flag = 10;
+            }
+            if(move3Flag == 10)
+            {
+                if(move3ArriveFlag == 1)
+                {
+                    move3Flag = 11;
+                }
+            }
+            if(move3Flag == 11)
+            {
+                resetMove3Motor();
+            }
         }
         
-        OSTimeDlyHMSM (0, 0, 0, 10);
+        
+        
+        
+        
+        
+//        if((Signal5 == 1)&&(add2ResetFlag !=1))
+//        {
+//
+//            SetAdd2Pos(0x01,0);
+//            SET_Add1_MOVE_FLAG();
+//            add2RunFlag = 1;
+//            add2ResetFlag = 1;
+//        }
+//        if((Signal2 == 1)&&(Signal4 != 1)&&(add1RunFlag == 0))
+//        {
+////             SendCommand1(NULL,"CJ00001C00");
+//            SetAdd1Pos(0x01,7100);
+//            SET_Add1_MOVE_FLAG();
+//            add1ResetFlag =0;
+//            OSTimeDlyHMSM (0, 0, 0, 10);
+//        }
+//        if((Signal4 == 1)&&(add1ResetFlag !=1))
+//        {
+//            SendCommand1(NULL,"CJ00000000");
+//            add1ResetFlag = 1;
+//        }
+//        if(Signal3 == 1)
+//        {
+//            SendCommand1(NULL,"DJ00001B50");
+//        }
+        
+        
+        OSTimeDlyHMSM (0, 0, 0, 50);
     }
 }
 static void  appTaskHandleAdd1 (void *p_arg){   
@@ -413,54 +600,54 @@ static void  appTaskHandleSub (void *p_arg){
         OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }
-static void  appTaskLed (void *p_arg){   
-//  InitSubMotor();
-    while (1)
-    {
-        // HandleSub();
-        if(led1Flag == 1)
-        {
-            GPIO_SetBits(GPIOA,GPIO_Pin_4);
-        }
-        else GPIO_ResetBits(GPIOA,GPIO_Pin_4);
-        if(led2Flag == 1)
-        {
-            GPIO_SetBits(GPIOA,GPIO_Pin_5);
-        }
-        else GPIO_ResetBits(GPIOA,GPIO_Pin_5);
-        if(led3Flag == 1)
-        {
-            GPIO_SetBits(GPIOA,GPIO_Pin_6);
-        }
-        else GPIO_ResetBits(GPIOA,GPIO_Pin_6);
-        if(led4Flag == 1)
-        {
-            GPIO_SetBits(GPIOA,GPIO_Pin_7);
-        }
-        else GPIO_ResetBits(GPIOA,GPIO_Pin_7);
-
-        OSTimeDlyHMSM (0, 0, 0, 100);
-
-        if(led1Flag == 1)
-        {
-            GPIO_ResetBits(GPIOA,GPIO_Pin_4);
-        }
-        if(led2Flag == 1)
-        {
-            GPIO_ResetBits(GPIOA,GPIO_Pin_5);
-        }
-        if(led3Flag == 1)
-        {
-            GPIO_ResetBits(GPIOA,GPIO_Pin_6);
-        }
-        if(led4Flag == 1)
-        {
-            GPIO_ResetBits(GPIOA,GPIO_Pin_7);
-        }
-
-        OSTimeDlyHMSM (0, 0, 0, 100);
-    }
-}
+//static void  appTaskHandleLed (void *p_arg){   
+////  InitSubMotor();
+//    while (1)
+//    {
+//        // HandleSub();
+//        if(led1Flag == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_4);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+//        if(led2Flag == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_5);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_5);
+//        if(led3Flag == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_6);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_6);
+//        if(led4Flag == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_7);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_7);
+//
+//        OSTimeDlyHMSM (0, 0, 0, 100);
+//
+//        if(led1Flag == 1)
+//        {
+//            GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+//        }
+//        if(led2Flag == 1)
+//        {
+//            GPIO_ResetBits(GPIOA,GPIO_Pin_5);
+//        }
+//        if(led3Flag == 1)
+//        {
+//            GPIO_ResetBits(GPIOA,GPIO_Pin_6);
+//        }
+//        if(led4Flag == 1)
+//        {
+//            GPIO_ResetBits(GPIOA,GPIO_Pin_7);
+//        }
+//
+//        OSTimeDlyHMSM (0, 0, 0, 100);
+//    }
+//}
 
 
 static void  appTaskUart1_Deal (void *p_arg){   
