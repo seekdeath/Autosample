@@ -10,6 +10,9 @@ extern int add2IntervelStep ;
 extern int add1Step ;//准备运行步数
 extern int add2Step ;//
 
+extern int subTotalStep ;
+extern int subIntervelStep ;
+
 ////定义点变量备用
 ////
 extern u8  add1RunFlag ;
@@ -47,9 +50,20 @@ extern u8  move1WorkFlag ;
 extern u8  move2WorkFlag ;
 extern u8  move3WorkFlag ;
 extern u8  move4WorkFlag ;
+extern u8  subWorkFlag ;
 
+extern u8  move1Flag ;
 extern u8  move2Flag ;
 extern u8  move3Flag ;
+extern u8  move4Flag ;
+
+extern u8  subFlag ;
+
+extern u8 move1Count ;
+extern u8 move2Count ;
+extern u8 move3Count ;
+extern u8 move4Count ;
+extern u8 subCount ;
 
 #define MOTOR_COUNT					10				// 该板控制的电机数
 #define MOTOR_ADDR_TO_INDEX(addr)	((addr)-'C')	// 将电机地址转换为索引值

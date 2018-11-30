@@ -5,14 +5,17 @@ u8  add1Count = 0;
 u8  add2Count = 0;
 //u8  maxCount  
 
-int add1TotalStep = 7100;   //总体行程总步数
-int add1IntervelStep = 620;///暂定每个间隔步数为200步
+int add1TotalStep = 7400;   //总体行程总步数
+int add1IntervelStep = 800;///暂定每个间隔步数为620步
 
-int add2TotalStep = 7100;
-int add2IntervelStep = 620;
+int add2TotalStep = 7400;
+int add2IntervelStep = 800;
 
 int add1Step = 0;//准备运行步数
 int add2Step = 0;//
+
+int subTotalStep = 6030;
+int subIntervelStep = 850;
 
 ////定义点变量备用
 ////
@@ -51,10 +54,19 @@ u8  move1WorkFlag = 0;
 u8  move2WorkFlag = 0;
 u8  move3WorkFlag = 0;
 u8  move4WorkFlag = 0;
+u8  subWorkFlag = 0;
 
+u8  move1Flag = 0;
 u8  move2Flag = 0;
 u8  move3Flag = 0;
+u8  move4Flag = 0;
+u8  subFlag = 0;
 
+u8 move1Count = 0;
+u8 move2Count = 0;
+u8 move3Count = 0;
+u8 move4Count = 0;
+u8 subCount = 0;
 
 
 MotorGL  MotorX,MotorY,MotorRegent,MotorSample,MotorMotiveHook;
@@ -116,7 +128,7 @@ void MotorInit(void)
     motorMoveS2.HoldI = 0X00;
     motorMoveS2.LowspeedI = 0x49;
     motorMoveS2.HighspeedI = 0x49;
-    motorMoveS2.nCtrlWord=MCF_USES_ORG | MCF_RESET_AS_VALVE;//| MCF_USES_ENCODER;
+    motorMoveS2.nCtrlWord=MCF_USES_ORG | MCF_USES_DEV | MCF_RESET_AS_VALVE;//| MCF_USES_ENCODER;
     //横向运输3
     motorMoveS3.nAddr= MOTOR_MOVESAMPLE3_ADDR;
     motorMoveS3.nSpeedMax=4000;//1000;
@@ -128,14 +140,14 @@ void MotorInit(void)
     motorMoveS3.HoldI = 0X00;
     motorMoveS3.LowspeedI = 0X49;
     motorMoveS3.HighspeedI= 0x49;
-    motorMoveS3.nCtrlWord =MCF_USES_ORG | MCF_RESET_AS_VALVE;// | MCF_USES_ENCODER;
+    motorMoveS3.nCtrlWord =MCF_USES_ORG | MCF_USES_DEV | MCF_RESET_AS_VALVE;// | MCF_USES_ENCODER;
     //横向运输4 运输到退样品
     motorMoveS4.nAddr=MOTOR_MOVESAMPLE4_ADDR;
     motorMoveS4.nSpeedMax=4000;
     motorMoveS4.nSpeedMin=800;
     motorMoveS4.nSpeedStep=50;
     motorMoveS4.nTimeoutSteps=20;
-    motorMoveS4.nCtrlWord =MCF_USES_ORG | MCF_RESET_AS_VALVE | MCF_ORG;
+    motorMoveS4.nCtrlWord =MCF_USES_ORG | MCF_USES_DEV | MCF_RESET_AS_VALVE;
     motorMoveS4.SpeedK = 6080;
     motorMoveS4.ISensitive = 50;
     motorMoveS4.HoldI = 0X40;

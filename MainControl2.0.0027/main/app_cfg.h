@@ -106,17 +106,17 @@
 // //#define  APP_TASK_IC_STK_SIZE                      64
 // #define  APP_TASK_Uart1_Deal_STK_SIZE              256//128
 
-#define  APP_TASK_START_STK_SIZE                    64
-#define  APP_TASK_Uart1_Deal_STK_SIZE               128//128
-#define  APP_TASK_Add1_STK_SIZE                     100
-#define  APP_TASK_Add2_STK_SIZE                     100//64
-#define  APP_TASK_Move1_STK_SIZE                    64
-#define  APP_TASK_Move2_STK_SIZE                    64//64
-#define  APP_TASK_Move3_STK_SIZE                    64
-#define  APP_TASK_Move4_STK_SIZE                    64//32
-#define  APP_TASK_Sub_STK_SIZE                      64
-#define  APP_TASK_STK_SIZE                          200//256
-#define  APP_TASK_LED_STK_SIZE                      32
+#define  APP_TASK_START_STK_SIZE                    44
+#define  APP_TASK_Uart1_Deal_STK_SIZE               50//128
+#define  APP_TASK_Add1_STK_SIZE                     120
+#define  APP_TASK_Add2_STK_SIZE                     120//64
+#define  APP_TASK_Move1_STK_SIZE                    120
+#define  APP_TASK_Move2_STK_SIZE                    120//64
+#define  APP_TASK_Move3_STK_SIZE                    140
+#define  APP_TASK_Move4_STK_SIZE                    100//32
+#define  APP_TASK_Sub_STK_SIZE                      120
+//#define  APP_TASK_STK_SIZE                          200//256
+//#define  APP_TASK_LED_STK_SIZE                      32
 
 
 /*

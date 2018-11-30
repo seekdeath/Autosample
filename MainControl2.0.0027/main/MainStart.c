@@ -244,19 +244,19 @@ static  void  App_TaskCreate (void)
     OSTaskNameSet(APP_TASK_HandleSub_PRIO, "TaskSub", &os_err);
 #endif
 
-os_err = OSTaskCreateExt((void (*)(void *))appTaskHandle,
-                             (void          * ) 0,
-                             (OS_STK        * )&appTaskStk[APP_TASK_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_PRIO,
-                             (INT16U          ) APP_TASK_PRIO,
-                             (OS_STK        * )&appTaskStk[0],
-                             (INT32U          ) APP_TASK_STK_SIZE,
-                             (void          * ) 0,
-                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-
-#if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_PRIO, "appTask", &os_err);
-#endif
+//os_err = OSTaskCreateExt((void (*)(void *))appTaskHandle,
+//                             (void          * ) 0,
+//                             (OS_STK        * )&appTaskStk[APP_TASK_STK_SIZE - 1],
+//                             (INT8U           ) APP_TASK_PRIO,
+//                             (INT16U          ) APP_TASK_PRIO,
+//                             (OS_STK        * )&appTaskStk[0],
+//                             (INT32U          ) APP_TASK_STK_SIZE,
+//                             (void          * ) 0,
+//                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
+//
+//#if (OS_TASK_NAME_SIZE >= 10)
+//    OSTaskNameSet(APP_TASK_PRIO, "appTask", &os_err);
+//#endif
 
 //os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleLed,
 //                             (void          * ) 0,
@@ -286,7 +286,16 @@ os_err = OSTaskCreateExt((void (*)(void *))appTaskHandle,
        2，如果到位之后，运送架回去后，微动开关能自动恢复为不触发的状态为最好。
 
 */
-static void  appTaskHandle (void *p_arg){   
+//static void  appTaskHandle (void *p_arg){      
+/////
+//    while (1)
+//    {//add2 进样机构
+//
+//        
+//        OSTimeDlyHMSM (0, 0, 0, 50);
+//    }
+//}
+static void  appTaskHandleAdd1 (void *p_arg){   
     InitAdd1Motor();
     InitAdd2Motor();
     InitMove1Motor();
@@ -302,38 +311,13 @@ static void  appTaskHandle (void *p_arg){
     resetMove4Motor();
     resetSubMotor();
     // SendCommand1(NULL,"FJ00000100");
-
-///
+    SendCommand1(NULL,"IJ0000078E");
+    
+//    int a=0;
     while (1)
-    {//add2 进样机构
-        if(Signal3 == 1)
-        {
-            // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
-            
-            if((add2Count != 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1)&&(add2Count != MAXCOUNT))
-            {
-                add2Step = add2TotalStep - add2Count * add2IntervelStep;
-                SetAdd2Pos(0x01,add2Step);
-                SET_Add2_MOVE_FLAG();
-                add2RunFlag = 1;
-                add2ResetFlag = 0;
-                add2Count++;
-            }
-            if((add2Count == 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1))
-            {
-                SetAdd2Pos(0x01,7100);
-                SET_Add2_MOVE_FLAG();
-                add2RunFlag = 1;
-                add2ResetFlag = 0;
-                add2Count++;
-            }
-        }
-        if(add2ArriveFlag == 1)///只有到位后的可以复位
-        {
-            resetAdd2Motor();
-            add2ArriveFlag = 0;
-        }
-        ///add1
+    {
+//        HandleXYZ();
+        //
         if(Signal2 == 1)
         {
             // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
@@ -349,7 +333,7 @@ static void  appTaskHandle (void *p_arg){
             }
             if((add1Count == 0)&&(add1RunFlag == 0)&&(add1ResetFlag == 1))
             {
-                SetAdd1Pos(0x01,7100);
+                SetAdd1Pos(0x01,7400);
                 SET_Add1_MOVE_FLAG();
                 add1RunFlag = 1;
                 add1ResetFlag = 0;
@@ -361,179 +345,15 @@ static void  appTaskHandle (void *p_arg){
             resetAdd1Motor();
             add1ArriveFlag = 0;
         }
-        //顶到位
-        if((add2Count != 0)&&(Signal5 != 1)&&(add2RunFlag != 1))
-        {
-            SetAdd2Pos(0x01,7100);
-            SET_Add2_MOVE_FLAG();
-            add2RunFlag = 1;
-            add2ResetFlag = 0;
-        }
         if((add1Count != 0)&&(Signal4 != 1)&&(add1RunFlag != 1))
         {
-            SetAdd1Pos(0x01,7100);
+            SetAdd1Pos(0x01,7400);
             SET_Add1_MOVE_FLAG();
             add1RunFlag = 1;
             add1ResetFlag = 0;
         }
-        ////////横向传送机构运动
-         if((add2Count != 0)&&(move3WorkFlag == 0))
-         {
-             if((move3WorkFlag == 0)&&(Signal5 == 1))
-             {
-                 if(add2Count != 0)
-                 {
-                     // SetMove2Pos(0x01,)
-                     SetMove2Pos(0x01,2900);
-                     SET_Move2_MOVE_FLAG();
-    //                 move2WorkFlag = 1;
-                     move2Flag = 1;
-                 }
-                 if(move2Flag == 1)
-                 {
-                     if(move2ArriveFlag ==1)
-                     {
-                         move2Flag = 2;
-                     }
-                 }
-                 if(move2Flag == 2)
-                 {
-//                     resetMove2Motor();
-                     SET_Move2_R_FLAG();
-                     move2Flag = 3;
-                 }
-                 if(move2Flag == 3)
-                 {
-                     if(move2ResetFlag == 1)
-                     {
-    //                     move2WorkFlag = 0;
-                         add2Count--;
-                         move3WorkFlag = 1;
-                     }
-                 }
-
-             }
-         }
-        if(move3WorkFlag == 1)
-        {
-            if(move3Flag == 0)
-            {
-                resetMove3Motor();
-                move3Flag = 1;
-            }
-            if(move3Flag == 1)
-            {
-                SetMove3Pos(0x01,500);
-                SET_Move3_MOVE_FLAG();
-                move3Flag = 2;
-            }
-            if(move3Flag == 2)
-            {
-                if(move3ArriveFlag == 1)
-                {
-                    move3Flag = 3;
-                }
-            }
-            if(move3Flag == 3)
-            {
-                SetMove3Pos(0x01,1000);
-                SET_Move3_MOVE_FLAG();
-                move3Flag = 4;
-            }
-            if(move3Flag == 4)
-            {
-                if(move3ArriveFlag == 1)
-                {
-                    move3Flag = 5;
-                }
-            }
-            if(move3Flag == 5)
-            {
-                SetMove3Pos(0x01,1500);
-                SET_Move3_MOVE_FLAG();
-                move3Flag = 6;
-            }
-            if(move3Flag == 6)
-            {
-                if(move3ArriveFlag == 1)
-                {
-                    move3Flag = 7;
-                }
-            }
-            if(move3Flag == 7)
-            {
-                SetMove3Pos(0x01,2000);
-                SET_Move3_MOVE_FLAG();
-                move3Flag = 8;
-            }
-            if(move3Flag == 8)
-            {
-                if(move3ArriveFlag == 1)
-                {
-                    move3Flag = 9;
-                }
-            }
-            if(move3Flag == 9)
-            {
-                SetMove3Pos(0x01,2500);
-                SET_Move3_MOVE_FLAG();
-                move3Flag = 10;
-            }
-            if(move3Flag == 10)
-            {
-                if(move3ArriveFlag == 1)
-                {
-                    move3Flag = 11;
-                }
-            }
-            if(move3Flag == 11)
-            {
-                resetMove3Motor();
-            }
-        }
-        
-        
-        
-        
-        
-        
-//        if((Signal5 == 1)&&(add2ResetFlag !=1))
-//        {
-//
-//            SetAdd2Pos(0x01,0);
-//            SET_Add1_MOVE_FLAG();
-//            add2RunFlag = 1;
-//            add2ResetFlag = 1;
-//        }
-//        if((Signal2 == 1)&&(Signal4 != 1)&&(add1RunFlag == 0))
-//        {
-////             SendCommand1(NULL,"CJ00001C00");
-//            SetAdd1Pos(0x01,7100);
-//            SET_Add1_MOVE_FLAG();
-//            add1ResetFlag =0;
-//            OSTimeDlyHMSM (0, 0, 0, 10);
-//        }
-//        if((Signal4 == 1)&&(add1ResetFlag !=1))
-//        {
-//            SendCommand1(NULL,"CJ00000000");
-//            add1ResetFlag = 1;
-//        }
-//        if(Signal3 == 1)
-//        {
-//            SendCommand1(NULL,"DJ00001B50");
-//        }
-        
-        
-        OSTimeDlyHMSM (0, 0, 0, 50);
-    }
-}
-static void  appTaskHandleAdd1 (void *p_arg){   
-    
-//    int a=0;
-    while (1)
-    {
-//        HandleXYZ();
-        HandleAdd1();
+        //
+        HandleAdd2();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -544,7 +364,46 @@ static void  appTaskHandleAdd2 (void *p_arg){
     while (1)
     {
 //        HandleXYZ();
-        HandleAdd2();
+        //
+        if(Signal3 == 1)
+        {
+            // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
+            
+            if((add2Count != 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1)&&(add2Count != MAXCOUNT))
+            {
+                add2Step = add2TotalStep - add2Count * add2IntervelStep;
+                SetAdd2Pos(0x01,add2Step);
+                SET_Add2_MOVE_FLAG();
+                add2RunFlag = 1;
+                add2ResetFlag = 0;
+                add2Count++;
+            }
+            if((add2Count == 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1))
+            {
+                SetAdd2Pos(0x01,7400);
+                SET_Add2_MOVE_FLAG();
+                add2RunFlag = 1;
+                add2ResetFlag = 0;
+                add2Count++;
+            }
+        }
+        if(add2ArriveFlag == 1)///只有到位后的可以复位
+        {
+            resetAdd2Motor();
+            add2ArriveFlag = 0;
+        }
+        ///add1
+        
+        //顶到位
+        if((add2Count != 0)&&(Signal5 != 1)&&(add2RunFlag != 1)&&(move2WorkFlag == 0))
+        {
+            SetAdd2Pos(0x01,7400);
+            SET_Add2_MOVE_FLAG();
+            add2RunFlag = 1;
+            add2ResetFlag = 0;
+        }
+        //
+        HandleAdd1();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -555,7 +414,18 @@ static void  appTaskHandleMove1 (void *p_arg){
     while (1)
     {
 //        HandleXYZ();
-        HandleMove1();
+        //
+        ////////横向传送机构运动
+         if((add2Count == 0)&&(Signal3 == 0)&&(add1Count !=0)&&(Signal4 == 1)&&(move2Count == 0))
+        {
+            move1Work();
+            add1Count--;
+            // move1Count++;
+            add2Count ++;
+        }
+        
+        //
+        HandleMove4();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -566,7 +436,22 @@ static void  appTaskHandleMove2 (void *p_arg){
     while (1)
     {
 //        HandleHook();
-        HandleMove2();
+        //
+        if((add2Count != 0)&&(Signal5 == 1)&&(move3Count == 0))
+        {
+            move2Work();
+            // if(move1Count == 1)
+            // {
+            //     move1Count = 0;
+            // }
+            if(add2Count != 0)
+            {
+                add2Count --;
+            }
+            move2Count ++;
+        }
+        //
+        HandleMove3();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -577,7 +462,15 @@ static void  appTaskHandleMove3 (void *p_arg)
     while (1)
     {
 //        HandleSyringe();
-        HandleMove3();
+        //
+        if((move3WorkFlag == 0)&&(move2Count == 1))
+        {
+            move3Work();
+            move2Count --;
+            move3Count ++;
+        }
+        //
+        HandleMove2();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -587,7 +480,17 @@ static void  appTaskHandleMove4 (void *p_arg){
 //  InitMove4Motor();
     while (1)
     {
-        HandleMove4();
+        //
+        if((move4WorkFlag == 0)&&(move3Count == 1))
+        {
+            move4Work();
+            move3Count --;
+            move4Count ++;
+        }
+        
+        //
+        // HandleMove4();
+        HandleSub();
         OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }
@@ -596,7 +499,17 @@ static void  appTaskHandleSub (void *p_arg){
 //  InitSubMotor();
     while (1)
     {
-        HandleSub();
+        //
+        if((subWorkFlag == 0) && (move4Count == 1))
+        {
+            subWork();
+            move4Count --;
+            subCount ++;
+
+        }
+        //
+        // HandleSub();
+        HandleMove1();
         OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }

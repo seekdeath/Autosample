@@ -35,20 +35,20 @@ u8 GET_Move_R_FLAG(void);
 void SET_Move1_R_FLAG(void);
 //取消复位标志
 void RESET_Move1_R_FLAG(void);
-//移动标志�?// u8 Move1_MOVE_FLAG=0;
+//移动标志�?// u8 Move1_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move1_MOVE_FLAG(void);
-//置位移动标志�?
+//置位移动标志�?
 void SET_Move1_MOVE_FLAG(void);
-//复位移动标志�?
+//复位移动标志�?
 void RESET_Move1_MOVE_FLAG(void);
 //标志
 // u8 Move1_FLAG;
 //坐标
 // s32 Move1_POS;
-//获取标志，坐�?
+//获取标志，坐�?
 void GetMove1Pos(u8* Move1FLAG,s32* Pos);
-//设定标志，坐�?
+//设定标志，坐�?
 void SetMove1Pos(u8 Move1FLAG,s32 Pos);
 ////////////////////Move2
 void resetMove2Motor();
@@ -78,21 +78,21 @@ u8 GET_Move2_R_FLAG(void);
 void SET_Move2_R_FLAG(void);
 //取消复位标志
 void RESET_Move2_R_FLAG(void);
-//移动标志�?// u8 Move2_MOVE_FLAG=0;
+//移动标志�?// u8 Move2_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move2_MOVE_FLAG(void);
-//置位移动标志�?
+//置位移动标志�?
 void SET_Move2_MOVE_FLAG(void);
-//复位移动标志�?
+//复位移动标志�?
 void RESET_Move2_MOVE_FLAG(void);
 
 //标志
 // u8 Move2_FLAG;
 //坐标
 // s32 Move2_POS;
-//获取标志，坐�?
+//获取标志，坐�?
 void GetMove2Pos(u8* Move2FLAG,s32* Pos);
-//设定标志，坐�?
+//设定标志，坐�?
 void SetMove2Pos(u8 Move2FLAG,s32 Pos);
 ////////////////////Move3
 void resetMove3Motor();
@@ -122,21 +122,21 @@ u8 GET_Move3_R_FLAG(void);
 void SET_Move3_R_FLAG(void);
 //取消复位标志
 void RESET_Move3_R_FLAG(void);
-//移动标志�?// u8 Move3_MOVE_FLAG=0;
+//移动标志�?// u8 Move3_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move3_MOVE_FLAG(void);
-//置位移动标志�?
+//置位移动标志�?
 void SET_Move3_MOVE_FLAG(void);
-//复位移动标志�?
+//复位移动标志�?
 void RESET_Move3_MOVE_FLAG(void);
 
 //标志
 // u8 Move3_FLAG;
 //坐标
 // s32 Move3_POS;
-//获取标志，坐�?
+//获取标志，坐�?
 void GetMove3Pos(u8* Move3FLAG,s32* Pos);
-//设定标志，坐�?
+//设定标志，坐�?
 void SetMove3Pos(u8 Move3FLAG,s32 Pos);
 ////////////////////Move4
 void resetMove4Motor();
@@ -166,19 +166,24 @@ u8 GET_Move4_R_FLAG(void);
 void SET_Move4_R_FLAG(void);
 //取消复位标志
 void RESET_Move4_R_FLAG(void);
-//移动标志�?// u8 Move4_MOVE_FLAG=0;
+//移动标志�?// u8 Move4_MOVE_FLAG=0;
 //移动标志位有效？
 u8 IS_Move4_MOVE_FLAG(void);
-//置位移动标志�?
+//置位移动标志�?
 void SET_Move4_MOVE_FLAG(void);
-//复位移动标志�?
+//复位移动标志�?
 void RESET_Move4_MOVE_FLAG(void);
 
 //标志
 // u8 Move4_FLAG;
 // //坐标
 // s32 Move4_POS;
-//获取标志，坐�?
+//获取标志，坐�?
 void GetMove4Pos(u8* Move4FLAG,s32* Pos);
-//设定标志，坐�?
+//设定标志，坐�?
 void SetMove4Pos(u8 Move4FLAG,s32 Pos);
+
+void move1Work(void);
+void move2Work(void);
+void move3Work(void);
+void move4Work(void);

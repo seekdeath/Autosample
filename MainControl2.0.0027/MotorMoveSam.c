@@ -204,7 +204,7 @@ void resetMove2Motor()
     while  (1)//
     {
             //获取状�?        
-      TRY(bOk = MotorGetStatus(motorMoveS2.nAddr, &status));
+        TRY(bOk = MotorGetStatus(motorMoveS2.nAddr, &status));
         if (!bOk) {Set_Move2_State(Move2_Err_Transmition);return;}
         if (status == 0x0000) 
         {
@@ -393,7 +393,7 @@ void resetMove3Motor()
         if (!bOk) {Set_Move3_State(Move3_Err_Transmition);return;}
         if (status == 0x0000) 
         {
-            move3ResetFlag = 0;
+            move3ResetFlag = 1;
             break;
         }
             //原点失败
@@ -743,3 +743,412 @@ void SetMove4Pos(u8 Move4FLAG,s32 Pos)
     Move4_FLAG=Move4FLAG;
     Move4_POS=Pos;
 }
+
+void move1Work(void)
+{
+    u8 flag = 1;
+    move1WorkFlag = 1;
+    while(flag)
+    {
+         if(move1Flag == 0)
+        {
+            resetMove1Motor();
+            move1Flag = 1; 
+        }
+        if(move1Flag == 1)
+        {
+            if(move1ResetFlag == 1)
+            {
+                move1Flag = 2;
+                move1ArriveFlag = 0;
+
+            }
+        }
+        if(move1Flag == 2)
+        {
+            SetMove1Pos(0X01,3200);
+            SET_Move1_MOVE_FLAG();
+            move1Flag = 3;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move1Flag == 3)
+        {
+            if(move1ArriveFlag == 1)
+            {
+                move1Flag = 4;
+            }
+        }
+        if(move1Flag == 4)
+        {
+            resetMove1Motor();
+            flag = 0;
+            move1Flag = 0; 
+            move1WorkFlag = 0;
+        }
+        OSTimeDlyHMSM (0, 0, 0, 10);
+
+    }
+    
+}
+void move2Work(void)
+{
+    u8 flag = 1;
+    move2WorkFlag = 1;
+    while(flag)
+    {
+        if(move2Flag == 0)
+        {
+            resetMove2Motor();
+            move2Flag = 1;
+        }
+        if(move2Flag == 1)
+        {
+            
+            if(move2ResetFlag == 1)
+            {
+                move2Flag = 2;
+                move2ArriveFlag = 0;
+            }
+        }
+        if(move2Flag == 2)
+        {
+            SetMove2Pos(0x01,3240);
+            SET_Move2_MOVE_FLAG();
+            move2Flag = 3;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move2Flag == 3)
+        {
+            if(move2ArriveFlag == 1)
+            {
+                move2Flag = 4;
+            }
+        }
+        if(move2Flag == 4)
+        {
+            move2ResetFlag = 0;
+            resetMove2Motor();
+            
+            move2Flag = 5;
+        }
+        if(move2Flag == 5)
+        {
+            if(move2ResetFlag == 1)
+            {
+                flag = 0;
+                move2Flag = 0;
+                move2WorkFlag = 0;
+//                add2Count --;
+            }
+        }
+        OSTimeDlyHMSM (0, 0, 0, 10);
+    }
+    
+}
+void move3Work(void)
+{
+    u8 flag = 1;
+    move3WorkFlag = 1;
+    while(flag)
+    {
+        if(move3Flag == 0)
+        {
+            move3ResetFlag = 0;
+            resetMove3Motor();
+            
+            move3Flag = 1;
+        }
+        if(move3Flag == 1)
+        {
+            if(move3ResetFlag == 1)
+            {
+                move3Flag = 2;
+            }
+        }
+        if(move3Flag == 2)
+        {
+            move3ArriveFlag = 0;
+            SetMove3Pos(0x01,500);
+            SET_Move3_MOVE_FLAG();
+            
+            move3Flag = 3;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move3Flag == 3)
+        {
+            if(move3ArriveFlag == 1)
+            {
+                move3Flag = 4;
+            }
+        }
+        if(move3Flag == 4)
+        {
+            move3ArriveFlag = 0;
+            SetMove3Pos(0x01,1000);
+            SET_Move3_MOVE_FLAG();
+            
+            move3Flag = 5;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move3Flag == 5)
+        {
+            if(move3ArriveFlag == 1)
+            {
+                move3Flag = 6;
+            }
+        }
+        if(move3Flag == 6)
+        {
+            move3ArriveFlag = 0;
+            SetMove3Pos(0x01,1500);
+            SET_Move3_MOVE_FLAG();
+            
+            move3Flag = 7;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move3Flag ==7)
+        {
+            if(move3ArriveFlag == 1)
+            {
+                move3Flag = 8;
+            }
+        }
+        if(move3Flag == 8)
+        {
+            move3ArriveFlag = 0;
+            SetMove3Pos(0x01,2000);
+            SET_Move3_MOVE_FLAG();
+            
+            move3Flag = 9;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move3Flag == 9)
+        {
+            if(move3ArriveFlag == 1)
+            {
+                move3Flag = 10;
+            }
+        }
+        if(move3Flag == 10)
+        {
+            move3ArriveFlag = 0;
+            SetMove3Pos(0x01,2500);
+            SET_Move3_MOVE_FLAG();
+            
+            move3Flag = 11;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move3Flag == 11)
+        {
+            if(move3ArriveFlag == 1)
+            {
+                move3Flag = 12;
+            }
+        }
+        if(move3Flag == 12)
+        {
+            move3ArriveFlag = 0;
+            SetMove3Pos(0x01,2800);
+            SET_Move3_MOVE_FLAG();
+            
+            move3Flag = 13;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move3Flag ==13)
+        {
+            if(move3ArriveFlag == 1)
+            {
+                // flag = 0;
+                move3Flag = 14;
+            }
+        }
+        if(move3Flag == 14)
+        {
+            move3ResetFlag = 0;
+            resetMove3Motor();
+            
+            move3Flag = 15;
+        }
+        if(move3Flag ==15)
+        {
+            flag = 0;
+            move3Flag = 0;
+            move3WorkFlag = 0;
+        }
+        OSTimeDlyHMSM (0, 0, 0, 10);
+    }
+}
+void move4Work(void)
+{
+    u8 flag = 1;//5600
+    move4WorkFlag = 1;
+    while(flag)
+    {
+        if(move4Flag == 0)
+        {
+            move4ResetFlag = 0;
+            resetMove4Motor();
+            
+            move4Flag = 1;
+        }
+        if(move4Flag == 1)
+        {
+            if(move4ResetFlag == 1)
+            {
+                move4Flag = 2;
+            }
+        }
+        if(move4Flag == 2)
+        {
+            
+            SetMove4Pos(0x01,5800);//5600
+            move4ArriveFlag = 0;
+            SET_Move4_MOVE_FLAG();
+            
+            move4Flag = 3;
+            OSTimeDlyHMSM (0, 0, 0, 20);
+        }
+        if(move4Flag == 3)
+        {
+            if(move4ArriveFlag == 1)
+            {
+                move4Flag = 4;
+            }
+        }
+        if(move4Flag == 4)
+        {
+            move4ResetFlag = 0;
+            resetMove4Motor();
+            
+            move4Flag = 5;
+        }
+        if(move4Flag == 5)
+        {
+            if(move4ResetFlag == 1)
+            {
+                flag = 0;
+                move4Flag = 0;
+                move4WorkFlag = 0;
+            }
+        }
+        OSTimeDlyHMSM (0, 0, 0, 10);
+    }
+}
+
+//void afdasfd()
+//{
+//    if((add2Count != 0)&&(move3WorkFlag == 0))
+//         {
+//             if((move3WorkFlag == 0)&&(Signal5 == 1))
+//             {
+//                 if((add2Count != 0)&&(move2Flag == 0))
+//                 {
+//                     // SetMove2Pos(0x01,)
+//                     SetMove2Pos(0x01,2900);
+//                     SET_Move2_MOVE_FLAG();
+//    //                 move2WorkFlag = 1;
+//                     move2Flag = 1;
+//                 }
+//                 if(move2Flag == 1)
+//                 {
+//                     if(move2ArriveFlag ==1)
+//                     {
+//                         move2Flag = 2;
+//                     }
+//                 }
+//                 if(move2Flag == 2)
+//                 {
+////                     resetMove2Motor();
+//                     SET_Move2_R_FLAG();
+//                     move2Flag = 3;
+//                 }
+//                 if(move2Flag == 3)
+//                 {
+//                     if(move2ResetFlag == 1)
+//                     {
+//    //                     move2WorkFlag = 0;
+//                         add2Count--;
+//                         move3WorkFlag = 1;
+//                     }
+//                 }
+//
+//             }
+//         }
+//        if(move3WorkFlag == 1)
+//        {
+//            if(move3Flag == 0)
+//            {
+//                resetMove3Motor();
+//                move3Flag = 1;
+//            }
+//            if(move3Flag == 1)
+//            {
+//                SetMove3Pos(0x01,500);
+//                SET_Move3_MOVE_FLAG();
+//                move3Flag = 2;
+//            }
+//            if(move3Flag == 2)
+//            {
+//                if(move3ArriveFlag == 1)
+//                {
+//                    move3Flag = 3;
+//                }
+//            }
+//            if(move3Flag == 3)
+//            {
+//                SetMove3Pos(0x01,1000);
+//                SET_Move3_MOVE_FLAG();
+//                move3Flag = 4;
+//            }
+//            if(move3Flag == 4)
+//            {
+//                if(move3ArriveFlag == 1)
+//                {
+//                    move3Flag = 5;
+//                }
+//            }
+//            if(move3Flag == 5)
+//            {
+//                SetMove3Pos(0x01,1500);
+//                SET_Move3_MOVE_FLAG();
+//                move3Flag = 6;
+//            }
+//            if(move3Flag == 6)
+//            {
+//                if(move3ArriveFlag == 1)
+//                {
+//                    move3Flag = 7;
+//                }
+//            }
+//            if(move3Flag == 7)
+//            {
+//                SetMove3Pos(0x01,2000);
+//                SET_Move3_MOVE_FLAG();
+//                move3Flag = 8;
+//            }
+//            if(move3Flag == 8)
+//            {
+//                if(move3ArriveFlag == 1)
+//                {
+//                    move3Flag = 9;
+//                }
+//            }
+//            if(move3Flag == 9)
+//            {
+//                SetMove3Pos(0x01,2500);
+//                SET_Move3_MOVE_FLAG();
+//                move3Flag = 10;
+//            }
+//            if(move3Flag == 10)
+//            {
+//                if(move3ArriveFlag == 1)
+//                {
+//                    move3Flag = 11;
+//                }
+//            }
+//            if(move3Flag == 11)
+//            {
+//                resetMove3Motor();
+//            }
+//        }
+//}

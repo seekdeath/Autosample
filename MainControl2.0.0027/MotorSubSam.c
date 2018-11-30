@@ -189,3 +189,59 @@ void SetSubPos(u8 SubFLAG,s32 Pos)
     Sub_FLAG=SubFLAG;
     Sub_POS=Pos;
 }
+
+void subWork(void)//6650
+{
+    u8 flag = 1;
+    int step = 0;
+    while(flag)
+    {
+        if(subFlag == 0)
+        {
+            subResetFlag = 0;
+            resetSubMotor();
+            
+            subFlag = 1;
+        }
+        if(subFlag == 1)
+        {
+            if(subResetFlag == 1)
+            {
+                subFlag = 2;
+            }
+        }
+        if(subFlag == 2)
+        {
+            step = subIntervelStep;//620;//subTotalStep - subCount * subIntervelStep;
+            SetSubPos(0x01,step);
+            SET_Sub_MOVE_FLAG();
+            subArriveFlag = 0;
+            subFlag = 3;
+            OSTimeDlyHMSM(0,0,0,20);
+        }
+        if(subFlag == 3)
+        {
+            if(subArriveFlag == 1)
+            {
+                subFlag = 4;
+            }
+        }
+        if(subFlag == 4)
+        {
+            subResetFlag = 0;
+            resetSubMotor();
+            
+            subFlag = 5;
+        }
+        if(subFlag == 5)
+        {
+            if(subResetFlag == 1)
+            {
+                // subCount ++;
+                flag = 0;
+                subFlag = 0;
+            }
+        }
+        OSTimeDlyHMSM(0,0,0,10);
+    }
+}

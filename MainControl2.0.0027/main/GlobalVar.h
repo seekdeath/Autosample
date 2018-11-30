@@ -51,8 +51,8 @@ static  OS_STK          appTaskMove2Stk[APP_TASK_Move2_STK_SIZE];
 static  OS_STK          appTaskMove3Stk[APP_TASK_Move3_STK_SIZE];
 static  OS_STK          appTaskMove4Stk[APP_TASK_Move4_STK_SIZE];
 static  OS_STK          appTaskSubStk[APP_TASK_Sub_STK_SIZE];
-static  OS_STK          appTaskStk[APP_TASK_STK_SIZE];
-static  OS_STK          appTaskLedStk[APP_TASK_LED_STK_SIZE];
+//static  OS_STK          appTaskStk[APP_TASK_STK_SIZE];
+//static  OS_STK          appTaskLedStk[APP_TASK_LED_STK_SIZE];
 //---------------------------------------------------
 static  void  App_TaskCreate              (void);
 static  void  App_EventCreate             (void);
@@ -66,7 +66,7 @@ static  void  appTaskHandleMove2        (void        *p_arg);
 static  void  appTaskHandleMove3        (void        *p_arg);
 static  void  appTaskHandleMove4        (void        *p_arg);
 static  void  appTaskHandleSub          (void        *p_arg);
-static  void  appTaskHandle                   (void        *p_arg);
-static  void  appTaskHandleLed          (void        *p_arg);
+//static  void  appTaskHandle                   (void        *p_arg);
+//static  void  appTaskHandleLed          (void        *p_arg);
 
 #endif
