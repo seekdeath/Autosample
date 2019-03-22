@@ -20,6 +20,7 @@
 #include <MotorMoveSam.h>
 #include <MotorSubSam.h>
 #include <microswitch.h>
+#include <MotorRotate.h>
 #include <Motortrasmition.h>
 #define MAX_SER_SIZE      			64+2+6
 unsigned char g_ucSerBuf[MAX_SER_SIZE];      // 串行数据缓冲区
@@ -33,7 +34,7 @@ OS_EVENT       *I2CSem;
 OS_EVENT       *UartSem;
 OS_EVENT       *MutexUart2;
 
-#define MAXCOUNT    10
+#define MAXCOUNT    20
 
 ///
 
@@ -99,20 +100,32 @@ static  void  App_TaskStart (void *p_arg)
         
     while(1)
     {
-        // if (IS_MAGNETIC_ACT())
-        // {
-        //   RESET_MAGNETIC_ACT();
-        //   MagneticControl();
-        // }
-        // if (IS_BEEP_CON())
-        // {
-        //   BeepControl();
-        //   continue;
-        // }
+       
         
-        GPIO_SetBits(GPIOA,GPIO_Pin_4);
-        OSTimeDly(200);
-        GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+//        GPIO_SetBits(GPIOA,GPIO_Pin_4);
+//        OSTimeDly(200);
+//        GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+//        OSTimeDly(200);
+        if(Signal1 == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_4);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+        if(Signal2 == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_5);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_5);
+        if(Signal3 == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_6);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_6);
+        if(Signal4 == 1)
+        {
+            GPIO_SetBits(GPIOA,GPIO_Pin_7);
+        }
+        else GPIO_ResetBits(GPIOA,GPIO_Pin_7);
         OSTimeDly(200);
      
     }
@@ -160,19 +173,6 @@ static  void  App_TaskCreate (void)
     OSTaskNameSet(APP_TASK_HandleAdd1_PRIO, "TaskAdd1", &os_err);
 #endif   
     
-     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleAdd2,
-                             (void          * ) 0,
-                             (OS_STK        * )&appTaskAdd2Stk[APP_TASK_Add2_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleAdd2_PRIO,
-                             (INT16U          ) APP_TASK_HandleAdd2_PRIO,
-                             (OS_STK        * )&appTaskAdd2Stk[0],
-                             (INT32U          ) APP_TASK_Add2_STK_SIZE,
-                             (void          * ) 0,
-                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-
-#if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleAdd2_PRIO, "TaskAdd2", &os_err);
-#endif
     
     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove1,
                              (void          * ) 0,
@@ -202,32 +202,19 @@ static  void  App_TaskCreate (void)
     OSTaskNameSet(APP_TASK_HandleMove2_PRIO, "TaskMove2", &os_err);
 #endif
     
-    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove3,
-                             (void          * ) 0,
-                             (OS_STK        * )&appTaskMove3Stk[APP_TASK_Move3_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleMove3_PRIO,
-                             (INT16U          ) APP_TASK_HandleMove3_PRIO,
-                             (OS_STK        * )&appTaskMove3Stk[0],
-                             (INT32U          ) APP_TASK_Move3_STK_SIZE,
-                             (void          * ) 0,
-                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-
-#if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleMove3_PRIO, "TaskMove3", &os_err);
-#endif
     
-    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleMove4,
+    os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleRotate,
                              (void          * ) 0,
-                             (OS_STK        * )&appTaskMove4Stk[APP_TASK_Move4_STK_SIZE - 1],
-                             (INT8U           ) APP_TASK_HandleMove4_PRIO,
-                             (INT16U          ) APP_TASK_HandleMove4_PRIO,
-                             (OS_STK        * )&appTaskMove4Stk[0],
-                             (INT32U          ) APP_TASK_Move4_STK_SIZE,
+                             (OS_STK        * )&appTaskRotateStk[APP_TASK_Rotate_STK_SIZE - 1],
+                             (INT8U           ) APP_TASK_HandleRotate_PRIO,
+                             (INT16U          ) APP_TASK_HandleRotate_PRIO,
+                             (OS_STK        * )&appTaskRotateStk[0],
+                             (INT32U          ) APP_TASK_Rotate_STK_SIZE,
                              (void          * ) 0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
 
 #if (OS_TASK_NAME_SIZE >= 10)
-    OSTaskNameSet(APP_TASK_HandleMove4_PRIO, "TaskMove4", &os_err);
+    OSTaskNameSet(APP_TASK_HandleRotate_PRIO, "TaskRotate", &os_err);
 #endif
 
     os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleSub,
@@ -244,166 +231,77 @@ static  void  App_TaskCreate (void)
     OSTaskNameSet(APP_TASK_HandleSub_PRIO, "TaskSub", &os_err);
 #endif
 
-//os_err = OSTaskCreateExt((void (*)(void *))appTaskHandle,
-//                             (void          * ) 0,
-//                             (OS_STK        * )&appTaskStk[APP_TASK_STK_SIZE - 1],
-//                             (INT8U           ) APP_TASK_PRIO,
-//                             (INT16U          ) APP_TASK_PRIO,
-//                             (OS_STK        * )&appTaskStk[0],
-//                             (INT32U          ) APP_TASK_STK_SIZE,
-//                             (void          * ) 0,
-//                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-//
-//#if (OS_TASK_NAME_SIZE >= 10)
-//    OSTaskNameSet(APP_TASK_PRIO, "appTask", &os_err);
-//#endif
-
-//os_err = OSTaskCreateExt((void (*)(void *))appTaskHandleLed,
-//                             (void          * ) 0,
-//                             (OS_STK        * )&appTaskLedStk[APP_TASK_LED_STK_SIZE - 1],
-//                             (INT8U           ) APP_TASK_LED_PRIO,
-//                             (INT16U          ) APP_TASK_LED_PRIO,
-//                             (OS_STK        * )&appTaskLedStk[0],
-//                             (INT32U          ) APP_TASK_LED_STK_SIZE,
-//                             (void          * ) 0,
-//                             (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-//
-//#if (OS_TASK_NAME_SIZE >= 10)
-//    OSTaskNameSet(APP_TASK_PRIO, "TaskLed", &os_err);
-//#endif
-
    
 }
 /*
 状态：  1，两个进样位，右侧进样位需要传送到左侧的进样位后，再由驱动机构送入采样位。
-       2，左边进样机构为急诊进样，从头到尾优先处理
+        2，左边进样机构为急诊进样，从头到尾优先处理
         Signal2 and Signal4 是普通进样位
         Signal3 and Signal5 是急诊进样位
 
 
-       ？：
-       1，如果后边没处理完，但是进样位放了几个样品架应该怎么处理？到位开关被触发（先算步数进行运动）
-       2，如果到位之后，运送架回去后，微动开关能自动恢复为不触发的状态为最好。
 
 */
-//static void  appTaskHandle (void *p_arg){      
-/////
-//    while (1)
-//    {//add2 进样机构
-//
-//        
-//        OSTimeDlyHMSM (0, 0, 0, 50);
-//    }
-//}
+
 static void  appTaskHandleAdd1 (void *p_arg){   
-    InitAdd1Motor();
-    InitAdd2Motor();
-    InitMove1Motor();
-    InitMove2Motor();
-    InitMove3Motor();
-    InitMove4Motor();
-    InitSubMotor();
-    resetAdd1Motor();
-    resetAdd2Motor();
-    resetMove1Motor();
-    resetMove2Motor();
-    resetMove3Motor();
-    resetMove4Motor();
-    resetSubMotor();
+//    InitAdd1Motor();
+//    InitAdd2Motor();
+//    InitMove1Motor();
+//    InitMove2Motor();
+//    InitMove3Motor();
+//    InitMove4Motor();
+//    InitSubMotor();
+//    resetAdd1Motor();
+//    resetAdd2Motor();
+//    resetMove1Motor();
+//    resetMove2Motor();
+//    resetMove3Motor();
+//    resetMove4Motor();
+//    resetSubMotor();
     // SendCommand1(NULL,"FJ00000100");
-    SendCommand1(NULL,"IJ0000078E");
+//    SendCommand1(NULL,"IJ0000078E");
     
 //    int a=0;
     while (1)
     {
-//        HandleXYZ();
-        //
+
         if(Signal2 == 1)
         {
             // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
             
-            if((add1Count != 0)&&(add1RunFlag == 0)&&(add1ResetFlag == 1)&&(add1Count != MAXCOUNT))
+            if((addCount != 0)&&(addRunFlag == 0)&&(addResetFlag == 1)&&(addCount != MAXCOUNT))
             {
-                add1Step = add1TotalStep - add1Count * add1IntervelStep;
-                SetAdd1Pos(0x01,add1Step);
-                SET_Add1_MOVE_FLAG();
-                add1RunFlag = 1;
-                add1ResetFlag = 0;
-                add1Count++;
+                addStep = addTotalStep - addCount * addIntervelStep;
+                SetAddPos(0x01,addStep);
+                SET_Add_MOVE_FLAG();
+                addRunFlag = 1;
+                addResetFlag = 0;
+                addCount++;
             }
-            if((add1Count == 0)&&(add1RunFlag == 0)&&(add1ResetFlag == 1))
+            if((addCount == 0)&&(addRunFlag == 0)&&(addResetFlag == 1))
             {
-                SetAdd1Pos(0x01,7400);
-                SET_Add1_MOVE_FLAG();
-                add1RunFlag = 1;
-                add1ResetFlag = 0;
-                add1Count++;
+                SetAddPos(0x01,7400);
+                SET_Add_MOVE_FLAG();
+                addRunFlag = 1;
+                addResetFlag = 0;
+                addCount++;
             }
         }
-        if(add1ArriveFlag == 1)///只有到位后的可以复位
+        if(addArriveFlag == 1)///只有到位后的可以复位
         {
-            resetAdd1Motor();
-            add1ArriveFlag = 0;
+            resetAddMotor();
+            addArriveFlag = 0;
         }
-        if((add1Count != 0)&&(Signal4 != 1)&&(add1RunFlag != 1))
+        if((addCount != 0)&&(Signal4 != 1)&&(addRunFlag != 1))
         {
-            SetAdd1Pos(0x01,7400);
-            SET_Add1_MOVE_FLAG();
-            add1RunFlag = 1;
-            add1ResetFlag = 0;
+            SetAddPos(0x01,7400);
+            SET_Add_MOVE_FLAG();
+            addRunFlag = 1;
+            addResetFlag = 0;
         }
         //
-        HandleAdd2();
-        OSTimeDlyHMSM (0, 0, 0, 10);
-    }
-}
-
-static void  appTaskHandleAdd2 (void *p_arg){   
-//    InitAdd2Motor();
-//    int a=0;
-    while (1)
-    {
-//        HandleXYZ();
-        //
-        if(Signal3 == 1)
-        {
-            // if((add2RunFlag != 1)&&(add2ResetFlag != 1))
-            
-            if((add2Count != 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1)&&(add2Count != MAXCOUNT))
-            {
-                add2Step = add2TotalStep - add2Count * add2IntervelStep;
-                SetAdd2Pos(0x01,add2Step);
-                SET_Add2_MOVE_FLAG();
-                add2RunFlag = 1;
-                add2ResetFlag = 0;
-                add2Count++;
-            }
-            if((add2Count == 0)&&(add2RunFlag == 0)&&(add2ResetFlag == 1))
-            {
-                SetAdd2Pos(0x01,7400);
-                SET_Add2_MOVE_FLAG();
-                add2RunFlag = 1;
-                add2ResetFlag = 0;
-                add2Count++;
-            }
-        }
-        if(add2ArriveFlag == 1)///只有到位后的可以复位
-        {
-            resetAdd2Motor();
-            add2ArriveFlag = 0;
-        }
-        ///add1
-        
-        //顶到位
-        if((add2Count != 0)&&(Signal5 != 1)&&(add2RunFlag != 1)&&(move2WorkFlag == 0))
-        {
-            SetAdd2Pos(0x01,7400);
-            SET_Add2_MOVE_FLAG();
-            add2RunFlag = 1;
-            add2ResetFlag = 0;
-        }
-        //
-        HandleAdd1();
+//        HandleAdd2();
+        HandleMove1();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -416,16 +314,16 @@ static void  appTaskHandleMove1 (void *p_arg){
 //        HandleXYZ();
         //
         ////////横向传送机构运动
-         if((add2Count == 0)&&(Signal3 == 0)&&(add1Count !=0)&&(Signal4 == 1)&&(move2Count == 0))
+         if((addCount !=0)&&(Signal4 == 1))
         {
             move1Work();
-            add1Count--;
+            addCount--;
             // move1Count++;
-            add2Count ++;
+//            add2Count ++;
         }
         
         //
-        HandleMove4();
+        HandleRotate();
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -437,57 +335,60 @@ static void  appTaskHandleMove2 (void *p_arg){
     {
 //        HandleHook();
         //
-        if((add2Count != 0)&&(Signal5 == 1)&&(move3Count == 0))
-        {
-            move2Work();
+//        if((add2Count != 0)&&(Signal5 == 1)&&(move3Count == 0))
+//        {
+//            move2Work();
             // if(move1Count == 1)
             // {
             //     move1Count = 0;
             // }
-            if(add2Count != 0)
-            {
-                add2Count --;
-            }
-            move2Count ++;
-        }
+//            if(add2Count != 0)
+//            {
+//                add2Count --;
+//            }
+//            move2Count ++;
+//        }
         //
-        HandleMove3();
+        
+//        HandleMove3();
+//        if(Signal1 == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_4);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_4);
+//        if(Signal2 == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_5);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_5);
+//        if(Signal3 == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_6);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_6);
+//        if(Signal4 == 1)
+//        {
+//            GPIO_SetBits(GPIOA,GPIO_Pin_7);
+//        }
+//        else GPIO_ResetBits(GPIOA,GPIO_Pin_7);
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
 
-static void  appTaskHandleMove3 (void *p_arg)
-{   
-//    InitMove3Motor();
-    while (1)
-    {
-//        HandleSyringe();
-        //
-        if((move3WorkFlag == 0)&&(move2Count == 1))
-        {
-            move3Work();
-            move2Count --;
-            move3Count ++;
-        }
-        //
-        HandleMove2();
-        OSTimeDlyHMSM (0, 0, 0, 10);
-    }
-}
 
-static void  appTaskHandleMove4 (void *p_arg){   
+static void  appTaskHandleRotate (void *p_arg){   
 
 //  InitMove4Motor();
     while (1)
     {
         //
-        if((move4WorkFlag == 0)&&(move3Count == 1))
-        {
-            move4Work();
-            move3Count --;
-            move4Count ++;
-        }
-        
+//        if((move4WorkFlag == 0)&&(move3Count == 1))
+//        {
+//            move4Work();
+//            move3Count --;
+//            move4Count ++;
+//        }
+//        
         //
         // HandleMove4();
         HandleSub();
@@ -500,70 +401,35 @@ static void  appTaskHandleSub (void *p_arg){
     while (1)
     {
         //
-        if((subWorkFlag == 0) && (move4Count == 1))
-        {
-            subWork();
-            move4Count --;
-            subCount ++;
-
-        }
-        //
-        // HandleSub();
-        HandleMove1();
-        OSTimeDlyHMSM (0, 0, 0, 100);
+//        if((subWorkFlag == 0) && (move4Count == 1))
+//        {
+//            subWork();
+//            move4Count --;
+//            subCount ++;
+//
+//        }
+//        //
+//        // HandleSub();
+//        HandleMove1();
+       OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }
-//static void  appTaskHandleLed (void *p_arg){   
-////  InitSubMotor();
-//    while (1)
-//    {
-//        // HandleSub();
-//        if(led1Flag == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_4);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_4);
-//        if(led2Flag == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_5);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_5);
-//        if(led3Flag == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_6);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_6);
-//        if(led4Flag == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_7);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_7);
-//
-//        OSTimeDlyHMSM (0, 0, 0, 100);
-//
-//        if(led1Flag == 1)
-//        {
-//            GPIO_ResetBits(GPIOA,GPIO_Pin_4);
-//        }
-//        if(led2Flag == 1)
-//        {
-//            GPIO_ResetBits(GPIOA,GPIO_Pin_5);
-//        }
-//        if(led3Flag == 1)
-//        {
-//            GPIO_ResetBits(GPIOA,GPIO_Pin_6);
-//        }
-//        if(led4Flag == 1)
-//        {
-//            GPIO_ResetBits(GPIOA,GPIO_Pin_7);
-//        }
-//
-//        OSTimeDlyHMSM (0, 0, 0, 100);
-//    }
-//}
 
 
-static void  appTaskUart1_Deal (void *p_arg){   
+
+static void  appTaskUart1_Deal (void *p_arg){
+    InitAddMotor();
+    InitMove1Motor();
+    InitMove2Motor();
+    InitRotateMotor();
+    InitSubMotor();
+    
+    resetAddMotor();
+    resetMove1Motor();
+    resetMove2Motor();
+    resetSubMotor();
+
+//    SendCommand1(NULL,"IJ0000078E");
     while (1)
     {
         if (FRAME_OK())

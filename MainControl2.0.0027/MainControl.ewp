@@ -2113,6 +2113,12 @@
                 <name>$PROJ_DIR$\MotorMoveSam.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\MotorRotate.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\MotorRotate.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\MotorSubSam.c</name>
             </file>
             <file>

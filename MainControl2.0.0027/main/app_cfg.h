@@ -68,11 +68,11 @@
 #define  APP_TASK_START_PRIO                        OS_LOWEST_PRIO-3
 
 #define  APP_TASK_HandleAdd1_PRIO                   OS_LOWEST_PRIO-13
-#define  APP_TASK_HandleAdd2_PRIO                   OS_LOWEST_PRIO-8
+//#define  APP_TASK_HandleAdd2_PRIO                   OS_LOWEST_PRIO-8
 #define  APP_TASK_HandleMove1_PRIO                  OS_LOWEST_PRIO-7
 #define  APP_TASK_HandleMove2_PRIO                  OS_LOWEST_PRIO-5
-#define  APP_TASK_HandleMove3_PRIO                  OS_LOWEST_PRIO-11
-#define  APP_TASK_HandleMove4_PRIO                  OS_LOWEST_PRIO-9
+//#define  APP_TASK_HandleMove3_PRIO                  OS_LOWEST_PRIO-11
+#define  APP_TASK_HandleRotate_PRIO                  OS_LOWEST_PRIO-9
 #define  APP_TASK_HandleSub_PRIO                    OS_LOWEST_PRIO-12
 #define  APP_TASK_PRIO                              OS_LOWEST_PRIO-16
 #define  APP_TASK_LED_PRIO                          OS_LOWEST_PRIO-4
@@ -106,15 +106,15 @@
 // //#define  APP_TASK_IC_STK_SIZE                      64
 // #define  APP_TASK_Uart1_Deal_STK_SIZE              256//128
 
-#define  APP_TASK_START_STK_SIZE                    44
-#define  APP_TASK_Uart1_Deal_STK_SIZE               50//128
-#define  APP_TASK_Add1_STK_SIZE                     120
-#define  APP_TASK_Add2_STK_SIZE                     120//64
-#define  APP_TASK_Move1_STK_SIZE                    120
-#define  APP_TASK_Move2_STK_SIZE                    120//64
-#define  APP_TASK_Move3_STK_SIZE                    140
-#define  APP_TASK_Move4_STK_SIZE                    100//32
-#define  APP_TASK_Sub_STK_SIZE                      120
+#define  APP_TASK_START_STK_SIZE                   44
+#define  APP_TASK_Uart1_Deal_STK_SIZE               200//128//50
+#define  APP_TASK_Add1_STK_SIZE                     140
+//#define  APP_TASK_Add2_STK_SIZE                     120//64
+#define  APP_TASK_Move1_STK_SIZE                    140
+#define  APP_TASK_Move2_STK_SIZE                    140//64
+//#define  APP_TASK_Move3_STK_SIZE                    100
+#define  APP_TASK_Rotate_STK_SIZE                    140//32
+#define  APP_TASK_Sub_STK_SIZE                      140
 //#define  APP_TASK_STK_SIZE                          200//256
 //#define  APP_TASK_LED_STK_SIZE                      32
 
