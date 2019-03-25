@@ -4,8 +4,16 @@ extern u8  addCount ;
 extern int addTotalStep ;   //总体行程总步数
 extern int addIntervelStep ;///暂定每个间隔步数为200步
 
+extern int move1TotalStep;
+extern int move1FirstBack;
+extern int move1BackStep;
+extern int move1LastStep;
+
 //extern int add2TotalStep ;
 //extern int add2IntervelStep ;
+
+extern int rotateStep ;
+extern int rotateback ;
 
 extern int addStep ;//准备运行步数
 //extern int add2Step ;//

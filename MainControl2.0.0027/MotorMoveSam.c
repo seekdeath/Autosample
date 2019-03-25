@@ -3,6 +3,7 @@
 #include <Motor.h>
 #include <MotionErr.h>
 #include <MotorMoveSam.h>
+#include <MotorRotate.h>
 void resetMove1Motor()
 {
     u8	bOk = 1;
@@ -378,43 +379,114 @@ void move1Work(void)
 {
     u8 flag = 1;
     move1WorkFlag = 1;
+    u8 loopflag = 1;
+    u8 loopCount = 0;
     while(flag)
     {
-         if(move1Flag == 0)
+         if(move1Flag == 0)//复位
         {
             resetMove1Motor();
             move1Flag = 1; 
         }
         if(move1Flag == 1)
         {
-            if(move1ResetFlag == 1)
+            if(move1ResetFlag == 1)//复位完成
             {
-                move1Flag = 2;
+                // move1Flag = 2;
                 move1ArriveFlag = 0;
+                SetMove1Pos(0X01,move1TotalStep);//前进步数到固定位置
+                SET_Move1_MOVE_FLAG();
+                move1Flag = 2;
+                OSTimeDlyHMSM (0, 0, 0, 20);
 
             }
         }
-        if(move1Flag == 2)
+        if(move1Flag == 2)//运行第一步动作
         {
-            SetMove1Pos(0X01,3200);
-            SET_Move1_MOVE_FLAG();
-            move1Flag = 3;
-            OSTimeDlyHMSM (0, 0, 0, 20);
-        }
-        if(move1Flag == 3)
-        {
-            if(move1ArriveFlag == 1)
+            if(move1ArriveFlag == 1)//到达指定位置
             {
-                move1Flag = 4;
+                SetMove1Pos(0x01,move1FirstBack);//回退一下
+                SET_Move1_MOVE_FLAG();
+                // move1Flag = 5;
+                OSTimeDlyHMSM(0,0,0,20);
+                move1Flag = 3;
             }
         }
-        if(move1Flag == 4)
+        // for(int move1count = 0;move1count<10;move1count++)
+        while(loopflag)
         {
-            resetMove1Motor();
+            if(move1Flag == 3)
+            {
+                if(move1ArriveFlag == 1)
+                {
+                    SetMove1Pos(0x01,move1TotalStep);
+                    SET_Move1_MOVE_FLAG();
+                    move1Flag = 4;
+                    OSTimeDlyHMSM(0,0,0,20);
+                }
+            }
+            if(move1Flag == 4)
+            {
+                if(move1ArriveFlag == 1)
+                {
+                    SetMove1Pos(0x01,move1BackStep);
+                    SET_Move1_MOVE_FLAG();
+                    move1Flag = 5;
+                    OSTimeDlyHMSM(0,0,0,20);
+                }
+            }
+            if(move1Flag == 5)
+            {
+                if(move1ArriveFlag == 1)
+                {
+                    // SetMove1Pos(0x01,)
+                    //吸合电磁铁
+                    OSTimeDlyHMSM(0,0,0,100);
+                    move1Flag = 6;
+
+                }
+            }
+            if(move1Flag == 6)
+            {
+                SetRotatePos(0x01,rotateStep);
+                SET_Rotate_MOVE_FLAG();
+                move1Flag = 7;
+                OSTimeDlyHMSM(0,0,0,20);
+            }
+            if(move1Flag == 7)
+            {
+                if(rotateArriveFlag == 1)
+                {
+                    //释放电磁铁
+                    OSTimeDlyHMSM(0,0,0,100);
+                    move1Flag = 8;
+                }
+            }
+            if(move1Flag == 8)
+            {
+                if(loopCount > 9)
+                {
+                    SetMove1Pos(0x01,move1LastStep);
+                    SET_Move1_MOVE_FLAG();
+                    move1Flag = 9;
+                    loopCount = 0;
+                    loopflag = 0;
+                    OSTimeDlyHMSM (0, 0, 0, 10);
+                }
+                else 
+                {
+                    move1Flag = 3;
+                    loopCount ++;
+                }
+            }
+        }
+        if(move1Flag == 9)
+        {
+            move1Flag = 0;
             flag = 0;
-            move1Flag = 0; 
             move1WorkFlag = 0;
         }
+        
         OSTimeDlyHMSM (0, 0, 0, 10);
 
     }

@@ -212,7 +212,7 @@ void subWork(void)//6650
         }
         if(subFlag == 2)
         {
-            step = subIntervelStep;//620;//subTotalStep - subCount * subIntervelStep;
+            step = subTotalStep - subCount * subIntervelStep;//subIntervelStep;//620;//
             SetSubPos(0x01,step);
             SET_Sub_MOVE_FLAG();
             subArriveFlag = 0;

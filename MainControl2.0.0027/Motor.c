@@ -8,6 +8,14 @@ u8  addCount = 0;
 int addTotalStep = 7400;   //总体行程总步数
 int addIntervelStep = 800;///暂定每个间隔步数为620步
 
+int move1TotalStep = 3200;
+int move1FirstBack = 1000;
+int move1BackStep = 1000;
+int move1LastStep = 200;
+
+int rotateStep = 1610;
+int rotateback = 10;
+
 //int add2TotalStep = 7400;
 //int add2IntervelStep = 800;
 

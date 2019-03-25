@@ -280,25 +280,27 @@ static void  appTaskHandleAdd1 (void *p_arg){
             }
             if((addCount == 0)&&(addRunFlag == 0)&&(addResetFlag == 1))
             {
-                SetAddPos(0x01,7400);
+                SetAddPos(0x01,addTotalStep);
                 SET_Add_MOVE_FLAG();
                 addRunFlag = 1;
                 addResetFlag = 0;
                 addCount++;
             }
         }
-        if(addArriveFlag == 1)///只有到位后的可以复位
+        if((addArriveFlag == 1)&&(Signal2 == 1))///只有到位后或触发到位开关的可以复位
         {
+            RESET_Add_MOVE_FLAG();
             resetAddMotor();
             addArriveFlag = 0;
         }
-        if((addCount != 0)&&(Signal4 != 1)&&(addRunFlag != 1))
+        if((addCount != 0)&&(Signal4 != 1)&&(addRunFlag != 1))//进杯区当前数量不为0，但到位微动开关未触发，则驱动进杯机构使其到位。
         {
-            SetAddPos(0x01,7400);
+            SetAddPos(0x01,addTotalStep - addCount * addIntervelStep);//前进距离为当前数量X架间距
             SET_Add_MOVE_FLAG();
             addRunFlag = 1;
             addResetFlag = 0;
         }
+
         //
 //        HandleAdd2();
         HandleMove1();
@@ -314,10 +316,11 @@ static void  appTaskHandleMove1 (void *p_arg){
 //        HandleXYZ();
         //
         ////////横向传送机构运动
-         if((addCount !=0)&&(Signal4 == 1))
+         if((addCount !=0)&&(Signal2 == 1)&&(subCount != 10))
         {
             move1Work();
-            addCount--;
+            addCount --;
+            subCount ++;
             // move1Count++;
 //            add2Count ++;
         }
@@ -351,26 +354,6 @@ static void  appTaskHandleMove2 (void *p_arg){
         //
         
 //        HandleMove3();
-//        if(Signal1 == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_4);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_4);
-//        if(Signal2 == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_5);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_5);
-//        if(Signal3 == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_6);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_6);
-//        if(Signal4 == 1)
-//        {
-//            GPIO_SetBits(GPIOA,GPIO_Pin_7);
-//        }
-//        else GPIO_ResetBits(GPIOA,GPIO_Pin_7);
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
@@ -397,6 +380,7 @@ static void  appTaskHandleRotate (void *p_arg){
 }
 
 static void  appTaskHandleSub (void *p_arg){   
+    int step = 0;
 //  InitSubMotor();
     while (1)
     {
@@ -411,6 +395,23 @@ static void  appTaskHandleSub (void *p_arg){
 //        //
 //        // HandleSub();
 //        HandleMove1();
+        if(Signal3 == 1)
+        {
+            subWork();
+        }
+        if((Signal4 != 1)&&(subCount != 0))
+        {
+            step = subTotalStep - subCount * subIntervelStep;//subIntervelStep;//620;//
+            SetSubPos(0x01,step);
+            SET_Sub_MOVE_FLAG();
+            subArriveFlag = 0;
+            OSTimeDlyHMSM(0,0,0,20);
+        }
+        if(Signal4 == 1)
+        {
+            resetSubMotor();
+            subResetFlag = 0;
+        }
        OSTimeDlyHMSM (0, 0, 0, 100);
     }
 }
