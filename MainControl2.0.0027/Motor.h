@@ -9,6 +9,9 @@ extern int move1FirstBack;
 extern int move1BackStep;
 extern int move1LastStep;
 
+
+extern int move2TotalStep;
+extern int move2BackStep;
 //extern int add2TotalStep ;
 //extern int add2IntervelStep ;
 

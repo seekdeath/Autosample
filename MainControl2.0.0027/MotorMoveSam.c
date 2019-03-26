@@ -4,6 +4,8 @@
 #include <MotionErr.h>
 #include <MotorMoveSam.h>
 #include <MotorRotate.h>
+#include <Motor.h>
+#include <microswitch.h>
 void resetMove1Motor()
 {
     u8	bOk = 1;
@@ -405,6 +407,7 @@ void move1Work(void)
         {
             if(move1ArriveFlag == 1)//到达指定位置
             {
+                move1ArriveFlag = 0;
                 SetMove1Pos(0x01,move1FirstBack);//回退一下
                 SET_Move1_MOVE_FLAG();
                 // move1Flag = 5;
@@ -419,6 +422,7 @@ void move1Work(void)
             {
                 if(move1ArriveFlag == 1)
                 {
+                    move1ArriveFlag = 0;
                     SetMove1Pos(0x01,move1TotalStep);
                     SET_Move1_MOVE_FLAG();
                     move1Flag = 4;
@@ -429,6 +433,7 @@ void move1Work(void)
             {
                 if(move1ArriveFlag == 1)
                 {
+                    move1ArriveFlag = 0;
                     SetMove1Pos(0x01,move1BackStep);
                     SET_Move1_MOVE_FLAG();
                     move1Flag = 5;
@@ -448,6 +453,7 @@ void move1Work(void)
             }
             if(move1Flag == 6)
             {
+                rotateArriveFlag = 0;
                 SetRotatePos(0x01,rotateStep);
                 SET_Rotate_MOVE_FLAG();
                 move1Flag = 7;
@@ -466,6 +472,7 @@ void move1Work(void)
             {
                 if(loopCount > 9)
                 {
+                    move1ArriveFlag = 0;
                     SetMove1Pos(0x01,move1LastStep);
                     SET_Move1_MOVE_FLAG();
                     move1Flag = 9;
@@ -496,6 +503,8 @@ void move2Work(void)
 {
     u8 flag = 1;
     move2WorkFlag = 1;
+    u8 move2LoopFlag = 1;
+    u8 move2LoopCount = 0;
     while(flag)
     {
         if(move2Flag == 0)
@@ -512,36 +521,52 @@ void move2Work(void)
                 move2ArriveFlag = 0;
             }
         }
-        if(move2Flag == 2)
+        while(move2LoopFlag)
         {
-            SetMove2Pos(0x01,3240);
-            SET_Move2_MOVE_FLAG();
-            move2Flag = 3;
-            OSTimeDlyHMSM (0, 0, 0, 20);
-        }
-        if(move2Flag == 3)
-        {
-            if(move2ArriveFlag == 1)
+            if(move2Flag == 2)
             {
-                move2Flag = 4;
+                SetMove2Pos(0x01,move2TotalStep);
+                SET_Move2_MOVE_FLAG();
+                move2Flag = 3;
+                OSTimeDlyHMSM (0, 0, 0, 20);
             }
-        }
-        if(move2Flag == 4)
-        {
-            move2ResetFlag = 0;
-            resetMove2Motor();
+            if(move2Flag == 3)
+            {
+                if(move2ArriveFlag == 1)
+                {
+                    // move2ResetFlag = 0;
+                    // resetMove2Motor();
+                // move2Flag = 5;
+                    move2ArriveFlag = 0;
+                    SetMove2Pos(0x01,move2BackStep);
+                    SET_Move2_MOVE_FLAG();
+                    move2Flag = 4;
+                    OSTimeDlyHMSM (0, 0, 0, 20);
+                }
+            }
+            if(move2Flag == 4)
+            {
+                if(move2ArriveFlag == 1)
+                {
+                    move2LoopCount ++;
+                    // flag = 0;
+                    // move2Flag = 0;
+                    // move2WorkFlag = 0;
+    //                add2Count --;
+                }
+            }
+            if((move2LoopCount == 10) || (Signal1 == 1))
+            {
+                Reset_Move2_Cancel_FLAG();
+                move2LoopFlag = 0;
+                move2LoopCount = 0;
+            }
             
-            move2Flag = 5;
         }
+        
         if(move2Flag == 5)
         {
-            if(move2ResetFlag == 1)
-            {
-                flag = 0;
-                move2Flag = 0;
-                move2WorkFlag = 0;
-//                add2Count --;
-            }
+            
         }
         OSTimeDlyHMSM (0, 0, 0, 10);
     }

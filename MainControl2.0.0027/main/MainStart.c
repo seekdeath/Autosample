@@ -354,6 +354,10 @@ static void  appTaskHandleMove2 (void *p_arg){
         //
         
 //        HandleMove3();
+        if(Signal4 == 1)
+        {
+            move2Work();
+        }
         OSTimeDlyHMSM (0, 0, 0, 10);
     }
 }
